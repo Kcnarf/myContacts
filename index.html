@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>myContacts</title>
+	<link rel="stylesheet" href="./css/normalize.css">
+	<link rel="stylesheet" href="./css/bootstrap.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+	<script type="text/x-handlebars">
+		<div class="container-fluid">
+			<div class="navbar">
+				<div class="navbar-inner">
+					<a class="brand" href="#">myContacts</a>
+					<ul class="nav">
+						<li>{{#linkTo 'contacts'}}Contacts{{/linkTo}}</li>
+						<li>{{#linkTo 'groups'}}Groups{{/linkTo}}</li>
+					</ul>
+					<ul class="nav pull-right">
+						<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
+					</ul>
+				</div>
+			</div>
+			{{outlet}}
+		</div>
+	</script>
+
+	  
+	<script type="text/x-handlebars" id="Template">
+		<!--content-->
+	</script><!--Template-->
+  
+	
+	<script type="text/x-handlebars" id="contacts">
+		<div class="row-fluid">
+			<div class="span2">
+				<ul class="nav nav-tabs nav-stacked">
+					<li><a href="#/contacts">Recent contacts</a></li>
+					<li>{{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}</li>
+					<br/>
+					<li><a href="#/contacts">Create contact</a></li>
+				</ul>
+			</div>
+			<div class="span10">
+				{{outlet}}
+			</div>
+		</div>
+	</script>
+	
+	
+	
+	<script type="text/x-handlebars" id="contacts/search">
+		<div class="row-fluid">
+			<div class="span2">
+				<table class="table">
+	        <tbody>
+						{{#each model}}
+		          <tr>
+								<td>{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}</td>
+		          </tr>
+						{{/each}}
+	        </tbody>
+	      </table>
+			</div>
+			<div class="span10">
+				{{outlet}}
+		</div>
+	</script>
+	
+	
+	
+	<script type="text/x-handlebars" id="contact">
+		<h3>{{alias}}</h3>
+		, in {{groups}}
+		<hr/>
+		First name: {{first_name}}<br/>
+		Last name: {{last_name}}<br/>
+		Personnal information:<ul>
+			<li>home phone: {{home_phone}}</li>
+			<li>mobile phone: {{mobile_phone}}</li>
+			<li>mail: {{personal_mail}}</li>
+		</ul>
+		Office information<ul>
+			<li>office phone: {{office_phone}}</li>
+			<li>office mail: {{office_mail}}</li>
+		</ul>
+	</script>
+	
+	
+	
+	<script type="text/x-handlebars" id="groups">
+		<div class="row-fluid">
+			<div class="span12">
+				Groups
+			</div>
+		</div>
+	</script>
+	
+	
+	<script type="text/x-handlebars" id="about">
+		<div class="row-fluid">
+			<div class="span4 offset4">
+				<hr>
+				Brought to you by <em>Franck Lebeau</em>
+				<br/>
+				<a href="mailto:info_DAST@femto-st.fr">fl.franck.lebeau@gmail.com</a>
+				<hr>
+			</div>
+		</div>
+	</script>
+	
+	
+	
+  <script src="js/libs/jquery-1.9.1.js"></script>
+  <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
+  <script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script>
+	<!--script src="js/libs/ember.js"></script-->
+  <script src="js/libs/ember-data.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

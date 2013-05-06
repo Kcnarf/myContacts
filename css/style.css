@@ -1,0 +1,13 @@
+/* Put your CSS here */
+div.navbar {
+	padding-top: 20px;
+}
+
+.active {
+	font-weight: bold;
+}
+
+.navbar .brand {
+		font-weight : bold;
+		text-shadow : 5px 5px 5px rgb(200, 200, 200);
+}
