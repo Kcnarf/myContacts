@@ -1,7 +1,7 @@
 myContacts
 ==========
 
-Tiny project, whose first purpose is to learn Emberjs's client-side features.
+Tiny project, whose first purpose is to learn Emberjs's client-side framework.
 
 ###Libs:###
  - Ember v1.0.0-rc.1-261-g8a4e6af
@@ -9,7 +9,7 @@ Tiny project, whose first purpose is to learn Emberjs's client-side features.
 
 ###Main functionnal purpose:###
 managing Contacts,
-where a Contact is identify with an 'alias' and provides various personnal/professionnal (eg. mails/phones)
+where a Contact is identify with an 'alias' and provides various personnal/professionnal mails and phones
 
 ###Expected functionnal features:###
  - list, create, read, update, delete Contacts
