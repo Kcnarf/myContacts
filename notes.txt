@@ -1,0 +1,55 @@
+myContacts_20130427
+	- add route & template 'contacts/search'
+	- add ressource & template 'contacts/:contact_alias'
+
+myContacts_20130428
+	- add icons using 'glypgicons' and 'fontawesome'
+/!\	fontawesome provides more icons, but seems more restrictive regarding licensing
+
+myContacts_20130429
+	- adding creation of a new contact:
+		- using 'App.Contact.create()' when defining the model of 'AppContactsCreateRoute'
+		- creating template 'contact/create':
+			- using {{view textfield...}} binded to model's attribute
+/!\		- still issues with relationship properties (eg 'groups')
+==>			- continue to 'myContacts_20130503_fromSMI'
+			- adding a 'Save' button, which defines the action 'create'
+		- defining the behavior of the 'create' action in the 'AppContactsCreateController':
+			- store of the newly created contac,
+			- redirection to route 'contact/<alias>'
+
+myContacts_20130430
+	- new navigation:
+		- new dropdown button 'Contacts', with 'Search contacts' and 'Create contact' submenu
+		- removing left hand side menu in the 'contacts' template
+		- 'contacts.search' template' now provides 'Recent contacts' (upper-most part of the page) and 'Search contacts' (lower-most part of the page)
+	- adding a linear gradient for the background image for the main content ('.main-content' class)
+
+myContacts_20130503_fromSMI
+	- using 'id' to identify Contact (instead of the 'alias' property)
+	- 'contacts/search' shows the number of Contacts
+	- creation of Contact rewrited:
+		- adding an 'Ember.Select' to choose a group
+/!\		- groups are not saved while savong the new Contact
+/!\	- the 'id' of the new Contact is not a number (eg, 'ember447')
+/!\ - direct writing of the url to retrieve an unknown Contact doesn't shows the 'unknown Contact' message
+/!\	- investigate the use of 'store'
+/!\ - investigate 'live array'
+
+myContacts_20130504
+	- searching Groups is now available
+		- defining 'App.GroupsSearchRoute'
+		- defining 'groups/search' template
+		- defining 'App.GroupsSearchController', with the 'groupCount' computed-property
+
+myContacts_20130505
+	- Contacts are now sorted
+		- using 'sortProperties: ['alias']' and 'sortAscending: true' in the 'ContactsSearchController'
+		- using '{{#each controller}}' in template instead of '{{#each model}}'
+
+TODOS:
+	- F5/refresh on 'contacts/search' list no contacts
+	- recent contacts
+	- search contacts
+	- groups (CRUD), search, templates
+	- contact update/Delete
