@@ -41,18 +41,9 @@
 		</div>
 	</script>
 
-	  
-	<script type="text/x-handlebars" id="Template">
-		<!--content-->
-	</script><!--Template-->
-  
-	
-	
 	<script type="text/x-handlebars" id="contacts">
 		{{outlet}}
 	</script>	
-	
-	
 	
 	<script type="text/x-handlebars" id="contacts/search">
 		<div class="row-fluid">
@@ -66,28 +57,28 @@
 		<hr>
 		<div class="row-fluid">
 			<div class="span2 lead">
-				All contacts
+				All contacts ({{contactCount}})
 			</div>
 			<div class="span10">
 				<table class="table table-hover">
 					<tbody>
 						{{#each model}}
-		          <tr>
-								<td><i class="icon-user icon-pull-left"></i>&nbsp;{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}</td>
-		          </tr>
+		          		<tr>
+							<td><i class="icon-user icon-pull-left"></i>&nbsp;
+								{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}
+							</td>
+		          		</tr>
 						{{/each}}
-	        </tbody>
-	      </table>
+	        		</tbody>
+	      		</table>
 			</div>
 	</script>
-	
-	
 	
 	<script type="text/x-handlebars" id="contact">
 		{{#if model}}
 			<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{alias}}</h3>
 			{{#if groups}}, in group(s): {{#each group in groups}}
-					<i class="icon-group icon-pull-left"></i>&nbsp;{{group.name}}, 
+					<i class="icon-group"></i>&nbsp;{{group.name}}, 
 				{{/each}}
 			{{/if}}
 			<hr/>
@@ -112,15 +103,20 @@
 				</div>
 			</div>
 		{{else}}
-			Sorry, the contact you're looking for has not been found.
+			Sorry, the contact you are looking for has not been found.
 			<br/>
-			Try to <a href="#/contacts/search">Search contacts</a>.
+			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
 		{{/if}}
 	</script>
 	
 	<script type="text/x-handlebars" id="contacts/create">
 		<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
-		<span {{bindAttr class='groups::muted'}}>, in group(s): {{view Ember.TextField valueBinding='groups'}}</span>
+		<span 
+			{{bindAttr class='groups::muted'}}>, in group(s): 
+			{{view Ember.Select contentBinding='groups'
+					optionLabelPath='content.name'
+					optionValuePath='content.id'}}
+		</span>
 		<hr/>
 		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
 		<br/>
@@ -146,7 +142,6 @@
 		<div class="btn btn-primary pull-right" {{action 'create' this}}><i class="icon-check"></i>&nbsp;Save</div>
 	</script>
 	
-	
 	<script type="text/x-handlebars" id="groups">
 		<div class="row-fluid">
 			<div class="span12">
@@ -154,7 +149,6 @@
 			</div>
 		</div>
 	</script>
-	
 	
 	<script type="text/x-handlebars" id="about">
 		<div class="row-fluid">
@@ -173,15 +167,13 @@
 		</div>
 	</script>
 	
-	
-	
-  <script src="js/libs/jquery-1.9.1.js"></script>
-  <script src="js/libs/bootstrap-dropdown.js"></script>
-  <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-  <!--script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script-->
+	<script src="js/libs/jquery-1.9.1.js"></script>
+	<script src="js/libs/bootstrap-dropdown.js"></script>
+	<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
+	<!--script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script-->
 	<script src="js/libs/ember.js"></script>
-  <script src="js/libs/ember-data.js"></script>
-  <script src="js/app.js"></script>
+	<script src="js/libs/ember-data.js"></script>
+	<script src="js/app.js"></script>
 
 </body>
 </html>

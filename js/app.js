@@ -10,47 +10,62 @@ App.Store= DS.Store.extend({
 App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
-		this.resource('contact', {path: ':contact_alias'});
+		this.resource('contact', {path: ':contact_id'});
 		this.route('create');
 	});
 	this.resource('groups');
 	this.resource('about');
 });
 
+App.IndexRoute = Ember.Route.extend({
+	setupController: function(){
+		App.Group.find(); // peuple le store avec tous les groupes
+	}
+});
+
+App.ContactsRoute = Ember.Route.extend({
+	model: function(){
+		return App.Contact.find();
+	}
+});
+
 App.ContactsIndexRoute= Ember.Route.extend({
 	redirect: function() {
-    this.transitionTo('contacts.search');
-  }
+    	this.transitionTo('contacts.search');
+  	}
 });
 
 App.ContactsSearchRoute= Ember.Route.extend({
 	model: function() {
-    return App.Contact.find();
-  }
+		return this.modelFor('contacts');
+  	}
 });
 
-App.ContactRoute= Ember.Route.extend({
-	model: function(params) {
-		return App.Contact.find().findProperty('alias', params.contact_alias);
-	},
-	serialize: function(contactInstance) {
-		return {contact_alias: contactInstance.get('alias')};
-	}
-})
+App.ContactsSearchController= Ember.ArrayController.extend({
+	contactCount: function() {
+		return this.get('length');
+  	}.property('length') // mis a jour a chaque fois qu'un contact est ajouté/supprimé.
+});
 
-App.ContactsCreateRoute= Ember.Route.extend({
+App.ContactsCreateRoute = Ember.Route.extend({
 	model: function() {
-    return App.Contact.createRecord({
-			id: App.Contact.find().length
-		});
+		// l'id est généré automatiquement par le FixtureAdapter.
+		// cree et ajoute le contact dans la liste (pas besoin du addObject dans le controller)
+		return App.Contact.createRecord();
 	}
 });
 
 App.ContactsCreateController = Ember.ObjectController.extend({
-  create: function (newContact){
-    App.Contact.find().addObject(newContact);
+	groups: function (){
+		// retourne tous les groupes loadés dans le store 
+		// c'est un 'live array', donc il reste a jour sur ajout/suppression d'un groupe
+		return App.Group.all(); 
+	}.property(),
+
+	create: function (newContact){
+		newContact.get('transaction').commit(); // juste besoin de committer le model.
 		this.transitionToRoute('contact', newContact);
-  }
+	}
 });
 
 App.Contact= DS.Model.extend({
@@ -62,10 +77,14 @@ App.Contact= DS.Model.extend({
 	office_phone: DS.attr('string'),
 	personal_mail: DS.attr('string'),
 	office_mail: DS.attr('string'),
-	groups: DS.hasMany('App.Group')
+	groups: DS.hasMany('App.Group'),
+	
+	groupCount: function() {
+		return this.get('groups.length');
+	}.property('groups.length')
 });
 
-App.Group= DS.Model.extend({
+App.Group = DS.Model.extend({
 	name: DS.attr('string'),
 	contacts: DS.hasMany('App.Contact')
 });
