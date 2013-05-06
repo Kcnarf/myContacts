@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset=utf-8 />
-<title>myContacts</title>
+	<meta charset=utf-8 />
+	<title>myContacts</title>
 	<link rel="stylesheet" href="./css/normalize.css">
 	<link rel="stylesheet" href="./css/bootstrap.css">
+	<link rel="stylesheet" href="./css/font-awesome.min.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -15,8 +16,9 @@
 				<div class="navbar-inner">
 					<a class="brand" href="#">myContacts</a>
 					<ul class="nav">
-						<li>{{#linkTo 'contacts'}}Contacts{{/linkTo}}</li>
-						<li>{{#linkTo 'groups'}}Groups{{/linkTo}}</li>
+						<li>{{#linkTo 'index'}}<i class="icon-home"></i>&nbsp;Home{{/linkTo}}</li>
+						<li>{{#linkTo 'contacts'}}<i class="icon-user"></i>&nbsp;Contacts{{/linkTo}}</li>
+						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
 					</ul>
 					<ul class="nav pull-right">
 						<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
@@ -58,7 +60,7 @@
 	        <tbody>
 						{{#each model}}
 		          <tr>
-								<td>{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}</td>
+								{{#linkTo 'contact' this}}<td><i class="icon-user icon-pull-left"></i>&nbsp;{{alias}}</td>{{/linkTo}}
 		          </tr>
 						{{/each}}
 	        </tbody>
@@ -72,20 +74,38 @@
 	
 	
 	<script type="text/x-handlebars" id="contact">
-		<h3>{{alias}}</h3>
-		, in {{groups}}
-		<hr/>
-		First name: {{first_name}}<br/>
-		Last name: {{last_name}}<br/>
-		Personnal information:<ul>
-			<li>home phone: {{home_phone}}</li>
-			<li>mobile phone: {{mobile_phone}}</li>
-			<li>mail: {{personal_mail}}</li>
-		</ul>
-		Office information<ul>
-			<li>office phone: {{office_phone}}</li>
-			<li>office mail: {{office_mail}}</li>
-		</ul>
+		{{#if model}}
+			<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{alias}}</h3>
+			{{#if groups}}, in group(s): {{#each group in groups}}
+					<i class="icon-group icon-pull-left"></i>&nbsp;{{group.name}}, 
+				{{/each}}
+			{{/if}}
+			<hr/>
+			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
+			<br/>
+			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
+			<div class="row-fluid">
+				<div class="span6">
+					<h4>Personnal information</h4>
+					<ul>
+						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
+						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
+						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+					</ul>
+				</div>
+				<div class="span6">
+					<h4>Office information</h4>
+					<ul>
+						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
+						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
+					</ul>
+				</div>
+			</div>
+		{{else}}
+			Sorry, the contact you're looking for has not been found.
+			<br/>
+			Try to <a href="#/contacts/search">Search contacts</a>.
+		{{/if}}
 	</script>
 	
 	
@@ -103,10 +123,15 @@
 		<div class="row-fluid">
 			<div class="span4 offset4">
 				<hr>
+				<p class="text-center">
 				Brought to you by <em>Franck Lebeau</em>
 				<br/>
 				<a href="mailto:info_DAST@femto-st.fr">fl.franck.lebeau@gmail.com</a>
+				</p>
 				<hr>
+				<p class="text-right muted">
+				<small>Made with the help of <a href="glyphicons.com">GLYPHICONS<a>.</small>
+				</p>
 			</div>
 		</div>
 	</script>
@@ -115,8 +140,8 @@
 	
   <script src="js/libs/jquery-1.9.1.js"></script>
   <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-  <script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script>
-	<!--script src="js/libs/ember.js"></script-->
+  <!--script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script-->
+	<script src="js/libs/ember.js"></script>
   <script src="js/libs/ember-data.js"></script>
   <script src="js/app.js"></script>
 

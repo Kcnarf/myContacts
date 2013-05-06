@@ -1,4 +1,4 @@
-﻿App = Ember.Application.create({
+App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
@@ -16,6 +16,12 @@ App.Router.map(function() {
 	this.resource('about');
 });
 
+App.ContactsIndexRoute= Ember.Route.extend({
+	redirect: function() {
+    this.transitionTo('contacts.search');
+  }
+})
+
 App.ContactsSearchRoute= Ember.Route.extend({
 	model: function() {
     return App.Contact.find();
@@ -24,8 +30,7 @@ App.ContactsSearchRoute= Ember.Route.extend({
 
 App.ContactRoute= Ember.Route.extend({
 	model: function(params) {
-		return App.Contact.FIXTURES.findProperty('alias', params.contact_alias);
-//		return App.Contact.find().findProperty('alias', params.contact_alias);
+		return App.Contact.find().findProperty('alias', params.contact_alias);
 	},
 	serialize: function(contactInstance) {
 		return {contact_alias: contactInstance.get('alias')};
@@ -51,45 +56,56 @@ App.Group= DS.Model.extend({
 
 App.Contact.FIXTURES= [{
 	id: 1,
-	alias: 'Doudou',
-	first_name: 'Franck',
-	last_name: 'Lebeau',
+	alias: 'FooTer',
+	first_name: 'Foo',
+	last_name: 'Ter',
 	home_phone: '',
-	mobile_phone: '0637514454',
-	office_phone: '0381666655',
-	personal_mail: 'fl.franck.lebeau@gmail.com',
-	office_mail: 'franck.lebeau@femto-st.fr',
+	mobile_phone: '060001',
+	office_phone: '030002',
+	personal_mail: 'foo.master@gmail.com',
+	office_mail: 'foo.master@thelittlecompany.com',
 	groups: [1]
 },{
 	id: 2,
-	alias: 'Coco',
-	first_name: 'Corinne',
-	last_name: 'Lauzet',
+	alias: 'BarMan',
+	first_name: 'Bar',
+	last_name: 'Man',
 	home_phone: '',
-	mobile_phone: '0679470497',
+	mobile_phone: '0600003',
 	office_phone: '',
-	personal_mail: 'corinne.lauzet@laposte.net',
-	office_mail: 'corinne.lauzet@adeo.fr',
+	personal_mail: 'bar.man@gmail.com',
+	office_mail: 'bar.man@thebigcompany.com',
 	groups: [1]
 },{
 	id: 3,
-	alias: 'Bébert',
-	first_name: 'Daniel',
-	last_name: 'Bertin Mourot',
+	alias: 'PolOpper',
+	first_name: 'Pol',
+	last_name: 'Opper',
 	home_phone: '',
-	mobile_phone: '0679481704',
+	mobile_phone: '0600004',
 	office_phone: '',
 	personal_mail: '',
 	office_mail: '',
 	groups: [2]
+},{
+	id: 4,
+	alias: 'CasPer',
+	first_name: 'Cas',
+	last_name: 'Per',
+	home_phone: '',
+	mobile_phone: '',
+	office_phone: '',
+	personal_mail: '',
+	office_mail: '',
+	groups: []
 }];
 
 App.Group.FIXTURES= [{
 	id: 1,
-	name: 'famille',
+	name: 'FooBar',
 	contacts: [1,2]
 },{
 	id: 2,
-	name: 'amis',
+	name: 'Friends',
 	contacts: [3]
 }]
