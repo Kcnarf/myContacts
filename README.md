@@ -15,5 +15,5 @@ where a Contact is identify with an 'alias' and provides various personnal/profe
  - list, create, read, update, delete Contacts
  - capability to list recents Contacts
  - capability to seacrh Contacts
- - capability to groups Contacts using Groups
+ - capability to grous Contacts using Groups
  - list, create, read, update, delete Groups
