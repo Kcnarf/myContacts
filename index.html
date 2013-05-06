@@ -26,7 +26,15 @@
 								<li>{{#linkTo 'contacts.search'}}<i class="icon-search"></i>&nbsp;Search contacts{{/linkTo}}</li>
 								<li>{{#linkTo 'contacts.create'}}<i class="icon-plus"></i>&nbsp;Create contact{{/linkTo}}</li>
 							</ul></li>
-						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+									<i class="icon-group"></i>&nbsp;Groups
+									<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>{{#linkTo 'groups.search'}}<i class="icon-search"></i>&nbsp;Search groups{{/linkTo}}</li>
+								<li class="disabled">{{#linkTo 'contacts.create'}}<i class="icon-plus"></i>&nbsp;Create group{{/linkTo}}</li>
+							</ul></li>
 					</ul>
 					<ul class="nav pull-right">
 						<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
@@ -44,7 +52,7 @@
 	<script type="text/x-handlebars" id="contacts">
 		{{outlet}}
 	</script>	
-	
+
 	<script type="text/x-handlebars" id="contacts/search">
 		<div class="row-fluid">
 			<div class="span2 lead">
@@ -63,54 +71,19 @@
 				<table class="table table-hover">
 					<tbody>
 						{{#each model}}
-		          		<tr>
-							<td><i class="icon-user icon-pull-left"></i>&nbsp;
-								{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}
-							</td>
-		          		</tr>
+							<tr>
+								<td><i class="icon-user"></i>&nbsp;
+									{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}
+								</td>
+							</tr>
 						{{/each}}
-	        		</tbody>
-	      		</table>
+					</tbody>
+				</table>
 			</div>
 	</script>
-	
-	<script type="text/x-handlebars" id="contact">
-		{{#if model}}
-			<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{alias}}</h3>
-			{{#if groups}}, in group(s): {{#each group in groups}}
-					<i class="icon-group"></i>&nbsp;{{group.name}}, 
-				{{/each}}
-			{{/if}}
-			<hr/>
-			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
-			<br/>
-			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
-			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
-					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
-					</ul>
-				</div>
-			</div>
-		{{else}}
-			Sorry, the contact you are looking for has not been found.
-			<br/>
-			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
-		{{/if}}
-	</script>
-	
+
 	<script type="text/x-handlebars" id="contacts/create">
-		<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
+		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
 		<span 
 			{{bindAttr class='groups::muted'}}>, in group(s): 
 			{{view Ember.Select contentBinding='groups'
@@ -141,15 +114,66 @@
 		<hr/>
 		<div class="btn btn-primary pull-right" {{action 'create' this}}><i class="icon-check"></i>&nbsp;Save</div>
 	</script>
-	
-	<script type="text/x-handlebars" id="groups">
-		<div class="row-fluid">
-			<div class="span12">
-				Groups
+
+	<script type="text/x-handlebars" id="contact">
+		{{#if model}}
+			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
+			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
+					<i class="icon-group"></i>&nbsp;{{group.name}}, 
+				{{/each}}
+			{{/if}}
+			<hr/>
+			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
+			<br/>
+			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
+			<div class="row-fluid">
+				<div class="span6">
+					<h4>Personnal information</h4>
+					<ul>
+						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
+						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
+						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+					</ul>
+				</div>
+				<div class="span6">
+					<h4>Office information</h4>
+					<ul>
+						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
+						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
+					</ul>
+				</div>
 			</div>
-		</div>
+		{{else}}
+			Sorry, the contact you are looking for has not been found.
+			<br/>
+			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
+		{{/if}}
 	</script>
-	
+
+	<script type="text/x-handlebars" id="groups">
+		{{outlet}}
+	</script>
+
+	<script type="text/x-handlebars" id="groups/search">
+		<div class="row-fluid">
+			<div class="span2 lead">
+				All groups ({{groupCount}})
+			</div>
+			<div class="span10">
+				<table class="table table-hover">
+					<tbody>
+						{{#each model}}
+							<tr>
+								<td><i class="group-user"></i>&nbsp;
+									{{name}}
+								</td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+	</script>
+
 	<script type="text/x-handlebars" id="about">
 		<div class="row-fluid">
 			<div class="span4 offset4">
@@ -166,7 +190,7 @@
 			</div>
 		</div>
 	</script>
-	
+
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
 	<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>

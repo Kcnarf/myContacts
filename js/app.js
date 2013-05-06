@@ -3,48 +3,51 @@ App = Ember.Application.create({
 });
 
 App.Store= DS.Store.extend({
-  revision: 12,
-  adapter: 'DS.FixtureAdapter'
+	revision: 12,
+	adapter: 'DS.FixtureAdapter'
 });
 
 App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
-		this.resource('contact', {path: ':contact_id'});
 		this.route('create');
+		this.resource('contact', {path: ':contact_id'});
 	});
-	this.resource('groups');
+	this.resource('groups',  function(){
+		this.route('search');
+	});
 	this.resource('about');
 });
 
 App.IndexRoute = Ember.Route.extend({
 	setupController: function(){
-		App.Group.find(); // peuple le store avec tous les groupes
+		App.Contact.find(); // populate the store with all Contact instances
+		App.Group.find(); // populate the store with all Group instances
 	}
 });
 
 App.ContactsRoute = Ember.Route.extend({
 	model: function(){
-		return App.Contact.find();
+		return App.Contact.all();
 	}
 });
 
 App.ContactsIndexRoute= Ember.Route.extend({
 	redirect: function() {
-    	this.transitionTo('contacts.search');
-  	}
+		this.transitionTo('contacts.search');
+	}
 });
 
 App.ContactsSearchRoute= Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contacts');
-  	}
+	}
 });
 
 App.ContactsSearchController= Ember.ArrayController.extend({
 	contactCount: function() {
 		return this.get('length');
-  	}.property('length') // mis a jour a chaque fois qu'un contact est ajouté/supprimé.
+	}.property('length') // automatic update at each 'length' update
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
@@ -68,6 +71,37 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 	}
 });
 
+App.ContactController = Ember.ObjectController.extend({
+	groupCount: function() {
+		return this.get('content').get('groups').get('length');
+	}.property('content.groups.length')
+})
+
+App.GroupsRoute = Ember.Route.extend({
+	model: function(){
+		return App.Group.all();
+	}
+});
+
+App.GroupsIndexRoute= Ember.Route.extend({
+	redirect: function() {
+		this.transitionTo('groups.search');
+	}
+});
+
+App.GroupsSearchRoute = Ember.Route.extend({
+	model: function(){
+		return this.modelFor('groups');
+	}
+});
+
+App.GroupsSearchController = Ember.ArrayController.extend({
+	groupCount: function(){
+		return this.get('length');
+	}.property('length')
+});
+
+
 App.Contact= DS.Model.extend({
 	alias: DS.attr('string'),
 	first_name: DS.attr('string'),
@@ -80,7 +114,7 @@ App.Contact= DS.Model.extend({
 	groups: DS.hasMany('App.Group'),
 	
 	groupCount: function() {
-		return this.get('groups.length');
+		return this.get('groups').get('length');
 	}.property('groups.length')
 });
 
@@ -133,14 +167,29 @@ App.Contact.FIXTURES= [{
 	personal_mail: '',
 	office_mail: '',
 	groups: []
+},{
+	id: 5,
+	alias: 'DinGo',
+	first_name: 'Din',
+	last_name: 'Go',
+	home_phone: '',
+	mobile_phone: '',
+	office_phone: '',
+	personal_mail: '',
+	office_mail: '',
+	groups: [1,2]
 }];
 
 App.Group.FIXTURES= [{
 	id: 1,
 	name: 'FooBar',
-	contacts: [1,2]
+	contacts: [1,2,5]
 },{
 	id: 2,
 	name: 'Friends',
-	contacts: [3]
+	contacts: [3,5]
+},{
+	id: 3,
+	name: 'Others',
+	contacts: []
 }]
