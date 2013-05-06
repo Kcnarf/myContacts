@@ -29,12 +29,6 @@ App.ContactsSearchRoute= Ember.Route.extend({
   }
 });
 
-/*App.ContactsSearchController = Ember.ArrayController.extend({
-	numberOfContacts: function() {
-		return App.Contact.find().length;
-	}.property
-});*/
-
 App.ContactRoute= Ember.Route.extend({
 	model: function(params) {
 		return App.Contact.find().findProperty('alias', params.contact_alias);

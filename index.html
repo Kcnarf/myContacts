@@ -10,14 +10,22 @@
 </head>
 <body>
 
-	<script type="text/x-handlebars">
+	<script type="text/x-handlebars"/>
 		<div class="container-fluid">
 			<div class="navbar">
 				<div class="navbar-inner">
 					<a class="brand" href="#">myContacts</a>
 					<ul class="nav">
 						<li>{{#linkTo 'index'}}<i class="icon-home"></i>&nbsp;Home{{/linkTo}}</li>
-						<li>{{#linkTo 'contacts'}}<i class="icon-user"></i>&nbsp;Contacts{{/linkTo}}</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+									<i class="icon-user"></i>&nbsp;Contacts
+									<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>{{#linkTo 'contacts.search'}}<i class="icon-search"></i>&nbsp;Search contacts{{/linkTo}}</li>
+								<li>{{#linkTo 'contacts.create'}}<i class="icon-plus"></i>&nbsp;Create contact{{/linkTo}}</li>
+							</ul></li>
 						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
 					</ul>
 					<ul class="nav pull-right">
@@ -25,7 +33,11 @@
 					</ul>
 				</div>
 			</div>
-			{{outlet}}
+			<div class="row-fluid main-content">
+				<div class="span10 offset1">
+					{{outlet}}
+				</div>
+			</div>
 		</div>
 	</script>
 
@@ -35,27 +47,28 @@
 	</script><!--Template-->
   
 	
+	
 	<script type="text/x-handlebars" id="contacts">
-		<div class="row-fluid">
-			<div class="span2">
-				<ul class="nav nav-tabs nav-stacked">
-					<li><a href="#/contacts">Recent contacts</a></li>
-					<li>{{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}</li>
-					<br/>
-					<li>{{#linkTo 'contacts.create'}}Create contact{{/linkTo}}</li>
-				</ul>
-			</div>
-			<div class="span10">
-				{{outlet}}
-			</div>
-		</div>
-	</script>
+		{{outlet}}
+	</script>	
 	
 	
 	
 	<script type="text/x-handlebars" id="contacts/search">
 		<div class="row-fluid">
-			<div class="span2">
+			<div class="span2 lead">
+				Recent contacts
+			</div>
+			<div class="span10 muted">
+				No recent contact yet ...
+			</div>
+		</div>
+		<hr>
+		<div class="row-fluid">
+			<div class="span2 lead">
+				All contacts
+			</div>
+			<div class="span10">
 				<table class="table table-hover">
 					<tbody>
 						{{#each model}}
@@ -66,9 +79,6 @@
 	        </tbody>
 	      </table>
 			</div>
-			<div class="span10">
-				{{outlet}}
-		</div>
 	</script>
 	
 	
@@ -153,7 +163,7 @@
 				<p class="text-center">
 				Brought to you by <em>Franck Lebeau</em>
 				<br/>
-				<a href="mailto:info_DAST@femto-st.fr">fl.franck.lebeau@gmail.com</a>
+				<a href="mailto:fl.franck.lebeau@gmail.com">fl.franck.lebeau@gmail.com</a>
 				</p>
 				<hr>
 				<p class="text-right muted">
@@ -166,6 +176,7 @@
 	
 	
   <script src="js/libs/jquery-1.9.1.js"></script>
+  <script src="js/libs/bootstrap-dropdown.js"></script>
   <script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
   <!--script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script-->
 	<script src="js/libs/ember.js"></script>
