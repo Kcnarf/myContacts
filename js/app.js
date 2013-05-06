@@ -45,9 +45,12 @@ App.ContactsSearchRoute= Ember.Route.extend({
 });
 
 App.ContactsSearchController= Ember.ArrayController.extend({
+	sortProperties: ['alias'],
+  sortAscending: true,
+	
 	contactCount: function() {
 		return this.get('length');
-	}.property('length') // automatic update at each 'length' update
+	}.property('length'), // automatic update at each 'length' update
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
