@@ -42,7 +42,7 @@
 					<li><a href="#/contacts">Recent contacts</a></li>
 					<li>{{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}</li>
 					<br/>
-					<li><a href="#/contacts">Create contact</a></li>
+					<li>{{#linkTo 'contacts.create'}}Create contact{{/linkTo}}</li>
 				</ul>
 			</div>
 			<div class="span10">
@@ -56,11 +56,11 @@
 	<script type="text/x-handlebars" id="contacts/search">
 		<div class="row-fluid">
 			<div class="span2">
-				<table class="table">
-	        <tbody>
+				<table class="table table-hover">
+					<tbody>
 						{{#each model}}
 		          <tr>
-								{{#linkTo 'contact' this}}<td><i class="icon-user icon-pull-left"></i>&nbsp;{{alias}}</td>{{/linkTo}}
+								<td><i class="icon-user icon-pull-left"></i>&nbsp;{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}</td>
 		          </tr>
 						{{/each}}
 	        </tbody>
@@ -108,6 +108,33 @@
 		{{/if}}
 	</script>
 	
+	<script type="text/x-handlebars" id="contacts/create">
+		<h3><i class="icon-user icon-pull-left"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
+		<span {{bindAttr class='groups::muted'}}>, in group(s): {{view Ember.TextField valueBinding='groups'}}</span>
+		<hr/>
+		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
+		<br/>
+		<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
+		<div class="row-fluid">
+			<div class="span6">
+				<h4>Personnal information</h4>
+				<ul>
+					<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+					<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+					<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+				</ul>
+			</div>
+			<div class="span6">
+				<h4>Office information</h4>
+				<ul>
+					<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+					<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+				</ul>
+			</div>
+		</div>
+		<hr/>
+		<div class="btn btn-primary pull-right" {{action 'create' this}}><i class="icon-check"></i>&nbsp;Save</div>
+	</script>
 	
 	
 	<script type="text/x-handlebars" id="groups">
@@ -130,7 +157,7 @@
 				</p>
 				<hr>
 				<p class="text-right muted">
-				<small>Made with the help of <a href="glyphicons.com">GLYPHICONS<a>.</small>
+				<small>Made with the help of <a href="http://fortawesome.github.io/Font-Awesome/#">Font Awesome<a>.</small>
 				</p>
 			</div>
 		</div>

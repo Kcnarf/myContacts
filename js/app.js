@@ -11,6 +11,7 @@ App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.resource('contact', {path: ':contact_alias'});
+		this.route('create');
 	});
 	this.resource('groups');
 	this.resource('about');
@@ -20,13 +21,19 @@ App.ContactsIndexRoute= Ember.Route.extend({
 	redirect: function() {
     this.transitionTo('contacts.search');
   }
-})
+});
 
 App.ContactsSearchRoute= Ember.Route.extend({
 	model: function() {
     return App.Contact.find();
   }
-})
+});
+
+/*App.ContactsSearchController = Ember.ArrayController.extend({
+	numberOfContacts: function() {
+		return App.Contact.find().length;
+	}.property
+});*/
 
 App.ContactRoute= Ember.Route.extend({
 	model: function(params) {
@@ -36,6 +43,21 @@ App.ContactRoute= Ember.Route.extend({
 		return {contact_alias: contactInstance.get('alias')};
 	}
 })
+
+App.ContactsCreateRoute= Ember.Route.extend({
+	model: function() {
+    return App.Contact.createRecord({
+			id: App.Contact.find().length
+		});
+	}
+});
+
+App.ContactsCreateController = Ember.ObjectController.extend({
+  create: function (newContact){
+    App.Contact.find().addObject(newContact);
+		this.transitionToRoute('contact', newContact);
+  }
+});
 
 App.Contact= DS.Model.extend({
 	alias: DS.attr('string'),
