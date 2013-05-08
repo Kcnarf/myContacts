@@ -47,6 +47,9 @@ myContacts_20130505
 		- using 'sortProperties: ['alias']' and 'sortAscending: true' in the 'ContactsSearchController'
 		- using '{{#each controller}}' in template instead of '{{#each model}}'
 
+myContacts_20130508
+	- Groups are now sorted
+	
 TODOS:
 	- F5/refresh on 'contacts/search' list no contacts
 	- recent contacts

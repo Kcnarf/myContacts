@@ -46,7 +46,7 @@ App.ContactsSearchRoute= Ember.Route.extend({
 
 App.ContactsSearchController= Ember.ArrayController.extend({
 	sortProperties: ['alias'],
-  sortAscending: true,
+	sortAscending: true,
 	
 	contactCount: function() {
 		return this.get('length');
@@ -99,6 +99,9 @@ App.GroupsSearchRoute = Ember.Route.extend({
 });
 
 App.GroupsSearchController = Ember.ArrayController.extend({
+	sortProperties: ['name'],
+	sortAscending: true,
+	
 	groupCount: function(){
 		return this.get('length');
 	}.property('length')
@@ -188,11 +191,11 @@ App.Group.FIXTURES= [{
 	name: 'FooBar',
 	contacts: [1,2,5]
 },{
-	id: 2,
-	name: 'Friends',
-	contacts: [3,5]
-},{
 	id: 3,
 	name: 'Others',
 	contacts: []
+},{
+	id: 2,
+	name: 'Friends',
+	contacts: [3,5]
 }]
