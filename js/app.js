@@ -23,6 +23,7 @@ App.IndexRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
+		App.RecentContacts.find(); // populate the store with all recent contacts
 	}
 });
 
@@ -51,6 +52,11 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 	contactCount: function() {
 		return this.get('length');
 	}.property('length'), // automatic update at each 'length' update
+	
+	selectContact: function (contact) {
+		App.RecentContactsController.addContact(contact);
+		this.transitionToRoute('contact', contact)
+	}
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
@@ -107,6 +113,22 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	}.property('length')
 });
 
+App.RecentContactsController = Ember.ArrayController.create({
+	content: [],
+	addContact: function(contact) {
+		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
+		if ( alreadyRecentContact ) {
+			this.removeObject(alreadyRecentContact);
+		}
+		this.addObject(contact);
+	}
+});
+
+App.RecentContactsController.reopen({
+	reverse: function(){
+		return this.toArray().reverse();
+	}.property('this.content.@each')
+})
 
 App.Contact= DS.Model.extend({
 	alias: DS.attr('string'),

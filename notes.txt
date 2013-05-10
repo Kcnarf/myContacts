@@ -49,10 +49,18 @@ myContacts_20130505
 
 myContacts_20130508
 	- Groups are now sorted
+
+myContacts_20120510
+	- adding recent contacts:
+		- new RecentContactsController, with a 'addContact' method
+		- instead of a traditional link to any Contact, usee of the 'ContactsController.selectContact' method, wich also call RecentContactsController
+/!\ unable to show 'no recent contact yet' when required
+	- add a '_contactPartial' partial template; unify the rendering of a contact
+/!\ call to 'selectContact' in multiple places; investigate for a factorised management?
 	
 TODOS:
 	- F5/refresh on 'contacts/search' list no contacts
-	- recent contacts
+	- persistant recent contacts
 	- search contacts
 	- groups (CRUD), search, templates
 	- contact update/Delete

@@ -22,3 +22,7 @@ div.navbar {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 }
+
+span.contact {
+	cursor: pointer;
+}

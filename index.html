@@ -58,8 +58,26 @@
 			<div class="span2 lead">
 				Recent contacts
 			</div>
-			<div class="span10 muted">
-				No recent contact yet ...
+			<div class="span10">
+				<!-- -->
+				{{!#if App.RecentContactsController}}
+					<div class='muted'>
+						No recent contact yet ...
+					</div>
+				{{!#else}}
+					<table class="table table-hover">
+						<tbody>
+							{{#each App.RecentContactsController.reverse}}
+								<tr>
+									<td>
+										{{partial 'contactPartial'}}
+									</td>
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				{{!/if}}
+				<!-- -->
 			</div>
 		</div>
 		<hr>
@@ -72,8 +90,8 @@
 					<tbody>
 						{{#each controller}}
 							<tr>
-								<td><i class="icon-user"></i>&nbsp;
-									{{#linkTo 'contact' this}}{{alias}}{{/linkTo}}
+								<td>
+									{{partial 'contactPartial'}}
 								</td>
 							</tr>
 						{{/each}}
@@ -189,6 +207,13 @@
 		</div>
 	</script>
 
+	<script type="text/x-handlebars" id="_contactPartial">
+		<span class='contact' {{action 'selectContact' this}}>
+		<i class="icon-user"></i>&nbsp;
+		{{alias}}
+		</span>
+	</script>
+	
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
 	<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
