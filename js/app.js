@@ -52,10 +52,12 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 		return this.get('length');
 	}.property('length'), // automatic update at each 'length' update
 	
-	selectContact: function (contact) {
+	showContact: function (contact) {
 		App.RecentContactsController.addContact(contact);
 		this.transitionToRoute('contact', contact)
 	}
+	
+	
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
