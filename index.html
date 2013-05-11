@@ -82,10 +82,18 @@
 		</div>
 		<hr>
 		<div class="row-fluid">
-			<div class="span2 lead">
-				All contacts ({{contactCount}})
+			<div class="span2">
+				<span class="lead">Search contacts</span>
+				<br/>
+				<small>{{searchedContactCount}} / {{App.ContactsController.contactCount}} / {{contactCount}} contact(s) shown</small>
 			</div>
 			<div class="span10">
+				<form class="form-search">
+				  <div class="input-append">
+				    {{view Ember.TextField placeholder="Search text" valueBinding="App.ContactsSearchController.searchText"}}
+				    <button type="submit" class="btn" {{action 'searchContacts'}}><i class='icon-search'></i></button>
+				  </div>
+				</form>
 				<table class="table table-hover">
 					<tbody>
 						{{#each controller}}

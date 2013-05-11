@@ -53,14 +53,20 @@ myContacts_20130508
 myContacts_20120510
 	- adding recent contacts:
 		- new RecentContactsController, with a 'addContact' method
-		- instead of a traditional link to any Contact, usee of the 'ContactsController.selectContact' method, wich also call RecentContactsController
-/!\ unable to show 'no recent contact yet' when required
+		- instead of a traditional link to any Contact, use of the 'ContactsController.selectContact' method, wich also call RecentContactsController
+/!\ unable to display 'no recent contact yet' in template 'contacts/search' when required
 	- add a '_contactPartial' partial template; unify the rendering of a contact
 /!\ call to 'selectContact' in multiple places; investigate for a factorised management?
-	
+
+myContacts_20130511
+	- contacts can now be searched/filtered:
+		- adding the form (textfiled+button)
+		- adding action 'searchContacts' which modified the 'content' of the 'App.ContactsSearchController'
+/!\ unable to display 'contactCount' (total number of Contacts, not filtered) in template 'contacts/search'
+		
 TODOS:
 	- F5/refresh on 'contacts/search' list no contacts
 	- persistant recent contacts
-	- search contacts
-	- groups (CRUD), search, templates
-	- contact update/Delete
+	- managing 'search contacts' when reentering the page when a 'searchText' is already defined
+	- Group (CRUD), search, templates
+	- Contact update/Delete

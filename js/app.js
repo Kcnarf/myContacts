@@ -32,6 +32,12 @@ App.ContactsRoute = Ember.Route.extend({
 	}
 });
 
+App.ContactsController = Ember.ArrayController.extend({
+	contactCount: function() {
+		return this.get('length');
+	}.property('length')
+});
+
 App.ContactsIndexRoute= Ember.Route.extend({
 	redirect: function() {
 		this.transitionTo('contacts.search');
@@ -48,16 +54,40 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 	sortProperties: ['alias'],
 	sortAscending: true,
 	
-	contactCount: function() {
+	contactCountBinding: 'App.ContactsController.contactCount',
+	
+	searchText: '',
+	
+	searchedContactCount: function() {
 		return this.get('length');
 	}.property('length'), // automatic update at each 'length' update
 	
 	showContact: function (contact) {
 		App.RecentContactsController.addContact(contact);
 		this.transitionToRoute('contact', contact)
+	},
+	
+	searchContacts: function () {
+		//if (this.searchText.length==0) /!\ Doesn't work ???
+		if (App.ContactsSearchController.searchText.length==0) {
+			this.set('content', App.Contact.all());
+			return;
+		}
+		
+		var regexPattern = '';
+		var searchTextArray = App.ContactsSearchController.searchText.split("");
+		for (var i=0;i<searchTextArray.length-1;i++)
+		{ 
+			regexPattern = regexPattern.concat('(', searchTextArray[i], ').*');
+		}
+		regexPattern = regexPattern.concat('(', searchTextArray[searchTextArray.length-1], ')')
+		
+		var regex = new RegExp(regexPattern,'i');
+		var filtered = App.Contact.all().filter(function(contact) {
+			return regex.test(contact.get('alias'));
+		});
+		this.set('content', filtered);
 	}
-	
-	
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
