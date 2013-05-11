@@ -23,7 +23,6 @@ App.IndexRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
-		App.RecentContacts.find(); // populate the store with all recent contacts
 	}
 });
 
