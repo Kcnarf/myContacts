@@ -30,7 +30,7 @@ myContacts_20130503_fromSMI
 	- 'contacts/search' shows the number of Contacts
 	- creation of Contact rewrited:
 		- adding an 'Ember.Select' to choose a group
-/!\		- groups are not saved while savong the new Contact
+/!\		- groups are not saved while saving the new Contact
 /!\	- the 'id' of the new Contact is not a number (eg, 'ember447')
 /!\ - direct writing of the url to retrieve an unknown Contact doesn't shows the 'unknown Contact' message
 /!\	- investigate the use of 'store'

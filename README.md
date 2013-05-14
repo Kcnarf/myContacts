@@ -14,6 +14,6 @@ where a Contact is identify with an 'alias' and provides various personnal/profe
 ###Expected functionnal features:###
  - list, create, read, update, delete Contacts
  - capability to list recents Contacts
- - capability to seacrh Contacts
- - capability to grous Contacts using Groups
+ - capability to search Contacts
+ - capability to define Group of Contacts
  - list, create, read, update, delete Groups
