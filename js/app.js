@@ -182,6 +182,10 @@ App.Group = DS.Model.extend({
 	contacts: DS.hasMany('App.Contact')
 });
 
+App.RecentContacts= DS.Model.extend({
+	list: DS.hasMany('App.Contact')
+})
+
 App.Contact.FIXTURES= [{
 	id: 1,
 	alias: 'FooTer',
@@ -251,4 +255,9 @@ App.Group.FIXTURES= [{
 	id: 2,
 	name: 'Friends',
 	contacts: [3,5]
+}];
+
+App.RecentContacts.FIXTURES= [{
+	id: 1,
+	list: [1,2]
 }]
