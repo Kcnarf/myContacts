@@ -63,7 +63,14 @@ myContacts_20130511
 		- adding the form (textfiled+button)
 		- adding action 'searchContacts' which modified the 'content' of the 'App.ContactsSearchController'
 /!\ unable to display 'contactCount' (total number of Contacts, not filtered) in template 'contacts/search'
-		
+
+my_contacts_20130516
+	- contact can now be deleted
+		- add the 'delete' function in 'ContactController' and 'ContactsSearchController'
+		- add 'Delete' button in 'contact' template
+		- add 'trash' icon in 'conact/search' template
+/!\ deleted contacts still appears in 'recents'
+/!\ even if deleted contacts no longer appears in FIXTURES, they can still be accessed/red from the 'Recents' list
 TODOS:
 	- F5/refresh on 'contacts/search' list no contacts
 	- persistant recent contacts

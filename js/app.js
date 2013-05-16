@@ -87,6 +87,12 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 			return regex.test(contact.get('alias'));
 		});
 		this.set('content', filtered);
+	},
+	
+	delete: function (contact) {
+		contact.deleteRecord()
+		this.get('store').commit();
+		this.transitionToRoute('contacts.search');
 	}
 });
 
@@ -114,7 +120,14 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 App.ContactController = Ember.ObjectController.extend({
 	groupCount: function() {
 		return this.get('content').get('groups').get('length');
-	}.property('content.groups.length')
+	}.property('content.groups.length'),
+	
+	delete: function(contact) {
+		contact.deleteRecord()
+		this.get('store').commit();
+		this.transitionToRoute('contacts.search');
+	}
+	
 })
 
 App.GroupsRoute = Ember.Route.extend({

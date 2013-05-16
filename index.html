@@ -59,7 +59,6 @@
 				Recent contacts
 			</div>
 			<div class="span10">
-				<!-- -->
 				{{!#if App.RecentContactsController}}
 					<div class='muted'>
 						No recent contact yet ...
@@ -72,12 +71,15 @@
 									<td>
 										{{partial 'contactPartial'}}
 									</td>
+									<td>
+										<i class="icon-edit muted"></i>&nbsp;
+										<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
+									</td>
 								</tr>
 							{{/each}}
 						</tbody>
 					</table>
 				{{!/if}}
-				<!-- -->
 			</div>
 		</div>
 		<hr>
@@ -103,7 +105,7 @@
 								</td>
 								<td>
 									<i class="icon-edit muted"></i>&nbsp;
-									<i class="icon-trash muted"></i>&nbsp;
+									<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
 								</td>
 							</tr>
 						{{/each}}
@@ -176,6 +178,12 @@
 						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
 						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
 					</ul>
+				</div>
+			</div>
+			<hr/>
+			<div class="row-fluid">
+				<div class="pull-right">
+					<div class="btn btn-warning" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
 				</div>
 			</div>
 		{{else}}
