@@ -11,7 +11,10 @@ App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.route('create');
-		this.resource('contact', {path: ':contact_id'});
+		this.resource('contact', {path: ':contact_id'}, function () {
+			this.route('read');
+			this.route('edit');
+		});
 	});
 	this.resource('groups',  function(){
 		this.route('search');
@@ -64,7 +67,7 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 	
 	showContact: function (contact) {
 		App.RecentContactsController.addContact(contact);
-		this.transitionToRoute('contact', contact)
+		this.transitionToRoute('contact.read', contact)
 	},
 	
 	searchContacts: function () {
@@ -93,6 +96,10 @@ App.ContactsSearchController= Ember.ArrayController.extend({
 		contact.deleteRecord()
 		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
+	},
+	
+	edit: function (contact) {
+		this.transitionToRoute('contact.edit', contact);
 	}
 });
 
@@ -113,11 +120,23 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 
 	create: function (newContact){
 		newContact.get('transaction').commit(); // juste besoin de committer le model.
-		this.transitionToRoute('contact', newContact);
+		this.transitionToRoute('contact.read', newContact);
 	}
 });
 
-App.ContactController = Ember.ObjectController.extend({
+App.ContactIndexRoute = Ember.Route.extend({
+	redirect: function() {
+		this.transitionTo('contact.read')
+	}
+})
+
+App.ContactReadRoute= Ember.Route.extend({
+	model: function() {
+		return this.modelFor('contact');
+	}
+});
+
+App.ContactReadController = Ember.ObjectController.extend({
 	groupCount: function() {
 		return this.get('content').get('groups').get('length');
 	}.property('content.groups.length'),
@@ -127,7 +146,23 @@ App.ContactController = Ember.ObjectController.extend({
 		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
 	}
+})
+
+App.ContactEditRoute= Ember.Route.extend({
+	model: function() {
+		return this.modelFor('contact');
+	}
+});
+
+App.ContactEditController = Ember.ObjectController.extend({
+	groupCount: function() {
+		return this.get('content').get('groups').get('length');
+	}.property('content.groups.length'),
 	
+	update: function(contact) {
+		contact.get('transaction').commit();
+		this.transitionToRoute('contact.read', contact);
+	}
 })
 
 App.GroupsRoute = Ember.Route.extend({

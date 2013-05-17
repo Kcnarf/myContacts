@@ -72,7 +72,7 @@
 										{{partial 'contactPartial'}}
 									</td>
 									<td>
-										<i class="icon-edit muted"></i>&nbsp;
+										<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
 										<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
 									</td>
 								</tr>
@@ -104,7 +104,7 @@
 									{{partial 'contactPartial'}}
 								</td>
 								<td>
-									<i class="icon-edit muted"></i>&nbsp;
+									<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
 									<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
 								</td>
 							</tr>
@@ -153,6 +153,10 @@
 	</script>
 
 	<script type="text/x-handlebars" id="contact">
+		{{outlet}}
+	</script>
+	
+	<script type="text/x-handlebars" id="contact/read">
 		{{#if model}}
 			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
 			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
@@ -183,7 +187,8 @@
 			<hr/>
 			<div class="row-fluid">
 				<div class="pull-right">
-					<div class="btn btn-warning" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
+					{{#linkTo 'contact.edit' this}}<div class="btn btn-warning"><i class="icon-edit"></i>&nbsp;Edit</div>{{/linkTo}}
+					<div class="btn btn-error" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
 				</div>
 			</div>
 		{{else}}
@@ -193,6 +198,44 @@
 		{{/if}}
 	</script>
 
+	<script type="text/x-handlebars" id="contact/edit">
+		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
+		<span 
+			{{bindAttr class='groups::muted'}}>, in group(s): 
+			{{view Ember.Select contentBinding='groups'
+					optionLabelPath='content.name'
+					optionValuePath='content.id'}}
+		</span>
+		<hr/>
+		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
+		<br/>
+		<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
+		<div class="row-fluid">
+			<div class="span6">
+				<h4>Personnal information</h4>
+				<ul>
+					<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+					<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+					<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+				</ul>
+			</div>
+			<div class="span6">
+				<h4>Office information</h4>
+				<ul>
+					<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+					<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+				</ul>
+			</div>
+		</div>
+		<hr/>
+		<div class="row-fluid">
+			<div class="pull-right">
+				<div class="btn btn-primary" {{action 'update' this}}><i class="icon-check"></i>&nbsp;Save</div>
+				{{#linkTo 'contacts.search'}}<div class="btn"><i class="icon-cancel"></i>&nbsp;Cancel</div>{{/linkTo}}
+			</div>
+		</div>
+	</script>
+	
 	<script type="text/x-handlebars" id="groups">
 		{{outlet}}
 	</script>

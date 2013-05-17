@@ -69,11 +69,27 @@ my_contacts_20130516
 		- add the 'delete' function in 'ContactController' and 'ContactsSearchController'
 		- add 'Delete' button in 'contact' template
 		- add 'trash' icon in 'conact/search' template
+/!\ duplicated code between 'ContactSearchController.delete' and 'ContactsSearchController.delete'
 /!\ deleted contacts still appears in 'recents'
 /!\ even if deleted contacts no longer appears in FIXTURES, they can still be accessed/red from the 'Recents' list
+
+my_contacts_20130517
+	- contact can now be updated
+		- Router and Routes updates:
+			- previous implicit 'ContactRoute' no longer exists
+			- new 'ContactReadRoute'
+			- new 'ContactEditRoute'
+		- controller updates:
+			- new 'ContactReadController', with model set to the one of 'ContactController'
+			- new 'ContactEditController', with model set to the one of 'ContactController'
+		- GUI updates:
+			- template 'contact' becomes 'contact.read'
+			- new 'contact/edit' template
+			- new 'edit' button in 'contact.read' template
+			- new 'edit' icons in 'contacts/search' tempalte (in recent contacts list, and in searched contacts list)
+	
 TODOS:
 	- F5/refresh on 'contacts/search' list no contacts
-	- persistant recent contacts
 	- managing 'search contacts' when reentering the page when a 'searchText' is already defined
 	- Group (CRUD), search, templates
 	- Contact update/Delete
