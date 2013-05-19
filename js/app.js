@@ -71,14 +71,13 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	},
 	
 	searchContacts: function () {
-		//if (this.searchText.length==0) /!\ Doesn't work ???
-		if (App.ContactsSearchController.searchText.length==0) {
+		if (Ember.isEmpty(this.get('searchText'))) {
 			this.set('content', App.Contact.all());
 			return;
 		}
 		
 		var regexPattern = '';
-		var searchTextArray = App.ContactsSearchController.searchText.split("");
+		var searchTextArray = this.get('searchText').split("");
 		for (var i=0;i<searchTextArray.length-1;i++)
 		{ 
 			regexPattern = regexPattern.concat('(', searchTextArray[i], ').*');
