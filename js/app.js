@@ -22,7 +22,7 @@ App.Router.map(function() {
 	this.resource('about');
 });
 
-App.IndexRoute = Ember.Route.extend({
+App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
@@ -41,19 +41,19 @@ App.ContactsController = Ember.ArrayController.extend({
 	}.property('length')
 });
 
-App.ContactsIndexRoute= Ember.Route.extend({
+App.ContactsIndexRoute = Ember.Route.extend({
 	redirect: function() {
 		this.transitionTo('contacts.search');
 	}
 });
 
-App.ContactsSearchRoute= Ember.Route.extend({
+App.ContactsSearchRoute = Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contacts');
 	}
 });
 
-App.ContactsSearchController= Ember.ArrayController.extend({
+App.ContactsSearchController = Ember.ArrayController.extend({
 	sortProperties: ['alias'],
 	sortAscending: true,
 	
@@ -130,7 +130,7 @@ App.ContactIndexRoute = Ember.Route.extend({
 	}
 })
 
-App.ContactReadRoute= Ember.Route.extend({
+App.ContactReadRoute = Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contact');
 	}
@@ -209,7 +209,7 @@ App.RecentContactsController.reopen({
 	}.property('this.content.@each')
 })
 
-App.Contact= DS.Model.extend({
+App.Contact = DS.Model.extend({
 	alias: DS.attr('string'),
 	first_name: DS.attr('string'),
 	last_name: DS.attr('string'),
@@ -230,11 +230,11 @@ App.Group = DS.Model.extend({
 	contacts: DS.hasMany('App.Contact')
 });
 
-App.RecentContacts= DS.Model.extend({
+App.RecentContacts = DS.Model.extend({
 	list: DS.hasMany('App.Contact')
 })
 
-App.Contact.FIXTURES= [{
+App.Contact.FIXTURES = [{
 	id: 1,
 	alias: 'FooTer',
 	first_name: 'Foo',
@@ -291,7 +291,7 @@ App.Contact.FIXTURES= [{
 	groups: [1,2]
 }];
 
-App.Group.FIXTURES= [{
+App.Group.FIXTURES = [{
 	id: 1,
 	name: 'FooBar',
 	contacts: [1,2,5]
@@ -305,7 +305,7 @@ App.Group.FIXTURES= [{
 	contacts: [3,5]
 }];
 
-App.RecentContacts.FIXTURES= [{
+App.RecentContacts.FIXTURES = [{
 	id: 1,
 	list: [1,2]
 }]
