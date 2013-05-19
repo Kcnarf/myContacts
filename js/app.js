@@ -56,8 +56,9 @@ App.ContactsSearchRoute = Ember.Route.extend({
 App.ContactsSearchController = Ember.ArrayController.extend({
 	sortProperties: ['alias'],
 	sortAscending: true,
+	needs: ['contacts'],
 	
-	contactCountBinding: 'App.ContactsController.contactCount',
+	contactCountBinding: 'controllers.contacts.contactCount',
 	
 	searchText: '',
 	
