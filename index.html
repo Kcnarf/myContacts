@@ -92,7 +92,7 @@
 			<div class="span10">
 				<form class="form-search">
 				  <div class="input-append">
-				    {{view Ember.TextField placeholder="Search text" valueBinding="App.ContactsSearchController.searchText"}}
+				    {{view Ember.TextField placeholder="Search text" valueBinding="searchText"}}
 				    <button type="submit" class="btn" {{action 'searchContacts'}}><i class='icon-search'></i></button>
 				  </div>
 				</form>
@@ -282,7 +282,7 @@
 		{{alias}}
 		</span>
 	</script>
-	
+
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
 	<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
