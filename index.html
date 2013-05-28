@@ -59,11 +59,7 @@
 				Recent contacts
 			</div>
 			<div class="span10">
-				{{!#if App.RecentContactsController}}
-					<div class='muted'>
-						No recent contact yet ...
-					</div>
-				{{!#else}}
+				{{#if App.RecentContactsController}}
 					<table class="table table-hover">
 						<tbody>
 							{{#each App.RecentContactsController.reverse}}
@@ -79,7 +75,11 @@
 							{{/each}}
 						</tbody>
 					</table>
-				{{!/if}}
+				{{else}}
+					<div class='muted'>
+						No recent contact yet ...
+					</div>
+				{{/if}}
 			</div>
 		</div>
 		<hr>

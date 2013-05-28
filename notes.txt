@@ -3,8 +3,7 @@ myContacts_20130427
 	- add ressource & template 'contacts/:contact_alias'
 
 myContacts_20130428
-	- add icons using 'glypgicons' and 'fontawesome'
-/!\	fontawesome provides more icons, but seems more restrictive regarding licensing
+	- add icons using 'glypgicons' and 'fontawesome/!\	fontawesome provides more icons, but seems more restrictive regarding licensing
 
 myContacts_20130429
 	- adding creation of a new contact:
@@ -54,7 +53,6 @@ myContacts_20120510
 	- adding recent contacts:
 		- new RecentContactsController, with a 'addContact' method
 		- instead of a traditional link to any Contact, use of the 'ContactsController.selectContact' method, wich also call RecentContactsController
-/!\ unable to display 'no recent contact yet' in template 'contacts/search' when required
 	- add a '_contactPartial' partial template; unify the rendering of a contact
 /!\ call to 'selectContact' in multiple places; investigate for a factorised management?
 
