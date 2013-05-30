@@ -73,9 +73,9 @@
 										{{partial 'contactPartial'}}
 									</td>
 									<td>
-										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} {{action "switchFavorite" this}}></i>&nbsp;
-										<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
-										<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
+										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+										<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
+										<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 									</td>
 								</tr>
 							{{/each}}
@@ -113,9 +113,9 @@
 									{{partial 'contactPartial'}}
 								</td>
 								<td>
-									<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} {{action "switchFavorite" this}}></i>&nbsp;
-									<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
-									<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
+									<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+									<i class="icon-edit action" data-toggle="tooltip" title="Edit contact" {{action 'edit' this}}></i>&nbsp;
+									<i class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 								</td>
 							</tr>
 						{{/each}}
@@ -287,7 +287,7 @@
 	</script>
 
 	<script type="text/x-handlebars" id="_contactPartial">
-		<span class='action' {{action 'showContact' this}}>
+		<span class='action' data-toggle="tooltip" title="Show contact information" {{action 'showContact' this}}>
 		<i class="icon-user"></i>&nbsp;
 		{{alias}}
 		</span>
