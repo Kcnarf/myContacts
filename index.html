@@ -63,7 +63,7 @@
 					<table class="table table-hover">
 						<thead>
 						<tr>
-							<td>{{App.RecentContactsController.recentContactCount}} recently viewed/created contact(s)</td>
+							<td>{{App.RecentContactsController.recentContactCount}} recently viewed/created contact{{#if App.RecentContactsController.severalRecentContacts}}s{{/if}}</td>
 						</tr>
 					</thead>
 						<tbody>
@@ -103,7 +103,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<td>{{searchedContactCount}} / {{contactCount}} contact(s) shown</td>
+							<td>{{searchedContactCount}} / {{contactCount}} contact{{#if severalSearchedContacts}}s{{/if}} shown</td>
 						</tr>
 					</thead>
 					<tbody>

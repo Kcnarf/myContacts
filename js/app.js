@@ -66,6 +66,10 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		return this.get('length');
 	}.property('length'), // automatic update at each 'length' update
 	
+	severalSearchedContacts: function() {
+		return this.get('searchedContactCount') > 1;
+	}.property('searchedContactCount'),
+	
 	showContact: function (contact) {
 		App.RecentContactsController.addContact(contact);
 		this.transitionToRoute('contact.read', contact)
@@ -224,7 +228,11 @@ App.RecentContactsController.reopen({
 	
 	recentContactCount: function () {
 		return this.get('length');
-	}.property('length')
+	}.property('length'),
+	
+	severalRecentContacts: function () {
+		return this.get('recentContactCount') > 1;
+	}.property('recentContactCount')
 })
 
 App.Contact = DS.Model.extend({
