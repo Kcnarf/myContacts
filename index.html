@@ -33,7 +33,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li>{{#linkTo 'groups.search'}}<i class="icon-search"></i>&nbsp;Search groups{{/linkTo}}</li>
-								<li class="disabled"><i class="icon-plus"></i>&nbsp;Create group</li>
+								<li class="disabled"><a><i class="icon-plus"></i>&nbsp;Create group</a></li>
 							</ul></li>
 					</ul>
 					<ul class="nav pull-right">
@@ -68,6 +68,7 @@
 										{{partial 'contactPartial'}}
 									</td>
 									<td>
+										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} {{action "switchFavorite" this}}></i>&nbsp;
 										<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
 										<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
 									</td>
@@ -104,6 +105,7 @@
 									{{partial 'contactPartial'}}
 								</td>
 								<td>
+									<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} {{action "switchFavorite" this}}></i>&nbsp;
 									<i class="icon-edit action" {{action 'edit' this}}></i>&nbsp;
 									<i class="icon-trash action" {{action 'delete' this}}></i>&nbsp;
 								</td>
@@ -286,7 +288,6 @@
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
 	<script src="js/libs/handlebars-1.0.0-rc.3.js"></script>
-	<!--script src="https://raw.github.com/emberjs/ember.js/release-builds/ember-1.0.0-rc.3.js"></script-->
 	<script src="js/libs/ember.js"></script>
 	<script src="js/libs/ember-data.js"></script>
 	<script src="js/app.js"></script>

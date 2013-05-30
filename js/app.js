@@ -92,15 +92,20 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		this.set('content', filtered);
 	},
 	
+	switchFavorite: function (contact) {
+		contact.set('is_favorite', !contact.get('is_favorite'));
+		contact.get('transaction').commit();
+	},
+	
+	edit: function (contact) {
+		this.transitionToRoute('contact.edit', contact);
+	},
+	
 	delete: function (contact) {
 		contact.deleteRecord()
 		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
 	},
-	
-	edit: function (contact) {
-		this.transitionToRoute('contact.edit', contact);
-	}
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
@@ -211,6 +216,7 @@ App.RecentContactsController.reopen({
 
 App.Contact = DS.Model.extend({
 	alias: DS.attr('string'),
+	is_favorite: DS.attr('boolean'),
 	first_name: DS.attr('string'),
 	last_name: DS.attr('string'),
 	home_phone: DS.attr('string'),
@@ -237,6 +243,7 @@ App.RecentContacts = DS.Model.extend({
 App.Contact.FIXTURES = [{
 	id: 1,
 	alias: 'FooTer',
+	is_favorite: true,
 	first_name: 'Foo',
 	last_name: 'Ter',
 	home_phone: '',
@@ -248,6 +255,7 @@ App.Contact.FIXTURES = [{
 },{
 	id: 2,
 	alias: 'BarMan',
+	is_favorite: true,
 	first_name: 'Bar',
 	last_name: 'Man',
 	home_phone: '',
@@ -259,6 +267,7 @@ App.Contact.FIXTURES = [{
 },{
 	id: 3,
 	alias: 'PolOpper',
+	is_favorite: false,
 	first_name: 'Pol',
 	last_name: 'Opper',
 	home_phone: '',
@@ -270,6 +279,7 @@ App.Contact.FIXTURES = [{
 },{
 	id: 4,
 	alias: 'CasPer',
+	is_favorite: false,
 	first_name: 'Cas',
 	last_name: 'Per',
 	home_phone: '',
@@ -281,6 +291,7 @@ App.Contact.FIXTURES = [{
 },{
 	id: 5,
 	alias: 'DinGo',
+	is_favorite: false,
 	first_name: 'Din',
 	last_name: 'Go',
 	home_phone: '',
