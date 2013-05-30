@@ -104,6 +104,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	delete: function (contact) {
 		contact.deleteRecord()
 		this.get('store').commit();
+		App.RecentContactsController.deleteContact(contact);
 		this.transitionToRoute('contacts.search');
 	},
 });
@@ -199,12 +200,20 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 
 App.RecentContactsController = Ember.ArrayController.create({
 	content: [],
+	
 	addContact: function(contact) {
 		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
 		if ( alreadyRecentContact ) {
 			this.removeObject(alreadyRecentContact);
 		}
 		this.addObject(contact);
+	},
+	
+	deleteContact: function(contact) {
+		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
+		if ( alreadyRecentContact ) {
+			this.removeObject(alreadyRecentContact);
+		}
 	}
 });
 
