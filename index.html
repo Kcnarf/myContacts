@@ -96,8 +96,8 @@
 			<div class="span10">
 				<form class="form-search">
 				  <div class="input-append">
-				    {{view Ember.TextField placeholder="Search text" valueBinding="searchText"}}
-				    <button type="submit" class="btn" {{action 'searchContacts'}}><i class='icon-search'></i></button>
+				    {{view Ember.TextField placeholder="list of characters to search" valueBinding="searchText"}}
+				    <button type="submit" class="btn" {{action 'resetSearch'}}><i class='icon-remove' data-toggle="tooltip" title="Reset Search"></i>&nbsp;</button>
 				  </div>
 				</form>
 				<table class="table table-hover">
@@ -107,7 +107,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{{#each controller}}
+						{{#each searchContacts}}
 							<tr>
 								<td>
 									{{partial 'contactPartial'}}

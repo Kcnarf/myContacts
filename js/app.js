@@ -62,38 +62,9 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	searchText: '',
 	
-	searchedContactCount: function() {
-		return this.get('length');
-	}.property('length'), // automatic update at each 'length' update
-	
-	severalSearchedContacts: function() {
-		return this.get('searchedContactCount') > 1;
-	}.property('searchedContactCount'),
-	
 	showContact: function (contact) {
 		App.RecentContactsController.addContact(contact);
 		this.transitionToRoute('contact.read', contact)
-	},
-	
-	searchContacts: function () {
-		if (Ember.isEmpty(this.get('searchText'))) {
-			this.set('content', App.Contact.all());
-			return;
-		}
-		
-		var regexPattern = '';
-		var searchTextArray = this.get('searchText').split("");
-		for (var i=0;i<searchTextArray.length-1;i++)
-		{ 
-			regexPattern = regexPattern.concat('(', searchTextArray[i], ').*');
-		}
-		regexPattern = regexPattern.concat('(', searchTextArray[searchTextArray.length-1], ')')
-		
-		var regex = new RegExp(regexPattern,'i');
-		var filtered = App.Contact.all().filter(function(contact) {
-			return regex.test(contact.get('alias'));
-		});
-		this.set('content', filtered);
 	},
 	
 	switchFavorite: function (contact) {
@@ -111,6 +82,39 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		App.RecentContactsController.deleteContact(contact);
 		this.transitionToRoute('contacts.search');
 	},
+	
+	searchContacts: function () {
+		if (Ember.isEmpty(this.get('searchText'))) {
+			return App.Contact.all();
+		}
+		else {
+			var regexPattern = '';
+			var searchTextArray = this.get('searchText').split("");
+			for (var i=0;i<searchTextArray.length-1;i++)
+			{ 
+				regexPattern = regexPattern.concat('(', searchTextArray[i], ').*');
+			}
+			regexPattern = regexPattern.concat('(', searchTextArray[searchTextArray.length-1], ')')
+			
+			var regex = new RegExp(regexPattern,'i');
+			var filtered = App.Contact.all().filter(function(contact) {
+				return regex.test(contact.get('alias'));
+			});
+			return filtered;
+		}
+	}.property('searchText'),
+	
+	searchedContactCount: function() {
+		return this.get('searchContacts').get('length');
+	}.property('searchContacts.length'),
+	
+	severalSearchedContacts: function() {
+		return this.get('searchedContactCount') > 1;
+	}.property('searchedContactCount'),
+	
+	resetSearch: function() {
+		this.set('searchText', "");
+	}
 });
 
 App.ContactsCreateRoute = Ember.Route.extend({
