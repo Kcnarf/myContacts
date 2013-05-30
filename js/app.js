@@ -220,7 +220,11 @@ App.RecentContactsController = Ember.ArrayController.create({
 App.RecentContactsController.reopen({
 	reverse: function(){
 		return this.toArray().reverse();
-	}.property('this.content.@each')
+	}.property('this.content.@each'),
+	
+	recentContactCount: function () {
+		return this.get('length');
+	}.property('length')
 })
 
 App.Contact = DS.Model.extend({

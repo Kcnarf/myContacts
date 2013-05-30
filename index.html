@@ -61,6 +61,11 @@
 			<div class="span10">
 				{{#if App.RecentContactsController}}
 					<table class="table table-hover">
+						<thead>
+						<tr>
+							<td>{{App.RecentContactsController.recentContactCount}} recently viewed/created contact(s)</td>
+						</tr>
+					</thead>
 						<tbody>
 							{{#each App.RecentContactsController.reverse}}
 								<tr>
@@ -78,7 +83,7 @@
 					</table>
 				{{else}}
 					<div class='muted'>
-						No recent contact yet ...
+						No recently viewed/created contact yet ...
 					</div>
 				{{/if}}
 			</div>
@@ -87,8 +92,6 @@
 		<div class="row-fluid">
 			<div class="span2">
 				<span class="lead">Search contacts</span>
-				<br/>
-				<small>{{searchedContactCount}} / {{contactCount}} contact(s) shown</small>
 			</div>
 			<div class="span10">
 				<form class="form-search">
@@ -98,6 +101,11 @@
 				  </div>
 				</form>
 				<table class="table table-hover">
+					<thead>
+						<tr>
+							<td>{{searchedContactCount}} / {{contactCount}} contact(s) shown</td>
+						</tr>
+					</thead>
 					<tbody>
 						{{#each controller}}
 							<tr>
