@@ -94,34 +94,40 @@
 				<span class="lead">Search contacts</span>
 			</div>
 			<div class="span10">
-				<form class="form-search">
-				  <div class="input-append">
-				    {{view Ember.TextField placeholder="list of characters to search" valueBinding="searchText"}}
-				    <button type="submit" class="btn" {{action 'resetSearch'}}><i class='icon-remove' data-toggle="tooltip" title="Reset Search"></i>&nbsp;</button>
-				  </div>
-				</form>
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<td>{{searchedContactCount}} / {{contactCount}} contact{{#if severalSearchedContacts}}s{{/if}} shown</td>
-						</tr>
-					</thead>
-					<tbody>
-						{{#each searchContacts}}
+				{{#if contactCount}}
+					<form class="form-search">
+						<div class="input-append">
+							{{view Ember.TextField placeholder="list of characters to search" valueBinding="searchText"}}
+							<button type="submit" class="btn" {{action 'resetSearch'}}><i class='icon-remove' data-toggle="tooltip" title="Reset Search"></i>&nbsp;</button>
+						</div>
+					</form>
+					<table class="table table-hover">
+						<thead>
 							<tr>
-								<td>
-									{{partial 'contactPartial'}}
-								</td>
-								<td>
-									<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-									<i class="icon-edit action" data-toggle="tooltip" title="Edit contact" {{action 'edit' this}}></i>&nbsp;
-									<i class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
-								</td>
+								<td>{{searchedContactCount}} contact{{#if severalSearchedContacts}}s{{/if}} shown (over {{contactCount}})</td>
 							</tr>
-						{{/each}}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{{#each searchContacts}}
+								<tr>
+									<td>
+										{{partial 'contactPartial'}}
+									</td>
+									<td>
+										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+										<i class="icon-edit action" data-toggle="tooltip" title="Edit contact" {{action 'edit' this}}></i>&nbsp;
+										<i class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
+									</td>
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				{{else}}
+					<span class="muted">No Contact yet. Try to {{#linkTo 'contacts.create'}}Create one{{/linkTo}}.<span>
+				{{/if}}
 			</div>
+		</div>
+		<hr>
 	</script>
 
 	<script type="text/x-handlebars" id="contacts/create">
@@ -167,7 +173,7 @@
 	</script>
 	
 	<script type="text/x-handlebars" id="contact/read">
-		{{#if model}}
+		{{#if content}}
 			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
 			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
 					<i class="icon-group"></i>&nbsp;{{group.name}}, 
