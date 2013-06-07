@@ -87,7 +87,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	searchContacts: function () {
 		if (Ember.isEmpty(this.get('searchText'))) {
-			return this.get('content');
+			return this.get('arrangedContent');
 		}
 		else {
 			var regexPattern = '';
@@ -99,7 +99,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 			regexPattern = regexPattern.concat('(', searchTextArray[searchTextArray.length-1], ')')
 			
 			var regex = new RegExp(regexPattern,'i');
-			var filtered = this.get('content').filter(function(contact) {
+			var filtered = this.get('arrangedContent').filter(function(contact) {
 				return regex.test(contact.get('alias'));
 			});
 			return filtered;
