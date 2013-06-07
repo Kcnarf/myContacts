@@ -4,7 +4,9 @@ App = Ember.Application.create({
 
 App.Store= DS.Store.extend({
 	revision: 13,
-	adapter: 'DS.FixtureAdapter'
+	//adapter: 'DS.FixtureAdapter'
+	adapter: 'DS.LSAdapter'
+	// /!\DS.LSAdapter checked with ember-data revision 11
 });
 
 App.Router.map(function() {
@@ -85,7 +87,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	searchContacts: function () {
 		if (Ember.isEmpty(this.get('searchText'))) {
-			return App.Contact.all();
+			return this.get('content');
 		}
 		else {
 			var regexPattern = '';
@@ -97,7 +99,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 			regexPattern = regexPattern.concat('(', searchTextArray[searchTextArray.length-1], ')')
 			
 			var regex = new RegExp(regexPattern,'i');
-			var filtered = App.Contact.all().filter(function(contact) {
+			var filtered = this.get('content').filter(function(contact) {
 				return regex.test(contact.get('alias'));
 			});
 			return filtered;
