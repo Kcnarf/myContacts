@@ -28,6 +28,9 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
+	},
+	redirect: function(){
+		this.transitionTo('index')
 	}
 });
 
