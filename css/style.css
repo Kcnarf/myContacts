@@ -28,10 +28,8 @@ div.navbar {
 }
 
 .marketing-stuff {
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
 	border: 1px solid #ddd;
+	background-color: transparent;
 }
 
 .action  {
