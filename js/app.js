@@ -28,6 +28,7 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
+		App.RecentContacts.find(); // populate the store with the RecentContacts instance
 	},
 	redirect: function(){
 		this.transitionTo('index')
@@ -68,7 +69,6 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	searchText: '',
 	
 	showContact: function (contact) {
-		App.RecentContactsController.addContact(contact);
 		this.transitionToRoute('contact.read', contact)
 	},
 	
@@ -152,6 +152,10 @@ App.ContactIndexRoute = Ember.Route.extend({
 App.ContactReadRoute = Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contact');
+	},
+	
+	activate: function() {
+		App.RecentContactsController.addContact(this.modelFor('contact'));
 	}
 });
 
@@ -170,6 +174,10 @@ App.ContactReadController = Ember.ObjectController.extend({
 App.ContactEditRoute= Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contact');
+	},
+	
+	activate: function() {
+		App.RecentContactsController.addContact(this.modelFor('contact'));
 	}
 });
 
