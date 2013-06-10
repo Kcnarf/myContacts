@@ -4,8 +4,8 @@ myContacts
 Tiny project, whose first purpose is to learn Emberjs's client-side framework.
 
 ###Libs:###
-  - Ember v1.0.0-rc.3-272-g4c74b2d.js
-  - Ember Data v57d6c01 v3981a7c (v0.0.13)
+  - Ember v1.0.0-rc.1.0.0-rc.5-1-gf84c193
+  - Ember Data v0.0.13-3981a7c
 
 ###Main functionnal purpose:###
 managing Contacts,
