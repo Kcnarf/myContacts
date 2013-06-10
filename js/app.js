@@ -228,6 +228,7 @@ App.RecentContactsController = Ember.ArrayController.create({
 			this.removeObject(alreadyRecentContact);
 		}
 		this.addObject(contact);
+		//this.get('model').get('transaction').commit()
 	},
 	
 	deleteContact: function(contact) {
