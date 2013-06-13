@@ -220,7 +220,13 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	
 	severalGroups: function() {
 		return this.get('groupCount') > 1;
-	}.property('groupCount')
+	}.property('groupCount'),
+	
+	delete: function (group) {
+		//TODO: suppress the link from Contact
+		group.deleteRecord()
+		this.get('store').commit();
+	}
 });
 
 App.RecentContactsController = Ember.ArrayController.create({
