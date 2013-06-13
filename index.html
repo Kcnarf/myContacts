@@ -198,7 +198,9 @@
 		{{#if content}}
 			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
 			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
-					<i class="icon-group"></i>&nbsp;{{group.name}}, 
+					{{#with group}}
+						{{partial 'groupPartial'}},
+					{{/with}}
 				{{/each}}
 			{{/if}}
 			<hr/>
@@ -294,8 +296,8 @@
 						<tbody>
 							{{#each controller}}
 								<tr>
-									<td><i class="group-user"></i>&nbsp;
-										{{name}}
+									<td>
+										{{partial 'groupPartial'}}
 									</td>
 								</tr>
 							{{/each}}
@@ -315,11 +317,13 @@
 			<div class="span4 offset4">
 				<hr>
 				<p class="text-center">
-				Brought to you by <em>Kcnarf</em>.
+				Brought to you by <a href="http://github.com/Kcnarf/">Kcnarf</a>.
 				</p>
 				<hr>
 				<p class="text-right muted">
-				<small>Made with the help of <a href="http://fortawesome.github.io/Font-Awesome/#">Font Awesome<a>.</small>
+				<small>Special thanks to <a href="http://github.com/sly7-7/">Sly7-7</a>, for its help on ember and ember-data.</small>
+				<br />
+				<small>Made with the help of <a href="http://fortawesome.github.io/Font-Awesome/#">Font Awesome</a>.</small>
 				</p>
 			</div>
 		</div>
@@ -329,6 +333,11 @@
 		<span class='action' data-toggle="tooltip" title="Show contact information" {{action 'showContact' this}}>
 		<i class="icon-user"></i>&nbsp;
 		{{alias}}
+		</span>
+	</script>
+	
+	<script type="text/x-handlebars" id="_groupPartial">
+		<i class="icon-group"></i>&nbsp;{{name}}
 		</span>
 	</script>
 
