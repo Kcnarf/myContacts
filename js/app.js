@@ -214,9 +214,13 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	sortProperties: ['name'],
 	sortAscending: true,
 	
-	groupCount: function(){
+	groupCount: function() {
 		return this.get('length');
-	}.property('length')
+	}.property('length'),
+	
+	severalGroups: function() {
+		return this.get('groupCount') > 1;
+	}.property('groupCount')
 });
 
 App.RecentContactsController = Ember.ArrayController.create({

@@ -81,7 +81,7 @@
 				Recent contacts
 			</div>
 			<div class="span10">
-				{{#if App.RecentContactsController}}
+				{{#if App.RecentContactsController.recentContactCount}}
 					<table class="table table-hover">
 						<thead>
 						<tr>
@@ -281,20 +281,31 @@
 	<script type="text/x-handlebars" id="groups/search">
 		<div class="row-fluid">
 			<div class="span2 lead">
-				All groups ({{groupCount}})
+				All groups
 			</div>
 			<div class="span10">
-				<table class="table table-hover">
-					<tbody>
-						{{#each controller}}
+				{{#if groupCount}}
+					<table class="table table-hover">
+						<thead>
 							<tr>
-								<td><i class="group-user"></i>&nbsp;
-									{{name}}
-								</td>
+								<td>{{groupCount}} group{{#if severalGroups}}s{{/if}} defined</td>
 							</tr>
-						{{/each}}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{{#each controller}}
+								<tr>
+									<td><i class="group-user"></i>&nbsp;
+										{{name}}
+									</td>
+								</tr>
+							{{/each}}
+						</tbody>
+					</table>
+				{{else}}
+					<div class='muted'>
+						No group yet ... Try to create one.
+					</div>
+				{{/if}}
 			</div>
 		</div>
 	</script>
