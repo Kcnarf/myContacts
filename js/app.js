@@ -222,11 +222,24 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 		return this.get('groupCount') > 1;
 	}.property('groupCount'),
 	
+	edit: function(group) {
+		group.set('isEditing', true)
+	},
+	
+	update: function(group) {
+		group.get('transaction').commit();
+		group.set('isEditing', false)
+	},
+	
 	delete: function (group) {
 		//TODO: suppress the link from Contact
 		group.deleteRecord()
 		this.get('store').commit();
 	}
+});
+
+App.GroupController = Ember.ObjectController.extend({
+	isEditing: null
 });
 
 App.RecentContactsController = Ember.ArrayController.create({

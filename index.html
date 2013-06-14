@@ -297,9 +297,18 @@
 							{{#each controller}}
 								<tr>
 									<td>
-										{{partial 'groupPartial'}}
+										{{#if isEditing}}
+											<i class="icon-group"></i>&nbsp;{{view Ember.TextField valueBinding='name'}}
+										{{else}}
+											{{partial 'groupPartial'}}
+										{{/if}}
 									</td>
 									<td>
+										{{#if isEditing}}
+											<i class="icon-save action" {{action 'update' this}} data-toggle="tooltip" title="Update group"></i>&nbsp;
+										{{else}}
+											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit group"></i>&nbsp;
+										{{/if}}
 										<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 									</td>
 								</tr>
