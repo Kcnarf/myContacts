@@ -286,40 +286,44 @@
 				All groups
 			</div>
 			<div class="span10">
-				{{#if groupCount}}
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<td>{{groupCount}} group{{#if severalGroups}}s{{/if}} defined</td>
-							</tr>
-						</thead>
-						<tbody>
-							{{#each controller}}
+				<div class="row-fluid">
+					{{view Ember.TextField valueBinding='new_group_name'}} <div class="btn btn-primary" {{action 'create'}}><i class="icon-check"></i>&nbsp;Create new Group</div>
+					<hr/>
+					{{#if groupCount}}
+						<table class="table table-hover">
+							<thead>
 								<tr>
-									<td>
-										{{#if isEditing}}
-											<i class="icon-group"></i>&nbsp;{{view Ember.TextField valueBinding='name'}}
-										{{else}}
-											{{partial 'groupPartial'}}
-										{{/if}}
-									</td>
-									<td>
-										{{#if isEditing}}
-											<i class="icon-check action" {{action 'update' this}} data-toggle="tooltip" title="Save group"></i>&nbsp;
-										{{else}}
-											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit group"></i>&nbsp;
-										{{/if}}
-										<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
-									</td>
+									<td>{{groupCount}} group{{#if severalGroups}}s{{/if}} defined</td>
 								</tr>
-							{{/each}}
-						</tbody>
-					</table>
-				{{else}}
-					<div class='muted'>
-						No group yet ... Try to create one.
-					</div>
-				{{/if}}
+							</thead>
+							<tbody>
+								{{#each controller}}
+									<tr>
+										<td>
+											{{#if isEditing}}
+												<i class="icon-group"></i>&nbsp;{{view Ember.TextField valueBinding='name'}}
+											{{else}}
+												{{partial 'groupPartial'}}
+											{{/if}}
+										</td>
+										<td>
+											{{#if isEditing}}
+												<i class="icon-check action" {{action 'update' this}} data-toggle="tooltip" title="Save group"></i>&nbsp;
+											{{else}}
+												<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit group"></i>&nbsp;
+											{{/if}}
+											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{else}}
+						<div class='muted'>
+							No group yet ... Try to create one.
+						</div>
+					{{/if}}
+				</div>
 			</div>
 		</div>
 	</script>
