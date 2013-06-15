@@ -240,15 +240,15 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 		group.set('isEditing', false)
 	},
 	
+	rollback: function(group) {
+		group.get('transaction').rollback();
+	},
+	
 	delete: function (group) {
 		//TODO: suppress the link from Contact
 		group.deleteRecord()
 		this.get('store').commit();
 	}
-});
-
-App.GroupController = Ember.ObjectController.extend({
-	isEditing: null
 });
 
 App.RecentContactsController = Ember.ArrayController.create({

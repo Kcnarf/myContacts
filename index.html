@@ -300,18 +300,29 @@
 								{{#each controller}}
 									<tr>
 										<td>
-											{{#if isEditing}}
-												<i class="icon-group"></i>&nbsp;{{view Ember.TextField valueBinding='name'}}
-											{{else}}
-												{{partial 'groupPartial'}}
-											{{/if}}
+											{{partial 'groupPartial'}}
 										</td>
 										<td>
-											{{#if isEditing}}
-												<i class="icon-check action" {{action 'update' this}} data-toggle="tooltip" title="Save group"></i>&nbsp;
-											{{else}}
-												<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit group"></i>&nbsp;
-											{{/if}}
+											<!-- Button to trigger modal -->
+											<span data-toggle="tooltip" title="Edit group">
+												<span class="action" data-target="#editGroup" data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
+											</span>
+											<!-- Modal -->
+											<div id="editGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											  <div class="modal-header">
+											    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback' this}}>×</button>
+											    <h3 class="lead" id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
+											  </div>
+											  <div class="modal-body">
+											    <p>name: {{view Ember.TextField valueBinding='name'}}</p>
+											  </div>
+											  <div class="modal-footer">
+											    <button class="btn" {{action 'rollback' this}}>Restore</button>
+											    <button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollback' this}}>Restore & Close</button>
+											    <button class="btn" {{action 'update' this}}>Save</button>
+											    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'update' this}}>Save & Close</button>
+											  </div>
+											</div>
 											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 										</td>
 									</tr>
@@ -359,6 +370,7 @@
 
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
+	<script src="js/libs/bootstrap-modal.js"></script>
 	<script src="js/libs/handlebars-1.0.0-rc.4.js"></script>
 	<script src="js/libs/ember-1.0.0-rc.5-1-gf84c193.js"></script>
 	<script src="js/libs/ember-data-0.0.13-3981a7c.js"></script>
