@@ -287,7 +287,28 @@
 			</div>
 			<div class="span10">
 				<div class="row-fluid">
-					{{view Ember.TextField valueBinding='new_group_name'}} <div class="btn btn-primary" {{action 'create'}}><i class="icon-check"></i>&nbsp;Create new Group</div>
+					<!-- trigger modal -->
+					<a	class="action" data-target="#createGroup" data-toggle="modal">Create a Group</a>
+					<!-- Modal -->
+					<div id="createGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							<h3 id="myModalLabel">
+								{{#if new_group_name}}
+									<i class="icon-group"></i>&nbsp;{{new_group_name}} <small>- create</small>
+								{{else}}
+									Create a Goup
+								{{/if}}
+							</h3>
+						</div>
+						<div class="modal-body">
+							<p>name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn" {{action 'create' this}}>Create</button>
+							<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'create'}}>Create & Close</button>
+						</div>
+					</div>
 					<hr/>
 					{{#if groupCount}}
 						<table class="table table-hover">
@@ -311,7 +332,7 @@
 											<div id="editGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 											  <div class="modal-header">
 											    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback' this}}>×</button>
-											    <h3 class="lead" id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
+											    <h3 id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
 											  </div>
 											  <div class="modal-body">
 											    <p>name: {{view Ember.TextField valueBinding='name'}}</p>
@@ -331,7 +352,7 @@
 						</table>
 					{{else}}
 						<div class='muted'>
-							No group yet ... Try to create one.
+							No group yet. Try to <a class="action" data-target="#createGroup" data-toggle="modal">create one</a>.
 						</div>
 					{{/if}}
 				</div>
