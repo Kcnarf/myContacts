@@ -81,33 +81,36 @@
 				Recent contacts
 			</div>
 			<div class="span10">
-				{{#if App.RecentContactsController.recentContactCount}}
-					<table class="table table-hover">
-						<thead>
-						<tr>
-							<td>{{App.RecentContactsController.recentContactCount}} recently viewed/created contact{{#if App.RecentContactsController.severalRecentContacts}}s{{/if}}</td>
-						</tr>
-					</thead>
-						<tbody>
-							{{#each App.RecentContactsController.reverse}}
+				{{#with controllers.recentContacts}}
+					{{#if recentContactCount}}
+						<table class="table table-hover">
+							<thead>
 								<tr>
-									<td>
-										{{partial 'contactPartial'}}
-									</td>
-									<td>
-										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-										<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
-										<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
+									<td>{{recentContactCount}} recently viewed/created contact{{#if severalRecentContacts}}s{{/if}}
 									</td>
 								</tr>
-							{{/each}}
-						</tbody>
-					</table>
-				{{else}}
-					<div class='muted'>
-						No recently viewed/created contact yet ...
-					</div>
-				{{/if}}
+							</thead>
+							<tbody>
+								{{#each reverse}}
+									<tr>
+										<td>
+											{{partial 'contactPartial'}}
+										</td>
+										<td>
+											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
+											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{else}}
+						<div class='muted'>
+							No recently viewed/created contact yet ...
+						</div>
+					{{/if}}
+				{{/with}}
 			</div>
 		</div>
 		<hr>

@@ -3,7 +3,6 @@ App = Ember.Application.create({
 });
 
 App.Store= DS.Store.extend({
-	revision: 13,
 	//adapter: 'DS.FixtureAdapter'
 	adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
@@ -62,7 +61,7 @@ App.ContactsSearchRoute = Ember.Route.extend({
 App.ContactsSearchController = Ember.ArrayController.extend({
 	sortProperties: ['alias'],
 	sortAscending: true,
-	needs: ['contacts'],
+	needs: ['contacts', 'recentContacts'],
 	
 	contactCountBinding: 'controllers.contacts.contactCount',
 	
@@ -84,7 +83,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	delete: function (contact) {
 		contact.deleteRecord()
 		this.get('store').commit();
-		App.RecentContactsController.deleteContact(contact);
+		this.get('controllers.recentContacts').deleteContact(contact);
 		this.transitionToRoute('contacts.search');
 	},
 	
@@ -155,7 +154,7 @@ App.ContactReadRoute = Ember.Route.extend({
 	},
 	
 	activate: function() {
-		App.RecentContactsController.addContact(this.modelFor('contact'));
+		this.controllerFor('recentContacts').addContact(this.modelFor('contact'));
 	}
 });
 
@@ -177,7 +176,7 @@ App.ContactEditRoute= Ember.Route.extend({
 	},
 	
 	activate: function() {
-		App.RecentContactsController.addContact(this.modelFor('contact'));
+		this.controllerFor('recentContacts').addContact(this.modelFor('contact'));
 	}
 });
 
@@ -251,8 +250,7 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	}
 });
 
-App.RecentContactsController = Ember.ArrayController.create({
-	content: [],
+App.RecentContactsController = Ember.ArrayController.extend({
 	
 	addContact: function(contact) {
 		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
