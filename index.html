@@ -159,9 +159,11 @@
 		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
 		<span 
 			{{bindAttr class='groups::muted'}}>, in group(s): 
-			{{view Ember.Select contentBinding='groups'
+			{{view Ember.Select contentBinding=allGroups
 					optionLabelPath='content.name'
-					optionValuePath='content.id'}}
+					optionValuePath='content.id'
+					selectionBinding=selectedGroups
+					multiple=true}}
 		</span>
 		<hr/>
 		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
@@ -245,9 +247,11 @@
 		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
 		<span 
 			{{bindAttr class='groups::muted'}}>, in group(s): 
-			{{view Ember.Select contentBinding='groups'
+			{{view Ember.Select contentBinding=allGroups
 					optionLabelPath='content.name'
-					optionValuePath='content.id'}}
+					optionValuePath='content.id'
+					selectionBinding=selectedGroups
+					multiple=true}}
 		</span>
 		<hr/>
 		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
