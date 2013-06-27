@@ -130,14 +130,21 @@ App.ContactsCreateRoute = Ember.Route.extend({
 });
 
 App.ContactsCreateController = Ember.ObjectController.extend({
-	groups: function (){
-		// retourne tous les groupes loadés dans le store 
-		// c'est un 'live array', donc il reste a jour sur ajout/suppression d'un groupe
-		return App.Group.all(); 
+	selectedGroups: null,
+	needs:['groups'],
+
+	allGroups: function (){
+		return App.Group.all();
 	}.property(),
 
 	create: function (newContact){
-		newContact.get('transaction').commit(); // juste besoin de committer le model.
+		var self = this;
+		
+//		newContact.one('didCreate', function (contact) {
+//			contact.get('groups').pushObjects(self.get('selectedGroups'));
+//			newContact.get('transaction').commit();
+//		});
+		newContact.get('transaction').commit();
 		this.transitionToRoute('contact.read', newContact);
 	}
 });
@@ -170,7 +177,7 @@ App.ContactReadController = Ember.ObjectController.extend({
 	}
 })
 
-App.ContactEditRoute= Ember.Route.extend({
+App.ContactEditRoute = Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contact');
 	},
@@ -181,11 +188,20 @@ App.ContactEditRoute= Ember.Route.extend({
 });
 
 App.ContactEditController = Ember.ObjectController.extend({
+	needs: ['groups'],
+	selectedGroups: null,
+
+	allGroups: function () {
+		return App.Group.all();
+	}.property(),
+
 	groupCount: function() {
 		return this.get('content').get('groups').get('length');
 	}.property('content.groups.length'),
 	
 	update: function(contact) {
+		var self = this;
+		contact.get('groups').setObjects(self.get('selectedGroups'));
 		contact.get('transaction').commit();
 		this.transitionToRoute('contact.read', contact);
 	}
@@ -197,7 +213,9 @@ App.GroupsRoute = Ember.Route.extend({
 	}
 });
 
-App.GroupsIndexRoute= Ember.Route.extend({
+App.GroupsController = Ember.ArrayController.extend({});
+
+App.GroupsIndexRoute = Ember.Route.extend({
 	redirect: function() {
 		this.transitionTo('groups.search');
 	}
