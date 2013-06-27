@@ -140,10 +140,7 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 	create: function (newContact){
 		var self = this;
 		
-//		newContact.one('didCreate', function (contact) {
-//			contact.get('groups').pushObjects(self.get('selectedGroups'));
-//			newContact.get('transaction').commit();
-//		});
+		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
 		this.transitionToRoute('contact.read', newContact);
 	}
