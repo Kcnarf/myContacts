@@ -325,13 +325,13 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each controller}}
+								{{#each controller itemController="group"}}
 									<tr>
 										<td>
 											{{partial 'groupPartial'}}
 										</td>
 										<td>
-											{{render "editGroup" this}}
+											{{partial 'editGroup'}}
 											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 										</td>
 									</tr>
@@ -377,7 +377,7 @@
 		</span>
 	</script>
 
-	<script type="text/x-handlebars" data-template-name='editGroup'>
+	<script type="text/x-handlebars" data-template-name="_editGroup">
 		<!-- Button to trigger modal -->
 		<span data-toggle="tooltip" title="Edit group">
 			<span class="action" {{bindAttr data-target='editGroup_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>

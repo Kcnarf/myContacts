@@ -225,13 +225,13 @@ App.GroupsSearchRoute = Ember.Route.extend({
 });
 
 App.GroupController = Ember.ObjectController.extend({
-  editGroup_modalTrigererId: function(group) {
-		return '#editGroup_' + group.get('name');
-	}.property('group.name'),
+  editGroup_modalTrigererId: function() {
+		return '#editGroup_' + this.get('name');
+	}.property('name'),
 	
-	editGroup_modalId: function(group) {
-		return 'editGroup_'+group.get('name');
-	}.property('group.name')
+	editGroup_modalId: function() {
+		return 'editGroup_'+ this.get('name');
+	}.property('name')
 })
 
 
