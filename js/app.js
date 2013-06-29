@@ -238,32 +238,40 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 		return this.get('groupCount') > 1;
 	}.property('groupCount'),
 	
-	create: function() {
+	createGroup: function() {
 		var newGroup = App.Group.createRecord();
 		newGroup.set('name', this.get('new_group_name'));
 		newGroup.get('transaction').commit();
 		this.set('new_group_name', '')
-	},
-	
-	edit: function(group) {
-		group.set('isEditing', true)
-	},
-	
-	update: function(group) {
-		group.get('transaction').commit();
-		group.set('isEditing', false)
-	},
-	
-	rollback: function(group) {
-		group.get('transaction').rollback();
-	},
-	
-	delete: function (group) {
-		//TODO: suppress the link from Contact
-		group.deleteRecord()
-		this.get('store').commit();
 	}
 });
+
+
+App.GroupController = Ember.ObjectController.extend({
+  	
+	editGroup_modalId: function() {
+		return 'editGroup_'+ this.get('name');
+	}.property('name'),
+	
+	editGroup_modalTrigererId: function() {
+		return '#' + this.get('editGroup_modalId');
+	}.property('editGroup_modalId'),
+	
+	update: function() {
+		this.get('transaction').commit();
+	},
+	
+	rollback: function() {
+		this.get('transaction').rollback();
+	},
+	
+	delete: function () {
+		//TODO: suppress the link from Contact
+		this.get('content').deleteRecord()
+		this.get('store').commit();
+	}
+})
+
 
 App.RecentContactsController = Ember.ArrayController.extend({
 	
