@@ -268,7 +268,6 @@ App.GroupController = Ember.ObjectController.extend({
 	delete: function () {
 		//TODO: suppress the link from Contact
 		this.get('content').deleteRecord()
-		//below, should refer to the (array-based) store of groups
 		this.get('store').commit();
 	}
 })
