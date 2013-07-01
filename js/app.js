@@ -81,6 +81,13 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	},
 	
 	delete: function (contact) {
+		var linkedGroups = contact.get('groups').toArray();
+		var linkedGroup = null;
+		for(var i=0;i<linkedGroups.length;i++) {
+			linkedGroup = linkedGroups.objectAt(i);
+			linkedGroup.get('contacts').removeObject(contact);
+			linkedGroup.get('store').commit();
+		};
 		contact.deleteRecord()
 		this.get('store').commit();
 		this.get('controllers.recentContacts').deleteContact(contact);
@@ -168,6 +175,13 @@ App.ContactReadController = Ember.ObjectController.extend({
 	}.property('content.groups.length'),
 	
 	delete: function(contact) {
+		var linkedGroups = contact.get('groups').toArray();
+		var linkedGroup = null;
+		for(var i=0;i<linkedGroups.length;i++) {
+			linkedGroup = linkedGroups.objectAt(i);
+			linkedGroup.get('contacts').removeObject(contact);
+			linkedGroup.get('store').commit();
+		};
 		contact.deleteRecord()
 		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
@@ -266,7 +280,13 @@ App.GroupController = Ember.ObjectController.extend({
 	},
 	
 	delete: function () {
-		//TODO: suppress the link from Contact
+		var linkedContacts = this.get('contacts').toArray();
+		var linkedContact = null;
+		for(var i=0;i<linkedContacts.length;i++) {
+			linkedContact = linkedContacts.objectAt(i);
+			linkedContact.get('groups').removeObject(this.get('content'));
+			linkedContact.get('store').commit();
+		};
 		this.get('content').deleteRecord()
 		this.get('store').commit();
 	}
