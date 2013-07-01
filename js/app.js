@@ -130,9 +130,11 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 
 App.ContactsCreateRoute = Ember.Route.extend({
 	model: function() {
-		// l'id est généré automatiquement par le FixtureAdapter.
-		// cree et ajoute le contact dans la liste (pas besoin du addObject dans le controller)
 		return App.Contact.createRecord();
+	},
+	
+	activate: function() {
+		this.controllerFor('contactsCreate').set('selectedGroups', null);
 	}
 });
 
@@ -195,6 +197,7 @@ App.ContactEditRoute = Ember.Route.extend({
 	
 	activate: function() {
 		this.controllerFor('recentContacts').addContact(this.modelFor('contact'));
+		this.controllerFor('contactEdit').set('selectedGroups',this.modelFor('contact').get('groups'));
 	}
 });
 
