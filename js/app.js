@@ -4,8 +4,15 @@ App = Ember.Application.create({
 
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
-	adapter: 'DS.LSAdapter'
+	
+	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
+	
+	adapter: 'DS.RESTAdapter'
+});
+
+DS.RESTAdapter.reopen({
+  url: 'http://localhost/myContactsServer'
 });
 
 App.Router.map(function() {
