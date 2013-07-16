@@ -5,15 +5,16 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	//adapter: 'DS.LSAdapter'
+	adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	adapter: 'DS.RESTAdapter'
+	//adapter: 'DS.RESTAdapter'
 });
 
-DS.RESTAdapter.reopen({
+/*DS.RESTAdapter.reopen({
   url: 'http://localhost/myContactsServer'
 });
+*/
 
 App.Router.map(function() {
 	this.resource('contacts', function(){
@@ -100,6 +101,18 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		this.get('controllers.recentContacts').deleteContact(contact);
 		this.transitionToRoute('contacts.search');
 	},
+	
+	favoriteContacts: function () {
+		return this.get('arrangedContent').filterProperty('is_favorite','true');
+	}.property('arrangedContent'),
+	
+	favoriteContactCount: function () {
+		return this.get('favoriteContacts').get('length');
+	}.property('favoriteContacts.length'),
+	
+	severalFavoriteContacts: function () {
+		return this.get('favoriteContactCount') > 1;
+	}.property('favoriteContactCount'),
 	
 	searchContacts: function () {
 		if (Ember.isEmpty(this.get('searchText'))) {

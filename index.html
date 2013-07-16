@@ -114,6 +114,49 @@
 			</div>
 		</div>
 		<hr>
+		
+		
+		<div class="row-fluid">
+			<div class="span2">
+				<span class="lead">Favorite contacts</span>
+			</div>
+			<div class="span10">
+					{{#if favoriteContactCount}}
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<td>{{favoriteContactCount}} favorite contact{{#if severalFavoriteContacts}}s{{/if}}
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each favoriteContacts}}
+									<tr>
+										<td>
+											{{partial 'contactPartial'}}
+										</td>
+										<td>
+											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
+											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					{{else}}
+						<div class='muted'>
+							No favorite contact yet ...
+						</div>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+		<hr>
+		
+		
+		
+		
 		<div class="row-fluid">
 			<div class="span2">
 				<span class="lead">Search contacts</span>
