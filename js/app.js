@@ -103,8 +103,8 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	},
 	
 	favoriteContacts: function () {
-		return this.get('arrangedContent').filterProperty('is_favorite','true');
-	}.property('arrangedContent'),
+		return this.get('arrangedContent').filterProperty('is_favorite',true);
+	}.property('arrangedContent.@each.is_favorite'),
 	
 	favoriteContactCount: function () {
 		return this.get('favoriteContacts').get('length');
