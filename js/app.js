@@ -35,7 +35,6 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
-		App.RecentContacts.find(); // populate the store with the RecentContacts instance
 	},
 	redirect: function(){
 		this.transitionTo('index')
@@ -69,7 +68,7 @@ App.ContactsSearchRoute = Ember.Route.extend({
 App.ContactsSearchController = Ember.ArrayController.extend({
 	sortProperties: ['alias'],
 	sortAscending: true,
-	needs: ['contacts', 'recentContacts'],
+	needs: ['contacts'],
 	
 	contactCountBinding: 'controllers.contacts.contactCount',
 	
@@ -98,7 +97,6 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		};
 		contact.deleteRecord()
 		this.get('store').commit();
-		this.get('controllers.recentContacts').deleteContact(contact);
 		this.transitionToRoute('contacts.search');
 	},
 	
@@ -184,10 +182,6 @@ App.ContactIndexRoute = Ember.Route.extend({
 App.ContactReadRoute = Ember.Route.extend({
 	model: function() {
 		return this.modelFor('contact');
-	},
-	
-	activate: function() {
-		this.controllerFor('recentContacts').addContact(this.modelFor('contact'));
 	}
 });
 
@@ -216,7 +210,6 @@ App.ContactEditRoute = Ember.Route.extend({
 	},
 	
 	activate: function() {
-		this.controllerFor('recentContacts').addContact(this.modelFor('contact'));
 		this.controllerFor('contactEdit').set('selectedGroups',this.modelFor('contact').get('groups'));
 	}
 });
@@ -313,41 +306,7 @@ App.GroupController = Ember.ObjectController.extend({
 		this.get('content').deleteRecord()
 		this.get('store').commit();
 	}
-})
-
-
-App.RecentContactsController = Ember.ArrayController.extend({
-	
-	addContact: function(contact) {
-		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
-		if ( alreadyRecentContact ) {
-			this.removeObject(alreadyRecentContact);
-		}
-		this.addObject(contact);
-		//this.get('model').get('transaction').commit()
-	},
-	
-	deleteContact: function(contact) {
-		var alreadyRecentContact = this.findProperty('alias', contact.get('alias'));
-		if ( alreadyRecentContact ) {
-			this.removeObject(alreadyRecentContact);
-		}
-	}
 });
-
-App.RecentContactsController.reopen({
-	reverse: function(){
-		return this.toArray().reverse();
-	}.property('this.content.@each'),
-	
-	recentContactCount: function () {
-		return this.get('length');
-	}.property('length'),
-	
-	severalRecentContacts: function () {
-		return this.get('recentContactCount') > 1;
-	}.property('recentContactCount')
-})
 
 App.Contact = DS.Model.extend({
 	alias: DS.attr('string'),
@@ -370,10 +329,6 @@ App.Group = DS.Model.extend({
 	name: DS.attr('string'),
 	contacts: DS.hasMany('App.Contact')
 });
-
-App.RecentContacts = DS.Model.extend({
-	list: DS.hasMany('App.Contact')
-})
 
 App.Contact.FIXTURES = [{
 	id: 1,
@@ -449,9 +404,4 @@ App.Group.FIXTURES = [{
 	id: 2,
 	name: 'Friends',
 	contacts: [3,5]
-}];
-
-App.RecentContacts.FIXTURES = [{
-	id: 1,
-	list: [1,2]
 }]
