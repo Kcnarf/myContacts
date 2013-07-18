@@ -266,10 +266,12 @@ App.ContactController = Ember.ObjectController.extend({
 		this.get('transaction').rollback();
 	},
 	
-	update: function(contact) {
-		var self = this;
-		contact.get('groups').setObjects(self.get('selectedGroups'));
-		contact.get('transaction').commit();
+	update: function() {
+		/*this.get('content').deleteRecord()
+		this.get('store').commit()
+		*/
+		this.get('content').get('groups').setObjects(this.get('selectedGroups'));
+		this.get('store').commit();
 	},
 	
 	delete: function () {

@@ -389,8 +389,9 @@
 				<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- edit</small></h3>
 			</div>
 			<div class="modal-body">
+				<p>alias: {{view Ember.TextField valueBinding='alias'}}</p>
 				<span 
-					{{bindAttr class='groups::muted'}}>, in group(s): 
+					{{bindAttr class='groups::muted'}}>group(s): 
 					{{view Ember.Select contentBinding=allGroups
 							optionLabelPath='content.name'
 							optionValuePath='content.id'
