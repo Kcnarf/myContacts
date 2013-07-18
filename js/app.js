@@ -80,7 +80,8 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	switchFavorite: function (contact) {
 		contact.set('is_favorite', !contact.get('is_favorite'));
-		contact.get('transaction').commit();
+		//contact.get('transaction').commit()
+		contact.save()
 	},
 	
 	edit: function (contact) {
@@ -93,10 +94,12 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		for(var i=0;i<linkedGroups.length;i++) {
 			linkedGroup = linkedGroups.objectAt(i);
 			linkedGroup.get('contacts').removeObject(contact);
-			linkedGroup.get('store').commit();
+			//linkedGroup.get('store').commit()
+			linkedGroup.save()
 		};
 		contact.deleteRecord()
-		this.get('store').commit();
+		//this.get('store').commit();
+		this.save();
 		this.transitionToRoute('contacts.search');
 	},
 	
@@ -168,7 +171,8 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		var self = this;
 		
 		newContact.get('groups').setObjects(self.get('selectedGroups'));
-		newContact.get('transaction').commit();
+		//newContact.get('transaction').commit();
+		newContact.save();
 		this.transitionToRoute('contact.read', newContact);
 	}
 });
@@ -196,10 +200,12 @@ App.ContactReadController = Ember.ObjectController.extend({
 		for(var i=0;i<linkedGroups.length;i++) {
 			linkedGroup = linkedGroups.objectAt(i);
 			linkedGroup.get('contacts').removeObject(contact);
-			linkedGroup.get('store').commit();
+			//linkedGroup.get('store').commit()
+			linkedGroup.save()
 		};
 		contact.deleteRecord()
-		this.get('store').commit();
+		//this.get('store').commit();
+		this.save();
 		this.transitionToRoute('contacts.search');
 	}
 })
@@ -229,7 +235,8 @@ App.ContactEditController = Ember.ObjectController.extend({
 	update: function(contact) {
 		var self = this;
 		contact.get('groups').setObjects(self.get('selectedGroups'));
-		contact.get('transaction').commit();
+		//contact.get('transaction').commit();
+		contact.save();
 		this.transitionToRoute('contact.read', contact);
 	}
 })
@@ -271,7 +278,8 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	createGroup: function() {
 		var newGroup = App.Group.createRecord();
 		newGroup.set('name', this.get('new_group_name'));
-		newGroup.get('transaction').commit();
+		//newGroup.get('transaction').commit();
+		newGroup.save();
 		this.set('new_group_name', '')
 	}
 });
@@ -288,7 +296,8 @@ App.GroupController = Ember.ObjectController.extend({
 	}.property('editGroup_modalId'),
 	
 	update: function() {
-		this.get('transaction').commit();
+		//this.get('transaction').commit()
+		this.save()
 	},
 	
 	rollback: function() {
@@ -301,107 +310,11 @@ App.GroupController = Ember.ObjectController.extend({
 		for(var i=0;i<linkedContacts.length;i++) {
 			linkedContact = linkedContacts.objectAt(i);
 			linkedContact.get('groups').removeObject(this.get('content'));
-			linkedContact.get('store').commit();
+			//linkedContact.get('store').commit()
+			linkedContact.save()
 		};
 		this.get('content').deleteRecord()
-		this.get('store').commit();
+		//this.get('store').commit()
+		this.save()
 	}
-});
-
-App.Contact = DS.Model.extend({
-	alias: DS.attr('string'),
-	is_favorite: DS.attr('boolean'),
-	first_name: DS.attr('string'),
-	last_name: DS.attr('string'),
-	home_phone: DS.attr('string'),
-	mobile_phone: DS.attr('string'),
-	office_phone: DS.attr('string'),
-	personal_mail: DS.attr('string'),
-	office_mail: DS.attr('string'),
-	groups: DS.hasMany('App.Group'),
-	
-	groupCount: function() {
-		return this.get('groups').get('length');
-	}.property('groups.length')
-});
-
-App.Group = DS.Model.extend({
-	name: DS.attr('string'),
-	contacts: DS.hasMany('App.Contact')
-});
-
-App.Contact.FIXTURES = [{
-	id: 1,
-	alias: 'FooTer',
-	is_favorite: true,
-	first_name: 'Foo',
-	last_name: 'Ter',
-	home_phone: '',
-	mobile_phone: '060001',
-	office_phone: '030002',
-	personal_mail: 'foo.master@gmail.com',
-	office_mail: 'foo.master@thelittlecompany.com',
-	groups: [1]
-},{
-	id: 2,
-	alias: 'BarMan',
-	is_favorite: true,
-	first_name: 'Bar',
-	last_name: 'Man',
-	home_phone: '',
-	mobile_phone: '0600003',
-	office_phone: '',
-	personal_mail: 'bar.man@gmail.com',
-	office_mail: 'bar.man@thebigcompany.com',
-	groups: [1]
-},{
-	id: 3,
-	alias: 'PolOpper',
-	is_favorite: false,
-	first_name: 'Pol',
-	last_name: 'Opper',
-	home_phone: '',
-	mobile_phone: '0600004',
-	office_phone: '',
-	personal_mail: '',
-	office_mail: '',
-	groups: [2]
-},{
-	id: 4,
-	alias: 'CasPer',
-	is_favorite: false,
-	first_name: 'Cas',
-	last_name: 'Per',
-	home_phone: '',
-	mobile_phone: '',
-	office_phone: '',
-	personal_mail: '',
-	office_mail: '',
-	groups: []
-},{
-	id: 5,
-	alias: 'DinGo',
-	is_favorite: false,
-	first_name: 'Din',
-	last_name: 'Go',
-	home_phone: '',
-	mobile_phone: '',
-	office_phone: '',
-	personal_mail: '',
-	office_mail: '',
-	groups: [1,2]
-}];
-
-App.Group.FIXTURES = [{
-	id: 1,
-	name: 'FooBar',
-	contacts: [1,2,5]
-},{
-	id: 3,
-	name: 'Others',
-	contacts: []
-},{
-	id: 2,
-	name: 'Friends',
-	contacts: [3,5]
-}]
+})
