@@ -41,6 +41,10 @@ App.ApplicationRoute = Ember.Route.extend({
 	}
 });
 
+/*******************************
+* Contacts
+*******************************/
+
 App.ContactsRoute = Ember.Route.extend({
 	model: function(){
 		return App.Contact.all();
@@ -80,8 +84,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	switchFavorite: function (contact) {
 		contact.set('is_favorite', !contact.get('is_favorite'));
-		//contact.get('transaction').commit()
-		contact.save()
+		contact.get('transaction').commit()
 	},
 	
 	edit: function (contact) {
@@ -94,12 +97,10 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		for(var i=0;i<linkedGroups.length;i++) {
 			linkedGroup = linkedGroups.objectAt(i);
 			linkedGroup.get('contacts').removeObject(contact);
-			//linkedGroup.get('store').commit()
-			linkedGroup.save()
+			linkedGroup.get('store').commit()
 		};
 		contact.deleteRecord()
-		//this.get('store').commit();
-		this.save();
+		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
 	},
 	
@@ -171,12 +172,15 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		var self = this;
 		
 		newContact.get('groups').setObjects(self.get('selectedGroups'));
-		//newContact.get('transaction').commit();
-		newContact.save();
+		newContact.get('transaction').commit();
 		this.transitionToRoute('contact.read', newContact);
 	}
 });
 
+
+/*******************************
+* Contact
+*******************************/
 App.ContactIndexRoute = Ember.Route.extend({
 	redirect: function() {
 		this.transitionTo('contact.read')
@@ -200,12 +204,10 @@ App.ContactReadController = Ember.ObjectController.extend({
 		for(var i=0;i<linkedGroups.length;i++) {
 			linkedGroup = linkedGroups.objectAt(i);
 			linkedGroup.get('contacts').removeObject(contact);
-			//linkedGroup.get('store').commit()
-			linkedGroup.save()
+			linkedGroup.get('store').commit()
 		};
 		contact.deleteRecord()
-		//this.get('store').commit();
-		this.save();
+		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
 	}
 })
@@ -235,11 +237,14 @@ App.ContactEditController = Ember.ObjectController.extend({
 	update: function(contact) {
 		var self = this;
 		contact.get('groups').setObjects(self.get('selectedGroups'));
-		//contact.get('transaction').commit();
-		contact.save();
+		contact.get('transaction').commit();
 		this.transitionToRoute('contact.read', contact);
 	}
 })
+
+/*******************************
+* Groups
+*******************************/
 
 App.GroupsRoute = Ember.Route.extend({
 	model: function(){
@@ -278,12 +283,14 @@ App.GroupsSearchController = Ember.ArrayController.extend({
 	createGroup: function() {
 		var newGroup = App.Group.createRecord();
 		newGroup.set('name', this.get('new_group_name'));
-		//newGroup.get('transaction').commit();
-		newGroup.save();
+		newGroup.get('transaction').commit();
 		this.set('new_group_name', '')
 	}
 });
 
+/*******************************
+* Group
+*******************************/
 
 App.GroupController = Ember.ObjectController.extend({
   	
@@ -296,8 +303,7 @@ App.GroupController = Ember.ObjectController.extend({
 	}.property('editGroup_modalId'),
 	
 	update: function() {
-		//this.get('transaction').commit()
-		this.save()
+		this.get('transaction').commit()
 	},
 	
 	rollback: function() {
@@ -310,11 +316,9 @@ App.GroupController = Ember.ObjectController.extend({
 		for(var i=0;i<linkedContacts.length;i++) {
 			linkedContact = linkedContacts.objectAt(i);
 			linkedContact.get('groups').removeObject(this.get('content'));
-			//linkedContact.get('store').commit()
-			linkedContact.save()
+			linkedContact.get('store').commit()
 		};
 		this.get('content').deleteRecord()
-		//this.get('store').commit()
-		this.save()
+		this.get('store').commit()
 	}
 })
