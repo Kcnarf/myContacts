@@ -221,6 +221,14 @@ App.ContactController = Ember.ObjectController.extend({
 		return App.Group.all();
 	}.property(),
 	
+	readContact_modalId: function() {
+		return 'readContact_'+ this.get('alias');
+	}.property('alias'),
+	
+	readContact_modalTrigererId: function() {
+		return '#' + this.get('readContact_modalId');
+	}.property('readContact_modalId'),
+	
 	editContact_modalId: function() {
 		return 'editContact_'+ this.get('alias');
 	}.property('alias'),
