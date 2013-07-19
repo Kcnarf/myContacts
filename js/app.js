@@ -275,14 +275,14 @@ App.ContactController = Ember.ObjectController.extend({
 	},
 	
 	delete: function () {
-		var linkedGroups = contact.get('groups').toArray();
+		var linkedGroups = this.get('groups').toArray();
 		var linkedGroup = null;
 		for(var i=0;i<linkedGroups.length;i++) {
 			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(contact);
+			linkedGroup.get('contacts').removeObject(this);
 			linkedGroup.get('store').commit()
 		};
-		contact.deleteRecord()
+		this.get('content').deleteRecord()
 		this.get('store').commit()
 	}
 })
