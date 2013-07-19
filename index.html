@@ -97,7 +97,6 @@
 										</td>
 										<td>
 											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
 											{{partial 'editContact'}}
 											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
@@ -140,7 +139,6 @@
 									</td>
 									<td>
 										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-										<i class="icon-edit action" data-toggle="tooltip" title="Edit contact" {{action 'edit' this}}></i>&nbsp;
 										{{partial 'editContact'}}
 										<i class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>
@@ -233,7 +231,7 @@
 			<hr/>
 			<div class="row-fluid">
 				<div class="pull-right">
-					{{#linkTo 'contact.edit' this}}<div class="btn btn-warning"><i class="icon-edit"></i>&nbsp;Edit</div>{{/linkTo}}
+					{{#linkTo 'contacts' this}}<div class="btn"></i>Back to Contacts</div>{{/linkTo}}
 					<div class="btn btn-error" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
 				</div>
 			</div>
@@ -242,46 +240,6 @@
 			<br/>
 			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
 		{{/if}}
-	</script>
-
-	<script type="text/x-handlebars" id="contact/edit">
-		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
-		<span 
-			{{bindAttr class='groups::muted'}}>, in group(s): 
-			{{view Ember.Select contentBinding=allGroups
-					optionLabelPath='content.name'
-					optionValuePath='content.id'
-					selectionBinding=selectedGroups
-					multiple=true}}
-		</span>
-		<hr/>
-		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
-		<br/>
-		<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
-		<div class="row-fluid">
-			<div class="span6">
-				<h4>Personnal information</h4>
-				<ul>
-					<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
-					<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
-					<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
-				</ul>
-			</div>
-			<div class="span6">
-				<h4>Office information</h4>
-				<ul>
-					<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
-					<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
-				</ul>
-			</div>
-		</div>
-		<hr/>
-		<div class="row-fluid">
-			<div class="pull-right">
-				<div class="btn btn-primary" {{action 'update' this}}><i class="icon-check"></i>&nbsp;Save</div>
-				{{#linkTo 'contacts.search'}}<div class="btn"><i class="icon-cancel"></i>&nbsp;Cancel</div>{{/linkTo}}
-			</div>
-		</div>
 	</script>
 	
 	<script type="text/x-handlebars" id="groups">

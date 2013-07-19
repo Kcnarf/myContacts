@@ -22,7 +22,6 @@ App.Router.map(function() {
 		this.route('create');
 		this.resource('contact', {path: ':contact_id'}, function () {
 			this.route('read');
-			this.route('edit');
 		});
 	});
 	this.resource('groups',  function(){
@@ -173,7 +172,7 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		
 		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
-		this.transitionToRoute('contact.read', newContact);
+		this.transitionToRoute('contacts');
 	}
 });
 
@@ -209,35 +208,6 @@ App.ContactReadController = Ember.ObjectController.extend({
 		contact.deleteRecord()
 		this.get('store').commit();
 		this.transitionToRoute('contacts.search');
-	}
-})
-
-App.ContactEditRoute = Ember.Route.extend({
-	model: function() {
-		return this.modelFor('contact');
-	},
-	
-	activate: function() {
-		this.controllerFor('contactEdit').set('selectedGroups',this.modelFor('contact').get('groups'));
-	}
-});
-
-App.ContactEditController = Ember.ObjectController.extend({
-	needs: ['groups'],
-	selectedGroups: null,
-
-	allGroups: function () {
-		return App.Group.all();
-	}.property(),
-
-	groupCount: function() {
-		return this.get('content').get('groups').get('length');
-	}.property('content.groups.length'),
-	
-	update: function(contact) {
-		contact.get('groups').setObjects(this.get('selectedGroups'));
-		contact.get('transaction').commit();
-		this.transitionToRoute('contact.read', contact);
 	}
 })
 
