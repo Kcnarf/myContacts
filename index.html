@@ -93,7 +93,6 @@
 								{{#each favoriteContacts itemController="Contact"}}
 									<tr>
 										<td>
-											{{partial 'contactPartial'}}
 											{{partial 'readContact'}}
 										</td>
 										<td>
@@ -136,7 +135,6 @@
 							{{#each searchContacts itemController="contact"}}
 								<tr>
 									<td>
-										{{partial 'contactPartial'}}
 										{{partial 'readContact'}}
 									</td>
 									<td>
@@ -194,54 +192,6 @@
 				{{#linkTo 'contacts.search'}}<div class="btn"><i class="icon-cancel"></i>&nbsp;Cancel</div>{{/linkTo}}
 			</div>
 		</div>
-	</script>
-
-	<script type="text/x-handlebars" id="contact">
-		{{outlet}}
-	</script>
-	
-	<script type="text/x-handlebars" id="contact/read">
-		{{#if content}}
-			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
-			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
-					{{#with group}}
-						{{partial 'groupPartial'}},
-					{{/with}}
-				{{/each}}
-			{{/if}}
-			<hr/>
-			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
-			<br/>
-			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
-			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
-					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
-					</ul>
-				</div>
-			</div>
-			<hr/>
-			<div class="row-fluid">
-				<div class="pull-right">
-					{{#linkTo 'contacts.search'}}<div class="btn"></i>Back to Contacts</div>{{/linkTo}}
-					<div class="btn btn-error" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
-				</div>
-			</div>
-		{{else}}
-			Sorry, the contact you are looking for has not been found.
-			<br/>
-			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
-		{{/if}}
 	</script>
 	
 	<script type="text/x-handlebars" id="groups">

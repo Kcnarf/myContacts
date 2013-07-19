@@ -20,9 +20,7 @@ App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.route('create');
-		this.resource('contact', {path: ':contact_id'}, function () {
-			this.route('read');
-		});
+		this.resource('contact', {path: ':contact_id'});
 	});
 	this.resource('groups',  function(){
 		this.route('search');
@@ -172,7 +170,7 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		
 		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
-		this.transitionToRoute('contacts');
+		this.transitionToRoute('contacts.search');
 	}
 });
 
@@ -180,37 +178,6 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 /*******************************
 * Contact
 *******************************/
-App.ContactIndexRoute = Ember.Route.extend({
-	redirect: function() {
-		this.transitionTo('contact.read')
-	}
-})
-
-App.ContactReadRoute = Ember.Route.extend({
-	model: function() {
-		return this.modelFor('contact');
-	}
-});
-
-App.ContactReadController = Ember.ObjectController.extend({
-	groupCount: function() {
-		return this.get('content').get('groups').get('length');
-	}.property('content.groups.length'),
-	
-	delete: function(contact) {
-		var linkedGroups = contact.get('groups').toArray();
-		var linkedGroup = null;
-		for(var i=0;i<linkedGroups.length;i++) {
-			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(contact);
-			linkedGroup.get('store').commit()
-		};
-		contact.deleteRecord()
-		this.get('store').commit();
-		this.transitionToRoute('contacts.search');
-	}
-})
-
 App.ContactController = Ember.ObjectController.extend({
   needs: ['groups'],
 	selectedGroups: function() {
