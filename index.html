@@ -90,7 +90,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each favoriteContacts}}
+								{{#each favoriteContacts itemController="Contact"}}
 									<tr>
 										<td>
 											{{partial 'contactPartial'}}
@@ -98,6 +98,7 @@
 										<td>
 											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
+											{{partial 'editContact'}}
 											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
 									</tr>
