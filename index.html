@@ -90,14 +90,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each favoriteContacts}}
+								{{#each favoriteContacts itemController="Contact"}}
 									<tr>
 										<td>
-											{{partial 'contactPartial'}}
+											{{partial 'readContact'}}
 										</td>
 										<td>
 											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-											<i class="icon-edit action" {{action 'edit' this}} data-toggle="tooltip" title="Edit contact"></i>&nbsp;
+											{{partial 'editContact'}}
 											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
 									</tr>
@@ -132,14 +132,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{#each searchContacts}}
+							{{#each searchContacts itemController="contact"}}
 								<tr>
 									<td>
-										{{partial 'contactPartial'}}
+										{{partial 'readContact'}}
 									</td>
 									<td>
 										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-										<i class="icon-edit action" data-toggle="tooltip" title="Edit contact" {{action 'edit' this}}></i>&nbsp;
+										{{partial 'editContact'}}
 										<i class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>
 								</tr>
@@ -193,94 +193,6 @@
 			</div>
 		</div>
 	</script>
-
-	<script type="text/x-handlebars" id="contact">
-		{{outlet}}
-	</script>
-	
-	<script type="text/x-handlebars" id="contact/read">
-		{{#if content}}
-			<h3><i class="icon-user"></i>&nbsp;{{alias}}</h3>
-			{{#if groups}}, in {{groupCount}} group(s): {{#each group in groups}}
-					{{#with group}}
-						{{partial 'groupPartial'}},
-					{{/with}}
-				{{/each}}
-			{{/if}}
-			<hr/>
-			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
-			<br/>
-			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
-			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
-					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
-					</ul>
-				</div>
-			</div>
-			<hr/>
-			<div class="row-fluid">
-				<div class="pull-right">
-					{{#linkTo 'contact.edit' this}}<div class="btn btn-warning"><i class="icon-edit"></i>&nbsp;Edit</div>{{/linkTo}}
-					<div class="btn btn-error" {{action 'delete' this}}><i class="icon-trash"></i>&nbsp;Delete</div>
-				</div>
-			</div>
-		{{else}}
-			Sorry, the contact you are looking for has not been found.
-			<br/>
-			Try to {{#linkTo 'contacts.search'}}Search contacts{{/linkTo}}.
-		{{/if}}
-	</script>
-
-	<script type="text/x-handlebars" id="contact/edit">
-		<h3><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
-		<span 
-			{{bindAttr class='groups::muted'}}>, in group(s): 
-			{{view Ember.Select contentBinding=allGroups
-					optionLabelPath='content.name'
-					optionValuePath='content.id'
-					selectionBinding=selectedGroups
-					multiple=true}}
-		</span>
-		<hr/>
-		<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
-		<br/>
-		<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
-		<div class="row-fluid">
-			<div class="span6">
-				<h4>Personnal information</h4>
-				<ul>
-					<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
-					<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
-					<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
-				</ul>
-			</div>
-			<div class="span6">
-				<h4>Office information</h4>
-				<ul>
-					<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
-					<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
-				</ul>
-			</div>
-		</div>
-		<hr/>
-		<div class="row-fluid">
-			<div class="pull-right">
-				<div class="btn btn-primary" {{action 'update' this}}><i class="icon-check"></i>&nbsp;Save</div>
-				{{#linkTo 'contacts.search'}}<div class="btn"><i class="icon-cancel"></i>&nbsp;Cancel</div>{{/linkTo}}
-			</div>
-		</div>
-	</script>
 	
 	<script type="text/x-handlebars" id="groups">
 		{{outlet}}
@@ -295,26 +207,6 @@
 				<div class="row-fluid">
 					<!-- trigger modal -->
 					<a	class="action" data-target="#createGroup" data-toggle="modal">Create a Group</a>
-					<!-- Modal -->
-					<div id="createGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							<h3 id="myModalLabel">
-								{{#if new_group_name}}
-									<i class="icon-group"></i>&nbsp;{{new_group_name}} <small>- create</small>
-								{{else}}
-									Create a Goup
-								{{/if}}
-							</h3>
-						</div>
-						<div class="modal-body">
-							<p>name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
-						</div>
-						<div class="modal-footer">
-							<button class="btn" {{action 'createGroup' this}}>Create</button>
-							<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'createGroup'}}>Create & Close</button>
-						</div>
-					</div>
 					<hr/>
 					{{#if groupCount}}
 						<table class="table table-hover">
@@ -345,6 +237,27 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Create Group Modal -->
+		<div id="createGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">
+					{{#if new_group_name}}
+						<i class="icon-group"></i>&nbsp;{{new_group_name}} <small>- create</small>
+					{{else}}
+						Create a Group
+					{{/if}}
+				</h3>
+			</div>
+			<div class="modal-body">
+				<p>name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" {{action 'createGroup' this}}>Create</button>
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'createGroup'}}>Create & Close</button>
+			</div>
+		</div>
 	</script>
 
 	<script type="text/x-handlebars" id="about">
@@ -365,17 +278,114 @@
 	</script>
 
 	<script type="text/x-handlebars" id="_contactPartial">
-		<span class='action' data-toggle="tooltip" title="Show contact information" {{action 'showContact' this}}>
-		<i class="icon-user"></i>&nbsp;
-		{{alias}}
-		</span>
+		<i class="icon-user"></i>&nbsp;{{alias}}
 	</script>
 	
 	<script type="text/x-handlebars" id="_groupPartial">
 		<i class="icon-group"></i>&nbsp;{{name}}
-		</span>
 	</script>
 
+	<script type="text/x-handlebars" data-template-name="_readContact">
+		<!-- Button to trigger modal -->
+		<span data-toggle="tooltip" title="Show contact information">
+			<span class="action" {{bindAttr data-target='readContact_modalTrigererId'}} data-toggle="modal"><i class="icon-user"></i>&nbsp;{{alias}}</span>
+		</span>
+		<!-- Modal -->
+		<div {{bindAttr id="readContact_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- read</small></h3>
+			</div>
+			<div class="modal-body">
+				{{#if groups}}
+					in {{groupCount}} group(s):{{#each group in groups}}
+						{{#with group}}
+							{{partial 'groupPartial'}},
+						{{/with}}
+					{{/each}}
+				{{else}}
+					<p class="muted">not in any group</p>
+				{{/if}}
+				<hr/>
+				<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
+				<br/>
+				<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
+				<div class="row-fluid">
+					<div class="span6">
+						<h4>Personnal information</h4>
+						<ul>
+							<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
+							<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
+							<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+						</ul>
+					</div>
+					<div class="span6">
+						<h4>Office information</h4>
+						<ul>
+							<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
+							<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" data-dismiss="modal" aria-hidden="true" >Back to Contacts</button>
+			</div>
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="_editContact">
+		<!-- Button to trigger modal -->
+		<span data-toggle="tooltip" title="Edit contact">
+			<span class="action" {{bindAttr data-target='editContact_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
+		</span>
+		<!-- Modal -->
+		<div {{bindAttr id="editContact_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>×</button>
+				<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- edit</small></h3>
+			</div>
+			<div class="modal-body">
+				<p>alias: {{view Ember.TextField valueBinding='alias'}}</p>
+				<span 
+					{{bindAttr class='groups::muted'}}>group(s): 
+					{{view Ember.Select contentBinding=allGroups
+							optionLabelPath='content.name'
+							optionValuePath='content.id'
+							selectionBinding=selectedGroups
+							multiple=true}}
+				</span>
+				<hr/>
+				<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
+				<br/>
+				<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
+				<div class="row-fluid">
+					<div class="span6">
+						<h4>Personnal information</h4>
+						<ul>
+							<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+							<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+							<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+						</ul>
+					</div>
+					<div class="span6">
+						<h4>Office information</h4>
+						<ul>
+							<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+							<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn" {{action 'rollback'}}>Restore</button>
+				<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>Restore & Close</button>
+				<button class="btn" {{action 'update'}}>Save</button>
+				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'update'}}>Save & Close</button>
+			</div>
+		</div>
+	</script>
+	
 	<script type="text/x-handlebars" data-template-name="_editGroup">
 		<!-- Button to trigger modal -->
 		<span data-toggle="tooltip" title="Edit group">
