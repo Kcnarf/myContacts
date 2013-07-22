@@ -5,25 +5,22 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	//adapter: 'DS.LSAdapter'
+	adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	adapter: 'DS.RESTAdapter'
+	//adapter: 'DS.RESTAdapter'
 });
-
+/*
 DS.RESTAdapter.reopen({
   url: 'http://localhost/myContactsServer'
 });
-
+*/
 
 App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.route('create');
-		this.resource('contact', {path: ':contact_id'}, function () {
-			this.route('read');
-			this.route('edit');
-		});
+		this.resource('contact', {path: ':contact_id'});
 	});
 	this.resource('groups',  function(){
 		this.route('search');
@@ -173,7 +170,7 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		
 		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
-		this.transitionToRoute('contact.read', newContact);
+		this.transitionToRoute('contacts.search');
 	}
 });
 
@@ -181,64 +178,51 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 /*******************************
 * Contact
 *******************************/
-App.ContactIndexRoute = Ember.Route.extend({
-	redirect: function() {
-		this.transitionTo('contact.read')
-	}
-})
-
-App.ContactReadRoute = Ember.Route.extend({
-	model: function() {
-		return this.modelFor('contact');
-	}
-});
-
-App.ContactReadController = Ember.ObjectController.extend({
-	groupCount: function() {
-		return this.get('content').get('groups').get('length');
-	}.property('content.groups.length'),
+App.ContactController = Ember.ObjectController.extend({
+  needs: ['groups'],
+	selectedGroups: function() {
+    return this.get('content').get('groups')
+  }.property('content.groups'),
 	
-	delete: function(contact) {
-		var linkedGroups = contact.get('groups').toArray();
-		var linkedGroup = null;
-		for(var i=0;i<linkedGroups.length;i++) {
-			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(contact);
-			linkedGroup.get('store').commit()
-		};
-		contact.deleteRecord()
-		this.get('store').commit();
-		this.transitionToRoute('contacts.search');
-	}
-})
-
-App.ContactEditRoute = Ember.Route.extend({
-	model: function() {
-		return this.modelFor('contact');
-	},
-	
-	activate: function() {
-		this.controllerFor('contactEdit').set('selectedGroups',this.modelFor('contact').get('groups'));
-	}
-});
-
-App.ContactEditController = Ember.ObjectController.extend({
-	needs: ['groups'],
-	selectedGroups: null,
-
 	allGroups: function () {
 		return App.Group.all();
 	}.property(),
-
-	groupCount: function() {
-		return this.get('content').get('groups').get('length');
-	}.property('content.groups.length'),
 	
-	update: function(contact) {
-		var self = this;
-		contact.get('groups').setObjects(self.get('selectedGroups'));
-		contact.get('transaction').commit();
-		this.transitionToRoute('contact.read', contact);
+	readContact_modalId: function() {
+		return 'readContact_'+ this.get('alias');
+	}.property('alias'),
+	
+	readContact_modalTrigererId: function() {
+		return '#' + this.get('readContact_modalId');
+	}.property('readContact_modalId'),
+	
+	editContact_modalId: function() {
+		return 'editContact_'+ this.get('alias');
+	}.property('alias'),
+	
+	editContact_modalTrigererId: function() {
+		return '#' + this.get('editContact_modalId');
+	}.property('editContact_modalId'),
+	
+	rollback: function() {
+		this.get('transaction').rollback();
+	},
+	
+	update: function() {
+		this.get('content').get('groups').setObjects(this.get('selectedGroups'));
+		this.get('transaction').commit();
+	},
+	
+	delete: function () {
+		var linkedGroups = this.get('groups').toArray();
+		var linkedGroup = null;
+		for(var i=0;i<linkedGroups.length;i++) {
+			linkedGroup = linkedGroups.objectAt(i);
+			linkedGroup.get('contacts').removeObject(this.get('content'));
+			linkedGroup.get('store').commit()
+		};
+		this.get('content').deleteRecord()
+		this.get('store').commit()
 	}
 })
 
