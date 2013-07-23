@@ -26,15 +26,7 @@
 								<li>{{#linkTo 'contacts.search'}}<i class="icon-search"></i>&nbsp;Search contacts{{/linkTo}}</li>
 								<li>{{#linkTo 'contacts.create'}}<i class="icon-plus"></i>&nbsp;Create contact{{/linkTo}}</li>
 							</ul></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
-									<i class="icon-group"></i>&nbsp;Groups
-									<b class="caret"></b>
-							</a>
-							<ul class="dropdown-menu">
-								<li>{{#linkTo 'groups.search'}}<i class="icon-search"></i>&nbsp;Search groups{{/linkTo}}</li>
-								<li class="disabled"><a><i class="icon-plus"></i>&nbsp;Create group</a></li>
-							</ul></li>
+						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
 					</ul>
 					<ul class="nav pull-right">
 						<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
@@ -195,10 +187,6 @@
 	</script>
 	
 	<script type="text/x-handlebars" id="groups">
-		{{outlet}}
-	</script>
-
-	<script type="text/x-handlebars" id="groups/search">
 		<div class="row-fluid">
 			<div class="span2 lead">
 				All groups
@@ -231,6 +219,7 @@
 						</table>
 					{{else}}
 						<div class='muted'>
+							<!-- trigger modal -->
 							No group yet. Try to <a class="action" data-target="#createGroup" data-toggle="modal">create one</a>.
 						</div>
 					{{/if}}

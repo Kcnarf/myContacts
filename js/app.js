@@ -22,9 +22,7 @@ App.Router.map(function() {
 		this.route('create');
 		this.resource('contact', {path: ':contact_id'});
 	});
-	this.resource('groups',  function(){
-		this.route('search');
-	});
+	this.resource('groups');
 	this.resource('about');
 });
 
@@ -236,21 +234,7 @@ App.GroupsRoute = Ember.Route.extend({
 	}
 });
 
-App.GroupsController = Ember.ArrayController.extend({});
-
-App.GroupsIndexRoute = Ember.Route.extend({
-	redirect: function() {
-		this.transitionTo('groups.search');
-	}
-});
-
-App.GroupsSearchRoute = Ember.Route.extend({
-	model: function(){
-		return this.modelFor('groups');
-	}
-});
-
-App.GroupsSearchController = Ember.ArrayController.extend({
+App.GroupsController = Ember.ArrayController.extend({
 	sortProperties: ['name'],
 	sortAscending: true,
 	
