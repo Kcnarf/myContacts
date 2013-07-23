@@ -10,9 +10,11 @@ App.Contact = DS.Model.extend({
 	office_phone: DS.attr('string'),
 	personal_mail: DS.attr('string'),
 	office_mail: DS.attr('string'),
-	groups: DS.hasMany('App.Group', {
-    inverse: 'contacts'
-  }),
+	contact_group_links: DS.hasMany('App.Contact_group_link'),
+	
+	groups: function(){
+		return this.get('contact_group_links').getEach('group')
+	}.property('contact_group_links.@each.relationshipLoaded'),
 	
 	groupCount: function() {
 		return this.get('groups').get('length');
@@ -21,9 +23,16 @@ App.Contact = DS.Model.extend({
 
 App.Group = DS.Model.extend({
 	name: DS.attr('string'),
-	contacts: DS.hasMany('App.Contact', {
-    inverse: 'groups'
-  })
+	contact_group_links: DS.hasMany('App.Contact_group_link')
+});
+
+App.Contact_group_link= DS.Model.extend({
+	contact: DS.belongsTo('App.Contact'),
+	group: DS.belongsTo('App.Group'),
+	
+	relationshipLoaded: function(){
+		this.get('contact').get('isLoaded') && this.get('group').get('isLoaded')
+	}.property('contact.isLoaded', 'group.isLoaded')
 });
 
 App.Contact.FIXTURES = [{

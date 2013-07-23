@@ -5,16 +5,16 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	adapter: 'DS.LSAdapter'
+	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	//adapter: 'DS.RESTAdapter'
+	adapter: 'DS.RESTAdapter'
 });
-/*
+
 DS.RESTAdapter.reopen({
   url: 'http://localhost/myContactsServer'
 });
-*/
+
 
 App.Router.map(function() {
 	this.resource('contacts', function(){
@@ -30,6 +30,7 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
+		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
 	},
 	redirect: function(){
 		this.transitionTo('index')
