@@ -10,7 +10,9 @@ App.Contact = DS.Model.extend({
 	office_phone: DS.attr('string'),
 	personal_mail: DS.attr('string'),
 	office_mail: DS.attr('string'),
-	contact_group_links: DS.hasMany('App.Contact_group_link'),
+	contact_group_links: DS.hasMany('App.Contact_group_link', {
+    inverse: 'contact'
+  }),
 	
 	groups: function(){
 		return this.get('contact_group_links').getEach('group')
@@ -23,7 +25,9 @@ App.Contact = DS.Model.extend({
 
 App.Group = DS.Model.extend({
 	name: DS.attr('string'),
-	contact_group_links: DS.hasMany('App.Contact_group_link')
+	contact_group_links: DS.hasMany('App.Contact_group_link', {
+    inverse: 'group'
+  })
 });
 
 App.Contact_group_link= DS.Model.extend({
