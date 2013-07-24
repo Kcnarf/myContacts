@@ -167,9 +167,22 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 	create: function (newContact){
 		var self = this;
 		
-		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
-		this.transitionToRoute('contacts.search');
+		newContact.on('didCreate', function(){
+			for(var i=0;i<this.get('selectedGroups').get('length');i++) {
+				new_contact_group_link = App.Contact_group_link.createRecord();
+				new_contact_group_link.set('contact', newContact);
+				linkedGroup= this.get('selectedGroups').objectAt(i);
+				new_contact_group_link.set('group', linkedGroup);
+				newContact.get('contact_group_links').pushObject(new_contact_group_link);
+				linkedGroup.get('contact_group_links').pushObject(new_contact_group_link)
+				
+				new_contact_group_link.get('transaction').commit();
+			};
+			//newContact.get('groups').setObjects(self.get('selectedGroups'));
+			newContact.get('transaction').commit();
+			this.transitionToRoute('contacts.search');
+		});
 	}
 });
 
