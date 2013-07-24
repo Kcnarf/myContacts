@@ -215,18 +215,17 @@ App.ContactController = Ember.ObjectController.extend({
 			old_contact_group_link.record.deleteRecord();
 			old_contact_group_link.record.get('store').commit()
 		};
-		this.get('content').set('contact_group_links', null);
+		
 		for(var i=0;i<this.get('selectedGroups').get('length');i++) {
 			new_contact_group_link = App.Contact_group_link.createRecord();
 			new_contact_group_link.set('contact', this.get('content'));
 			linkedGroup= this.get('selectedGroups').objectAt(i);
 			new_contact_group_link.set('group', linkedGroup);
-			//new_contact_group_link.get('store').commit();
-			new_contact_group_link.get('transaction').commit();
 			this.get('content').get('contact_group_links').pushObject(new_contact_group_link);
 			linkedGroup.get('contact_group_links').pushObject(new_contact_group_link)
+			
+			new_contact_group_link.get('transaction').commit();
 		};
-		
 		this.get('transaction').commit();
 	},
 	
