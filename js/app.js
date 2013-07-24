@@ -206,24 +206,23 @@ App.ContactController = Ember.ObjectController.extend({
 	},
 	
 	update: function() {
-		//this.get('content').get('groups').setObjects(this.get('selectedGroups'));
-		this.get('content').get('groups').setObjects(this.get('selectedGroups'));
-		var old_contact_group_links= this.get('content.contact_group_links')
-		for(var i=0;i<old_contact_group_links.length;i++) {
+		var old_contact_group_links= this.get('content.contact_group_links.content');
+		for(var i=0;i<old_contact_group_links.get('length');i++) {
 			old_contact_group_link = old_contact_group_links.objectAt(i);
-			old_contact_group_link.deleteRecord()
+			old_contact_group_link.deleteRecord();
 			old_contact_group_link.get('store').commit()
 		};
-		this.set('contact_group_links', null);
-		for(var i=0;i<this.get('selectedGroups').length;i++) {
+		this.get('content').set('contact_group_links', null);
+		for(var i=0;i<this.get('selectedGroups').get('length');i++) {
 			new_contact_group_link = App.Contact_group_link.createRecord();
 			new_contact_group_link.set('contact', this.get('content'));
-			new_contact_group_link.set('group', App.Group.find().findProperty('id',this.get('selectedGroups').objectAt(0).get('id')));
-			new_contact_group_link.get('store').commit();
-			this.get('contact_group_links').addObject(new_contact_group_link)
+			new_contact_group_link.set('group', this.get('selectedGroups').objectAt(i));
+			//new_contact_group_link.get('store').commit();
+			new_contact_group_link.get('transaction').commit();
+			this.get('content').get('contact_group_links').addObject(new_contact_group_link)
 		};
 		
-		this.get('transaction').commit();
+		this.get('content').get('transaction').commit();
 	},
 	
 	delete: function () {
