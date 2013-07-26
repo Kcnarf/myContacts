@@ -197,8 +197,8 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 /*******************************
 * Contact
 *******************************/
-App.ContactController = Ember.ObjectController.extend({
-  needs: ['groups'],
+App.ContactController= Ember.ObjectController.extend({
+	needs: ['groups'],
 	selectedGroups: null,
 	
 	allGroups: function () {
@@ -227,8 +227,8 @@ App.ContactController = Ember.ObjectController.extend({
 	
 	update: function() {
 		var old_contact_group_links= this.get('content.contact_group_links.content');
-		for(var i=0;i<old_contact_group_links.get('length');i++) {
-			old_contact_group_link = old_contact_group_links.objectAt(i);
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
 			this.get('content').get('contact_group_links').removeObject(old_contact_group_link.record);
 			linkedGroup= old_contact_group_link.record.get('group');
 			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
@@ -250,13 +250,16 @@ App.ContactController = Ember.ObjectController.extend({
 	},
 	
 	delete: function () {
-		var linkedGroups = this.get('groups').toArray();
-		var linkedGroup = null;
-		for(var i=0;i<linkedGroups.length;i++) {
-			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(this.get('content'));
-			linkedGroup.get('store').commit()
+		var old_contact_group_links= this.get('content.contact_group_links.content');
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
+			this.get('content').get('contact_group_links').removeObject(old_contact_group_link.record);
+			linkedGroup= old_contact_group_link.record.get('group');
+			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
+			old_contact_group_link.record.deleteRecord();
+			old_contact_group_link.record.get('store').commit()
 		};
+		
 		this.get('content').deleteRecord()
 		this.get('store').commit()
 	}
