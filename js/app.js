@@ -5,16 +5,16 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	adapter: 'DS.LSAdapter'
+	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	//adapter: 'DS.RESTAdapter'
+	adapter: 'DS.RESTAdapter'
 });
-/*
+
 DS.RESTAdapter.reopen({
   url: 'http://localhost/myContactsServer'
 });
-*/
+
 
 App.Router.map(function() {
 	this.resource('contacts', function(){
@@ -30,6 +30,7 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
+		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
 	},
 	redirect: function(){
 		this.transitionTo('index')
@@ -156,19 +157,39 @@ App.ContactsCreateRoute = Ember.Route.extend({
 });
 
 App.ContactsCreateController = Ember.ObjectController.extend({
-	selectedGroups: null,
 	needs:['groups'],
+	selectedGroups: null,
+	ctrlNewContact: null,
 
 	allGroups: function (){
 		return App.Group.all();
 	}.property(),
 
 	create: function (newContact){
-		var self = this;
+		this.set('ctrlNewContact', newContact);
 		
-		newContact.get('groups').setObjects(self.get('selectedGroups'));
 		newContact.get('transaction').commit();
-		this.transitionToRoute('contacts.search');
+		if (!Ember.isEmpty(this.get('selectedGroups'))) {
+			ctrl= this;
+			newContact.addObserver('id', this, function(){
+				for(var i=0;i<this.get('selectedGroups').get('length');i++) {
+					new_contact_group_link = App.Contact_group_link.createRecord();
+					new_contact_group_link.set('contact', this.get('ctrlNewContact'));
+					linkedGroup= this.get('selectedGroups').objectAt(i);
+					new_contact_group_link.set('group', linkedGroup);
+					this.get('ctrlNewContact').get('contact_group_links').pushObject(new_contact_group_link);
+					linkedGroup.get('contact_group_links').pushObject(new_contact_group_link);
+					
+					new_contact_group_link.get('transaction').commit()
+				};
+				//newContact.get('groups').setObjects(self.get('selectedGroups'));
+				this.get('ctrlNewContact').get('transaction').commit();
+				this.transitionToRoute('contacts.search')
+			})
+		}
+		else {
+			this.transitionToRoute('contacts.search');
+		}
 	}
 });
 
@@ -176,11 +197,9 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 /*******************************
 * Contact
 *******************************/
-App.ContactController = Ember.ObjectController.extend({
-  needs: ['groups'],
-	selectedGroups: function() {
-    return this.get('content').get('groups')
-  }.property('content.groups'),
+App.ContactController= Ember.ObjectController.extend({
+	needs: ['groups'],
+	selectedGroups: null,
 	
 	allGroups: function () {
 		return App.Group.all();
@@ -207,18 +226,40 @@ App.ContactController = Ember.ObjectController.extend({
 	},
 	
 	update: function() {
-		this.get('content').get('groups').setObjects(this.get('selectedGroups'));
+		var old_contact_group_links= this.get('content.contact_group_links.content');
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
+			this.get('content').get('contact_group_links').removeObject(old_contact_group_link.record);
+			linkedGroup= old_contact_group_link.record.get('group');
+			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
+			old_contact_group_link.record.deleteRecord();
+			old_contact_group_link.record.get('store').commit()
+		};
+		
+		for(var i=0;i<this.get('selectedGroups').get('length');i++) {
+			new_contact_group_link = App.Contact_group_link.createRecord();
+			new_contact_group_link.set('contact', this.get('content'));
+			linkedGroup= this.get('selectedGroups').objectAt(i);
+			new_contact_group_link.set('group', linkedGroup);
+			this.get('content').get('contact_group_links').pushObject(new_contact_group_link);
+			linkedGroup.get('contact_group_links').pushObject(new_contact_group_link)
+			
+			new_contact_group_link.get('transaction').commit();
+		};
 		this.get('transaction').commit();
 	},
 	
 	delete: function () {
-		var linkedGroups = this.get('groups').toArray();
-		var linkedGroup = null;
-		for(var i=0;i<linkedGroups.length;i++) {
-			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(this.get('content'));
-			linkedGroup.get('store').commit()
+		var old_contact_group_links= this.get('content.contact_group_links.content');
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
+			this.get('content').get('contact_group_links').removeObject(old_contact_group_link.record);
+			linkedGroup= old_contact_group_link.record.get('group');
+			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
+			old_contact_group_link.record.deleteRecord();
+			old_contact_group_link.record.get('store').commit()
 		};
+		
 		this.get('content').deleteRecord()
 		this.get('store').commit()
 	}
