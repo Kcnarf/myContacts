@@ -13,7 +13,7 @@ where a Contact is identify with an 'alias' and provides various personnal/profe
 
 ###Expected functionnal features:###
  - list, create, read, update, delete Contacts
- - capability to list recently viewed/created Contacts
+ - capability to list favorite Contacts
  - capability to search Contacts
  - capability to define Group of Contacts
  - list, create, read, update, delete Groups
