@@ -1,6 +1,22 @@
 /*******************************
 * Test Code
 *******************************/
+//================================================================================
+// Test Code
+
+// Replace our fixture-based store with a REST-based store for testing, so we
+// don't need a server.  We disable simulateRemoteResponse so that objects will
+// appear to load at the end of every Ember.run block instead of waiting for a
+// timer to fire.
+App.Store = DS.Store.extend({
+    adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
+});
+
+// Declare some fixture objects to use in our test application.  There's
+// nothing like factory_girl or machinist yet.
+App.Contact.FIXTURES = [];
+App.Group.FIXTURES = [];
+App.Contact_group_link.FIXTURES = [];
 
 // Run before each test case.
 QUnit.testStart(function () {
@@ -28,7 +44,7 @@ QUnit.done(function () {
 
 module("Group features");
 
-test("Capability to create a new Group", function () {
+test("Special message when no Group", function () {
     $("a:contains('Groups')").click();
-    ok("a:contains('Create a Group')");
+    deepEqual($("div#noGroupDefined").length, 1, "Unable to find string 'No Group Yet'");
 });
