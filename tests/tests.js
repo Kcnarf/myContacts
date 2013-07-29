@@ -44,25 +44,39 @@ QUnit.done(function () {
 
 module("Group features");
 
-test("Special message when no Group", function () {
+//KEYWORDS -begining
+goToGroups= function() {
 	$("a:contains('Groups')").click();
-	ok($("#noGroupDefined:contains('No group yet')").length, "Without any group defined, App should display message 'No Group yet'");
+}
+
+goToCreateGroup= function() {
+	goToGroups();
+	$("a:contains('Create a Group')").click();
+	deepEqual($("#createGroup").css('display'), "block", "After clicking 'Create a Group', modal 'Create Group' should be displayed");
+}
+
+createGroup= function(name) {
+	goToCreateGroup();
+	$("#createGroup #new_group_name input").val('Group1');
+	$("#createGroup button:contains('Create & Close')").click();
+}
+//KEYWORDS -end
+
+test("Special message when no Group", function () {
+	goToGroups();
+	deepEqual($("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
 });
 
 test("Creation of a Group can be cancelled", function () {
-	$("a:contains('Groups')").click();
-	$("a:contains('Create a Group')").click();
-	deepEqual($("#createGroup").css('display'), "block", "After clicking 'Create a Group', modal 'Create Group' should be displayed");
+	goToCreateGroup();
 	$("#createGroup .close").click();
 	deepEqual($("#createGroup").css('display'), "none", "After cancelation, modal 'Create Group' should no longer be displayed");
-	ok($("#noGroupDefined:contains('No group yet')").length, "Without any group defined,App should display message 'No Group yet'");
+	deepEqual($("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
 });
 
 test("Creation of a Group", function () {
-    $("a:contains('Groups')").click();
-		$("a:contains('Create a Group')").click();
-		deepEqual($("#createGroup").css('display'), "block", "After clicking 'Create a Group', modal 'Create Group' should be displayed");
-		$("#createGroup #new_group_name input").val('Group1');
-		$("#createGroup button:contains('Create & Close')").click();
-		deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined,App should not display message 'No Group yet'");
+		var new_group_name= "group1";
+    createGroup(new_group_name);
+		deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
+		
 });
