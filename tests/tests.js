@@ -20,31 +20,40 @@ App.Contact_group_link.FIXTURES = [];
 
 // Run before each test case.
 QUnit.testStart(function () {
-    // Put the application into a known state, and destroy the defaultStore.
-    // Be careful about DS.Model instances stored in App; they'll be invalid
-    // after this.
-    // This is broken in some versions of Ember and Ember Data, see:
-    // https://github.com/emberjs/data/issues/847
-    Ember.run(function () { App.reset(); });
-    // Display an error if asynchronous operations are queued outside of
-    // Ember.run.  You need this if you want to stay sane.
-    Ember.testing = true;
+	// Put the application into a known state, and destroy the defaultStore.
+	// Be careful about DS.Model instances stored in App; they'll be invalid
+	// after this.
+	// This is broken in some versions of Ember and Ember Data, see:
+	// https://github.com/emberjs/data/issues/847
+	Ember.run(function () { App.reset(); });
+	// Display an error if asynchronous operations are queued outside of
+	// Ember.run.  You need this if you want to stay sane.
+	Ember.testing = true;
 });
 
 // Run after each test case.
 QUnit.testDone(function () {
-    Ember.testing = false;
+	Ember.testing = false;
 });
 
 // Optional: Clean up after our last test so you can try out the app
 // in the jsFiddle.  This isn't normally required.
 QUnit.done(function () {
-    Ember.run(function () { App.reset(); });
+	Ember.run(function () { App.reset(); });
 });
 
 module("Group features");
 
 test("Special message when no Group", function () {
-    $("a:contains('Groups')").click();
-    deepEqual($("div#noGroupDefined").length, 1, "Unable to find string 'No Group Yet'");
+	$("a:contains('Groups')").click();
+	ok($("#noGroupDefined:contains('No group yet')").length, "Without any group defined, App should display message 'No Group yet'");
+});
+
+test("Creation of a Group can be cancelled", function () {
+	$("a:contains('Groups')").click();
+	$("a:contains('Create a Group')").click();
+	deepEqual($("#createGroup").css('display'), "block", "After invocation, modal 'Create Group' should be displayed");
+	$("#createGroup .close").click();
+	deepEqual($("#createGroup").css('display'), "none", "After cancelation, modal 'Create Group' should no longer bhe displayed");
+	ok($("#noGroupDefined:contains('No group yet')").length, "Without any group defined,App should display message 'No Group yet'");
 });
