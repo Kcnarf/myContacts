@@ -207,7 +207,7 @@
 					<a	class="action" data-target="#createGroup" data-toggle="modal">Create a Group</a>
 					<hr/>
 					{{#if groupCount}}
-						<table class="table table-hover">
+						<table id="groupListing" class="table table-hover">
 							<thead>
 								<tr>
 									<td>{{groupCount}} group{{#if severalGroups}}s{{/if}} defined</td>
@@ -215,7 +215,7 @@
 							</thead>
 							<tbody>
 								{{#each controller itemController="group"}}
-									<tr>
+									<tr id="groupItem">
 										<td>
 											{{partial 'groupPartial'}}
 										</td>
@@ -228,9 +228,10 @@
 							</tbody>
 						</table>
 					{{else}}
-						<div class='muted'>
+						<div id="noGroupDefined" class='muted'>
+							No group yet. 
 							<!-- trigger modal -->
-							No group yet. Try to <a class="action" data-target="#createGroup" data-toggle="modal">create one</a>.
+							Try to <a class="action" data-target="#createGroup" data-toggle="modal">create one</a>.
 						</div>
 					{{/if}}
 				</div>
@@ -250,7 +251,7 @@
 				</h3>
 			</div>
 			<div class="modal-body">
-				<p>name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
+				<p id="new_group_name">name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn" {{action 'createGroup' this}}>Create</button>
