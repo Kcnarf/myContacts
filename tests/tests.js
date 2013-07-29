@@ -20,6 +20,9 @@ App.Contact_group_link.FIXTURES = [];
 
 // Run before each test case.
 QUnit.testStart(function () {
+	App.Contact.FIXTURES = [];
+	App.Group.FIXTURES = [];
+	App.Contact_group_link.FIXTURES = [];
 	// Put the application into a known state, and destroy the defaultStore.
 	// Be careful about DS.Model instances stored in App; they'll be invalid
 	// after this.
@@ -52,13 +55,18 @@ goToGroups= function() {
 goToCreateGroup= function() {
 	goToGroups();
 	$("a:contains('Create a Group')").click();
-	deepEqual($("#createGroup").css('display'), "block", "After clicking 'Create a Group', modal 'Create Group' should be displayed");
+	deepEqual($("#createGroup").css('display'), "block", "[Global assert] After clicking 'Create a Group', modal 'Create Group' should be displayed");
 }
 
 createGroup= function(name) {
 	goToCreateGroup();
-	$("#createGroup #new_group_name input").val('Group1');
+	$("#createGroup #new_group_name input").val(name);
+	$("#createGroup #new_group_name input").change();
 	$("#createGroup button:contains('Create & Close')").click();
+	deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "[Global assert] With at least 1 group defined, App should not display message 'No Group yet'");
+	ok($("#groupListing thead tr").length>0, "[Global assert] With at least 1 group defined, App should display the number of Group(s)");
+	ok($("#groupListing tbody tr").length>0, "[Global assert] With at least 1 group defined, App should display a list of Group(s)");
+	ok($("#groupListing tbody tr:contains("+name+")").length>0, "[Global assert] The name of a newly created Group should be displayed in the list of Group(s)");
 }
 //KEYWORDS -end
 
@@ -76,7 +84,21 @@ test("Creation of a Group can be cancelled", function () {
 
 test("Creation of a Group", function () {
 		var new_group_name= "group1";
+		var expectedGroupCount= 1;
     createGroup(new_group_name);
-		deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
-		
+		ok($("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
+		deepEqual($("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
+});
+
+test("Creation of a many Groups", function () {
+		var new_group_name= "group1";
+		var expectedGroupCount= 1;
+    createGroup(new_group_name);
+		ok($("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
+		deepEqual($("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
+		new_group_name= "group2";
+		expectedGroupCount= 2;
+    createGroup(new_group_name);
+		ok($("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
+		deepEqual($("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
 });

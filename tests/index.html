@@ -211,7 +211,7 @@
 					<a	class="action" data-target="#createGroup" data-toggle="modal">Create a Group</a>
 					<hr/>
 					{{#if groupCount}}
-						<table class="table table-hover">
+						<table id="groupListing" class="table table-hover">
 							<thead>
 								<tr>
 									<td>{{groupCount}} group{{#if severalGroups}}s{{/if}} defined</td>
@@ -219,7 +219,7 @@
 							</thead>
 							<tbody>
 								{{#each controller itemController="group"}}
-									<tr>
+									<tr id="groupItem">
 										<td>
 											{{partial 'groupPartial'}}
 										</td>
