@@ -60,7 +60,7 @@ QUnit.done(function () {
 Ember.Test.registerHelper('goToGroups', function(app) {
   visit("/")
   .then(function() {
-		return click("a:contains('Groups')");
+		click("a:contains('Groups')");
 	});
   return wait();
 });
@@ -68,8 +68,7 @@ Ember.Test.registerHelper('goToGroups', function(app) {
 Ember.Test.registerHelper('goToCreateGroup', function(app) {
 	goToGroups()
 	.then(function() {
-		return click("a:contains('Create a Group')");;
-		return wait();
+		click("a:contains('Create a Group')");
 	});
 	return wait();
 });
@@ -78,10 +77,8 @@ Ember.Test.registerHelper('createGroup', function(app, groupName) {
 	goToCreateGroup()
 	.then(function() {
 		fillIn("#createGroup #new_group_name input", groupName);
-		return wait();
 	}).then(function() {
 		click("#createGroup button:contains('Create & Close')");
-		return wait();
 	});
 	return wait();
 });
@@ -89,8 +86,7 @@ Ember.Test.registerHelper('createGroup', function(app, groupName) {
 Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
 	goToGroups()
 	.then(function() {
-		click("#groupListing tbody tr:contains("+groupName+") #deleteGroup");;
-		return wait();
+		click("#groupListing tbody tr:contains("+groupName+") #deleteGroup");
 	});
 	return wait();
 });
@@ -102,22 +98,15 @@ App.injectTestHelpers();
 module("Group/creation features");
 
 test("Special message when no Group", function () {
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	})
+	goToGroups()
 	.then(function() {
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
   })
 });
 
 test("Creation of a Group is available", function () {
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
+	goToCreateGroup()
+	.then(function() {
 		deepEqual(find("#createGroup").css('display'), "block", "After clicking 'Create a Group', UI allowing to create a Group should be displayed");
 	}).then(function() {
 		return click("#createGroup .close");
@@ -125,12 +114,8 @@ test("Creation of a Group is available", function () {
 });
 
 test("Creation of a Group can be cancelled", function () {
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
+	goToCreateGroup()
+	.then(function() {
 		return click("#createGroup .close");
 	}).then(function() {
 		deepEqual(find("#createGroup").css('display'), "none", "After cancelation, modal 'Create Group' should no longer be displayed");
@@ -141,16 +126,8 @@ test("Creation of a Group can be cancelled", function () {
 test("Creation of first Group", function () {
 	var groupName= "group1";
 	var expectedGroupCount= 1;
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		fillIn("#createGroup #new_group_name input", groupName);
-	}).then(function() {
-		click("#createGroup button:contains('Create & Close')");
-	}).then(function() {
+	createGroup(groupName)
+	.then(function() {
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
 		ok(find("#groupListing thead tr").length>0, "With at least 1 group defined, App should display the number of Group(s)");
 		ok(find("#groupListing tbody tr").length>0, "With at least 1 group defined, App should display a list of Group(s)");
@@ -163,16 +140,8 @@ test("Creation of first Group", function () {
 test("Creation of a many Groups", function () {
 	var groupName= "group1";
 	var expectedGroupCount= 1;
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName);
-	}).then(function() {
-		return click("#createGroup button:contains('Create & Close')");
-	}).then(function() {
+	createGroup(groupName)
+	.then(function() {
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
 		ok(find("#groupListing thead tr").length>0, "With at least 1 group defined, App should display the number of Group(s)");
 		ok(find("#groupListing tbody tr").length>0, "With at least 1 group defined, App should display a list of Group(s)");
@@ -182,16 +151,7 @@ test("Creation of a many Groups", function () {
 	}).then(function() {
 		groupName= "group2";
 		expectedGroupCount= 2;
-	}).then(function() {
-		return visit("/")
-  }).then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName);
-	}).then(function() {
-		return click("#createGroup button:contains('Create & Close')");
+		return createGroup(groupName)
 	}).then(function() {
 		deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
 		ok(find("#groupListing thead tr").length>0, "With at least 1 group defined, App should display the number of Group(s)");
@@ -204,16 +164,8 @@ test("Creation of a many Groups", function () {
 
 test("Deletion of the last Group", function() {
 	var groupName= "group1";
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName);
-	}).then(function() {
-		return click("#createGroup button:contains('Create & Close')");
-	}).then(function() {
+	createGroup(groupName)
+	.then(function() {
 		return deleteGroup(groupName);
 	}).then(function() {
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
@@ -223,31 +175,11 @@ test("Deletion of the last Group", function() {
 test("Deletion of the non-last Group", function() {
 	var groupName1= "group1";
 	var groupName2= "Group2";
-	visit("/")
-  .then(function() {
-		return click("a:contains('Groups')");
+	createGroup(groupName1)
+	.then(function() {
+		return createGroup(groupName2);
 	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName1);
-	}).then(function() {
-		return click("#createGroup button:contains('Create & Close')");
-	}).then(function() {
-		return visit("/")
-	}).then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("a:contains('Create a Group')");
-	}).then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName2);
-	}).then(function() {
-		return click("#createGroup button:contains('Create & Close')");
-	}).then(function() {
-		return visit("/")
-	}).then(function() {
-		return click("a:contains('Groups')");
-	}).then(function() {
-		return click("#groupListing tbody tr:contains("+groupName1+") #deleteGroup");
+		return deleteGroup(groupName1);
 	}).then(function() {
 		deepEqual(find("#groupListing tbody tr:contains("+groupName1+")").length, 0, "The name of a deleted Group should no longer be displayed in the list of Group(s)");
 		deepEqual(find("#groupListing tbody tr:contains("+groupName2+")").length, 1, "The name of a non-deleted Group should remain displayed in the list of Group(s)");
