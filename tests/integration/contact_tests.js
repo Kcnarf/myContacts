@@ -59,17 +59,17 @@ Ember.Test.registerHelper('goToCreateContact', function(app) {
 	});
 	return wait();
 });
-/*
-Ember.Test.registerHelper('createGroup', function(app, groupName) {
-	goToCreateGroup()
+
+Ember.Test.registerHelper('createContact', function(app, contactAlias) {
+	goToCreateContact()
 	.then(function() {
-		fillIn("#createGroup #new_group_name input", groupName);
+		fillIn("#createContact #new_contact_alias input", contactAlias);
 	}).then(function() {
-		click("#createGroup button:contains('Create & Close')");
+		click("#createContact .btn:contains('Save')");
 	});
 	return wait();
 });
-
+/*
 Ember.Test.registerHelper('goToEditGroup', function(app, groupName) {
 	goToGroups()
 	.then(function() {
@@ -114,7 +114,7 @@ test("Creation of a Contact is available", function () {
 	.then(function() {
 		ok(find("#createContact"), "After clicking 'Create contact', UI allowing to create a Contact should be displayed");
 	}).then(function() {
-		return click("#createContact button:contains('Cancel')");
+		return click("#createContact .btn:contains('Cancel')");
 	})
 });
 
@@ -122,30 +122,30 @@ test("Creation of a Contact can be cancelled", function () {
 	var contactAlias= "alias1";
 	goToCreateContact()
 	.then(function() {
-		fillIn("#createContact #new_contact_name input", contactAlias);
+		fillIn("#createContact #new_contact_alias input", contactAlias);
 	}).then(function() {
-		return click("#createContact button:contains('Cancel')");
+		return click("#createContact .btn:contains('Cancel')");
 	}).then(function() {
 		deepEqual(find("#createGroup").length, 0, "After cancelation, UI allowing to create a Contact should no longer be displayed");
 		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 1, "Without any contact defined, App should display message 'No Contact yet'");
 		deepEqual(find("#contactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
 	})
 });
-/*
-test("Creation of first Group", function () {
-	var groupName= "Group1";
-	var expectedGroupCount= 1;
-	createGroup(groupName)
+
+test("Creation of first Contact", function () {
+	var contactAlias= "Alias1";
+	var expectedContactCount= 1;
+	createContact(contactAlias)
 	.then(function() {
-		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
-		ok(find("#groupListing thead tr").length>0, "With at least 1 group defined, App should display the number of Group(s)");
-		ok(find("#groupListing tbody tr").length>0, "With at least 1 group defined, App should display a list of Group(s)");
-		ok(find("#groupListing tbody tr:contains("+groupName+")").length>0, "The name of a newly created Group should be displayed in the list of Group(s)");
-		ok(find("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
-		deepEqual(find("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
+		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
+		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
+		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
+		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
+		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
+		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 	})
 });
-
+/*
 test("Creation of a many Groups", function () {
 	var groupName= "Group1";
 	var expectedGroupCount= 1;

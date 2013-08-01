@@ -162,7 +162,7 @@
 
 	<script type="text/x-handlebars" id="contacts/create">
 		<div id="createContact">
-			<h3 id="new_contact_name"><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
+			<h3 id="new_contact_alias"><i class="icon-user"></i>&nbsp;{{view Ember.TextField valueBinding='alias'}}</h3>
 			<span 
 				{{bindAttr class='groups::muted'}}>, in group(s): 
 				{{view Ember.Select contentBinding=allGroups
@@ -195,8 +195,8 @@
 			<hr/>
 			<div class="row-fluid">
 				<div class="pull-right">
-					<button class="btn btn-primary" {{action 'create' this}}><i class="icon-check"></i>&nbsp;Save</div>
-					<button class="btn" {{action 'rollback' this}}><i class="icon-cancel"></i>&nbsp;Cancel</div>
+					<div class="btn btn-primary" {{action 'create' this}}><i class="icon-check"></i>&nbsp;Save</div>
+					<div class="btn" {{action 'rollback' this}}><i class="icon-cancel"></i>&nbsp;Cancel</div>
 				</div>
 			</div>
 		</div>
