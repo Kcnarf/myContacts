@@ -1,15 +1,18 @@
-/*******************************
-* Test Code
-*******************************/
-//================================================================================
-// Test Code
+// Setup of Ember's Testing framework
+document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
+App.rootElement = '#ember-testing';
+App.LOG_TRANSITIONS= false;
+App.setupForTesting();
+App.injectTestHelpers();
 
 // Replace our REST-based store with a fixture-based store for testing, so we
 // don't need a server.  We disable simulateRemoteResponse so that objects will
 // appear to load at the end of every Ember.run block instead of waiting for a
 // timer to fire.
 App.Store = DS.Store.extend({
-    adapter: DS.FixtureAdapter.create({ simulateRemoteResponse: false })
+	adapter: DS.FixtureAdapter.create({
+		//simulateRemoteResponse: false
+	})
 });
 
 // Declare some fixture objects to use in our test application.
@@ -92,14 +95,9 @@ Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
 	});
 	return wait();
 });
-//TEST HELPERS -end
 
-
-// Setup of Ember's Testing framework
-document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
-App.rootElement = '#ember-testing';
-App.setupForTesting();
 App.injectTestHelpers();
+//TEST HELPERS -end
 
 module("Group/integration/create");
 
