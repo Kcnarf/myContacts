@@ -39,6 +39,7 @@ App.Contact_group_link= DS.Model.extend({
 	}.property('contact.isLoaded', 'group.isLoaded')
 });
 
+/*
 App.Contact.FIXTURES = [{
 	id: 1,
 	alias: 'FooTer',
@@ -114,3 +115,4 @@ App.Group.FIXTURES = [{
 	name: 'Friends',
 	contacts: [3,5]
 }]
+*/
