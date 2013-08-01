@@ -7,6 +7,11 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		return App.Group.all();
 	}.property(),
 
+	rollback: function() {
+		this.get('transaction').rollback();
+		this.transitionToRoute('contacts.search');
+	},
+	
 	create: function (newContact){
 		this.set('ctrlNewContact', newContact);
 		
