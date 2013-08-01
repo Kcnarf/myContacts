@@ -247,7 +247,7 @@ test("Special message when no favorite Contact", function () {
 	goToContacts()
 	.then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
-		deepEqual(find("#favoriteContactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
+		deepEqual(find("#favoriteContactListing").length, 0, "With no favorite contact defined, App should not display a list of favorite Contact(s)");
   })
 });
 
@@ -298,7 +298,7 @@ test("Unsetting the last favorite Contact", function () {
 		return switchFavorite(contactAlias);
 	}).then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
-		deepEqual(find("#favoriteContactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
+		deepEqual(find("#favoriteContactListing").length, 0, "With no favorite contact defined, App should not display a list of favorite Contact(s)");
 	})
 });
 
@@ -322,5 +322,18 @@ test("Unsetting the non-last favorite Contact", function () {
 		deepEqual(find("#favoriteContactListing tbody tr:contains("+contactAlias+")").length, 0, "The name of a no longer favorite contact should no longer be displayed in the list of favorite Contact(s)");
 		ok(find("#favoriteContactListing thead tr:contains('"+expectedFavoriteContactCount+"')").length>0, "App should display the right count of favorite Contacts");
 		deepEqual(find("#favoriteContactListing tbody tr").length, expectedFavoriteContactCount, "App should display each favorite Contact(s)");
+	})
+});
+
+test("Deleting of a favorite contact", function () {
+	var contactAlias= "Alias1";
+	createContact(contactAlias)
+	.then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		return deleteContact(contactAlias);
+	}).then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
+		deepEqual(find("#favoriteContactListing").length, 0, "With no favorite contact defined, App should not display a list of favorite Contact(s)");
 	})
 });
