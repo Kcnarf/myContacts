@@ -11,7 +11,7 @@ App.injectTestHelpers();
 // timer to fire.
 App.Store = DS.Store.extend({
 	adapter: DS.FixtureAdapter.create({
-		//simulateRemoteResponse: false
+		simulateRemoteResponse: false
 	})
 });
 
@@ -99,7 +99,7 @@ Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
 App.injectTestHelpers();
 //TEST HELPERS -end
 
-module("Group/integration/create");
+module("Integration/Group");
 
 test("Special message when no Group", function () {
 	goToGroups()
@@ -169,8 +169,6 @@ test("Creation of a many Groups", function () {
 	})
 });
 
-module("Group/integration/update");
-
 test("Update of a Group is available", function () {
 	var groupName= "Group1";
 	createGroup(groupName)
@@ -210,8 +208,6 @@ test("Update of a Group", function () {
 		deepEqual(find("#groupListing tbody tr:contains("+groupName1+")").length, 0, "After edition, the old name of the Group should no longer be displayed in the list of Group(s)");
 	})
 });
-
-module("Group/integration/delete");
 
 test("Deletion of the last Group", function() {
 	var groupName= "Group1";
