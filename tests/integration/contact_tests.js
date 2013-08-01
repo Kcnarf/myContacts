@@ -87,15 +87,15 @@ Ember.Test.registerHelper('editContact', function(app, contactAlias, newContactA
 	})
 	return wait();
 });
-/*
-Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
-	goToGroups()
+
+Ember.Test.registerHelper('deleteContact', function(app, contactAlias) {
+	goToContacts()
 	.then(function() {
-		click("#groupListing tbody tr:contains("+groupName+") #deleteGroup");
+		click("#contactListing tbody tr:contains("+contactAlias+") #deleteContact");
 	});
 	return wait();
 });
-*/
+
 App.injectTestHelpers();
 //TEST HELPERS -end
 
@@ -210,29 +210,28 @@ test("Update of a Contact", function () {
 		deepEqual(find("#contactListing tbody tr:contains("+contactAlias1+")").length, 0, "After edition, the old name of the Contact should no longer be displayed in the list of Contact(s)");
 	})
 });
-/*
-test("Deletion of the last Group", function() {
-	var groupName= "Group1";
-	createGroup(groupName)
+
+test("Deletion of the last Contact", function() {
+	var contactAlias= "Alias1";
+	createContact(contactAlias)
 	.then(function() {
-		return deleteGroup(groupName);
+		return deleteContact(contactAlias);
 	}).then(function() {
-		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
-		deepEqual(find("#groupListing").length, 0, "With no group defined, App should not display a list of Group(s)");
+		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 1, "Without any contact defined, App should display message 'No Contact yet'");
+		deepEqual(find("#contactListing").length, 0, "With no coptact defined, App should not display a list of contact(s)");
 	})
 });
 
-test("Deletion of the non-last Group", function() {
-	var groupName1= "Group1";
-	var groupName2= "Group2";
-	createGroup(groupName1)
+test("Deletion of the non-last Contact", function() {
+	var contactAlias1= "Alias1";
+	var contactAlias2= "alias2";
+	createContact(contactAlias1)
 	.then(function() {
-		return createGroup(groupName2);
+		return createContact(contactAlias2);
 	}).then(function() {
-		return deleteGroup(groupName1);
+		return deleteContact(contactAlias1);
 	}).then(function() {
-		deepEqual(find("#groupListing tbody tr:contains("+groupName1+")").length, 0, "The name of a deleted Group should no longer be displayed in the list of Group(s)");
-		deepEqual(find("#groupListing tbody tr:contains("+groupName2+")").length, 1, "The name of a non-deleted Group should remain displayed in the list of Group(s)");
+		deepEqual(find("#contactListing tbody tr:contains("+contactAlias1+")").length, 0, "The name of a deleted Contact should no longer be displayed in the list of Contact(s)");
+		deepEqual(find("#contactListing tbody tr:contains("+contactAlias2+")").length, 1, "The name of a non-deleted Contact should remain displayed in the list of Contact(s)");
 	})
 });
-*/
