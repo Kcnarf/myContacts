@@ -98,7 +98,7 @@
 											{{partial 'readContact'}}
 										</td>
 										<td>
-											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+											<i id="deleteContact" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 											{{partial 'editContact'}}
 											<i id="deleteContact" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
@@ -140,7 +140,7 @@
 										{{partial 'readContact'}}
 									</td>
 									<td>
-										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+										<i id="deleteContact" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 										{{partial 'editContact'}}
 										<i id="deleteContact" class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>

@@ -88,7 +88,7 @@
 			</div>
 			<div class="span10">
 					{{#if favoriteContactCount}}
-						<table class="table table-hover">
+						<table id="favoriteContactListing" class="table table-hover">
 							<thead>
 								<tr>
 									<td>{{favoriteContactCount}} favorite contact{{#if severalFavoriteContacts}}s{{/if}}
@@ -102,7 +102,7 @@
 											{{partial 'readContact'}}
 										</td>
 										<td>
-											<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 											{{partial 'editContact'}}
 											<i id="deleteContact"class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
@@ -111,7 +111,7 @@
 							</tbody>
 						</table>
 					{{else}}
-						<div class='muted'>
+						<div id="noFavoriteContactDefined" class='muted'>
 							No favorite contact yet ...
 						</div>
 					{{/if}}
@@ -144,7 +144,7 @@
 										{{partial 'readContact'}}
 									</td>
 									<td>
-										<i {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+										<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 										{{partial 'editContact'}}
 										<i id="deleteContact" class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>
@@ -153,7 +153,7 @@
 						</tbody>
 					</table>
 				{{else}}
-					<span id="noContactDefined" class="muted">No Contact yet. Try to {{#linkTo 'contacts.create'}}Create one{{/linkTo}}.<span>
+					<span id="noContactDefined" class="muted">No contact yet. Try to {{#linkTo 'contacts.create'}}create one{{/linkTo}}.<span>
 				{{/if}}
 			</div>
 		</div>

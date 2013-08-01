@@ -96,6 +96,14 @@ Ember.Test.registerHelper('deleteContact', function(app, contactAlias) {
 	return wait();
 });
 
+Ember.Test.registerHelper('switchFavorite', function(app, contactAlias) {
+	goToContacts()
+	.then(function() {
+		click("#contactListing tbody tr:contains("+contactAlias+") #switchFavorite");
+	});
+	return wait();
+});
+
 App.injectTestHelpers();
 //TEST HELPERS -end
 
@@ -104,7 +112,7 @@ module("Integration/Contact");
 test("Special message when no Contact", function () {
 	goToContacts()
 	.then(function() {
-		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 1, "Without any contact defined, App should display message 'No Contact yet'");
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 1, "Without any contact defined, App should display message 'No contact yet'");
 		deepEqual(find("#contactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
   })
 });
@@ -127,7 +135,7 @@ test("Creation of a Contact can be cancelled", function () {
 		return click("#createContact .btn:contains('Cancel')");
 	}).then(function() {
 		deepEqual(find("#createGroup").length, 0, "After cancelation, UI allowing to create a Contact should no longer be displayed");
-		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 1, "Without any contact defined, App should display message 'No Contact yet'");
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 1, "Without any contact defined, App should display message 'No contact yet'");
 		deepEqual(find("#contactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
 	})
 });
@@ -137,12 +145,12 @@ test("Creation of first Contact", function () {
 	var expectedContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No contact yet'");
 		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
 		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
-		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
-		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
+		ok(find("#contactListing thead tr:contains('"+expectedContactCount+"')"), "App should display the right count of Contacts");
 		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
+		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
 	})
 });
 
@@ -151,23 +159,16 @@ test("Creation of a many Contacts", function () {
 	var expectedContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
-		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
-		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
-		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
-		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
-		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
-	}).then(function() {
 		contactAlias= "Alias";
 		expectedContactCount= 2;
 		return createContact(contactAlias);
 	}).then(function() {
-	deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No contact yet'");
 		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
 		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
-		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
-		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
+		ok(find("#contactListing thead tr:contains('"+expectedContactCount+"')").length>0, "App should display the right count of Contacts");
 		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
+		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
 	})
 });
 
@@ -217,7 +218,7 @@ test("Deletion of the last Contact", function() {
 	.then(function() {
 		return deleteContact(contactAlias);
 	}).then(function() {
-		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 1, "Without any contact defined, App should display message 'No Contact yet'");
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 1, "Without any contact defined, App should display message 'No contact yet'");
 		deepEqual(find("#contactListing").length, 0, "With no coptact defined, App should not display a list of contact(s)");
 	})
 });
@@ -225,13 +226,101 @@ test("Deletion of the last Contact", function() {
 test("Deletion of the non-last Contact", function() {
 	var contactAlias1= "Alias1";
 	var contactAlias2= "alias2";
+	var expectedContactCount= 1;
 	createContact(contactAlias1)
 	.then(function() {
 		return createContact(contactAlias2);
 	}).then(function() {
 		return deleteContact(contactAlias1);
 	}).then(function() {
+		deepEqual(find("#noContactDefined:contains('No contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No contact yet'");
+		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
+		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
+		ok(find("#contactListing thead tr:contains('"+expectedContactCount+"')").length>0, "App should display the right count of Contacts");
+		deepEqual(find("#contactListing tbody tr").length, 1, "App should display each Contact(s)");
 		deepEqual(find("#contactListing tbody tr:contains("+contactAlias1+")").length, 0, "The name of a deleted Contact should no longer be displayed in the list of Contact(s)");
-		deepEqual(find("#contactListing tbody tr:contains("+contactAlias2+")").length, 1, "The name of a non-deleted Contact should remain displayed in the list of Contact(s)");
+		deepEqual(find("#contactListing tbody tr:contains("+contactAlias2+")").length, expectedContactCount, "The name of a non-deleted Contact should remain displayed in the list of Contact(s)");
+	})
+});
+
+test("Special message when no favorite Contact", function () {
+	goToContacts()
+	.then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
+		deepEqual(find("#favoriteContactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
+  })
+});
+
+test("Setting the fist Contact as favorite", function () {
+	var contactAlias= "Alias1";
+	var expectedFavoriteContactCount= 1;
+	createContact(contactAlias)
+	.then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
+		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
+		ok(find("#favoriteContactListing tbody tr").length>0, "With at least 1 favorite contact defined, App should display a list of favorite Contact(s)");
+		ok(find("#favoriteContactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a new favorite contact should be displayed in the list of favorite Contact(s)");
+		ok(find("#favoriteContactListing thead tr:contains('"+expectedFavoriteContactCount+"')").length>0, "App should display the right count of favorite Contacts");
+		deepEqual(find("#favoriteContactListing tbody tr").length, expectedFavoriteContactCount, "App should display each favorite Contact(s)");
+	})
+});
+
+test("Setting many Contacts as favorite", function () {
+	var contactAlias= "Alias1";
+	var expectedFavoriteContactCount= 1;
+	createContact(contactAlias)
+	.then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		contactAlias= "Alias2";
+		expectedFavoriteContactCount= 2;
+		createContact(contactAlias)
+	}).then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
+		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
+		ok(find("#favoriteContactListing tbody tr").length>0, "With at least 1 favorite contact defined, App should display a list of favorite Contact(s)");
+		ok(find("#favoriteContactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a new favorite contact should be displayed in the list of favorite Contact(s)");
+		ok(find("#favoriteContactListing thead tr:contains('"+expectedFavoriteContactCount+"')").length>0, "App should display the right count of favorite Contacts");
+		deepEqual(find("#favoriteContactListing tbody tr").length, expectedFavoriteContactCount, "App should display each favorite Contact(s)");
+	})
+});
+
+test("Unsetting the last favorite Contact", function () {
+	var contactAlias= "Alias1";
+	createContact(contactAlias)
+	.then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
+		deepEqual(find("#favoriteContactListing").length, 0, "With no contact defined, App should not display a list of Contact(s)");
+	})
+});
+
+test("Unsetting the non-last favorite Contact", function () {
+	var contactAlias= "Alias1";
+	var expectedFavoriteContactCount= 1;
+	createContact(contactAlias)
+	.then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		contactAlias= "Alias2";
+		createContact(contactAlias)
+	}).then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		return switchFavorite(contactAlias);
+	}).then(function() {
+		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
+		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
+		ok(find("#favoriteContactListing tbody tr").length>0, "With at least 1 favorite contact defined, App should display a list of favorite Contact(s)");
+		deepEqual(find("#favoriteContactListing tbody tr:contains("+contactAlias+")").length, 0, "The name of a no longer favorite contact should no longer be displayed in the list of favorite Contact(s)");
+		ok(find("#favoriteContactListing thead tr:contains('"+expectedFavoriteContactCount+"')").length>0, "App should display the right count of favorite Contacts");
+		deepEqual(find("#favoriteContactListing tbody tr").length, expectedFavoriteContactCount, "App should display each favorite Contact(s)");
 	})
 });
