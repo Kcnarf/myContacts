@@ -145,31 +145,32 @@ test("Creation of first Contact", function () {
 		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 	})
 });
-/*
-test("Creation of a many Groups", function () {
-	var groupName= "Group1";
-	var expectedGroupCount= 1;
-	createGroup(groupName)
+
+test("Creation of a many Contacts", function () {
+	var contactAlias= "alias1";
+	var expectedContactCount= 1;
+	createContact(contactAlias)
 	.then(function() {
-		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
-		ok(find("#groupListing").length>0, "With at least 1 group defined, App should display a list of Group(s)");
-		ok(find("#groupListing tbody tr:contains("+groupName+")").length>0, "The name of a newly created Group should be displayed in the list of Group(s)");
-		ok(find("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
-		deepEqual(find("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
+		deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
+		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
+		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
+		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
+		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
+		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 	}).then(function() {
-		groupName= "Group2";
-		expectedGroupCount= 2;
-		return createGroup(groupName)
+		contactAlias= "Alias";
+		expectedContactCount= 2;
+		return createContact(contactAlias);
 	}).then(function() {
-		deepEqual($("#noGroupDefined:contains('No group yet')").length, 0, "With at least 1 group defined, App should not display message 'No Group yet'");
-		ok(find("#groupListing thead tr").length>0, "With at least 1 group defined, App should display the number of Group(s)");
-		ok(find("#groupListing tbody tr").length>0, "With at least 1 group defined, App should display a list of Group(s)");
-		ok(find("#groupListing tbody tr:contains("+groupName+")").length>0, "The name of a newly created Group should be displayed in the list of Group(s)");
-		ok(find("#groupListing thead tr:contains(expectedGroupCount)"), "App should display the right count of Groups");
-		deepEqual(find("#groupListing tbody tr").length, expectedGroupCount, "App should display each Group(s)");
+	deepEqual(find("#noContactDefined:contains('No Contact yet')").length, 0, "With at least 1 contact defined, App should not display message 'No Contact yet'");
+		ok(find("#contactListing thead tr").length>0, "With at least 1 contact defined, App should display the number of Contact(s)");
+		ok(find("#contactListing tbody tr").length>0, "With at least 1 contact defined, App should display a list of Contact(s)");
+		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
+		ok(find("#contactListing thead tr:contains(expectedContactCount)"), "App should display the right count of Contacts");
+		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 	})
 });
-
+/*
 test("Update of a Group is available", function () {
 	var groupName= "Group1";
 	createGroup(groupName)
