@@ -339,7 +339,7 @@
 	<script type="text/x-handlebars" data-template-name="_editContact">
 		<!-- Button to trigger modal -->
 		<span data-toggle="tooltip" title="Edit contact">
-			<span class="action" {{bindAttr data-target='editContact_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
+			<span id="editContact" class="action" {{bindAttr data-target='editContact_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
 		</span>
 		<!-- Modal -->
 		<div {{bindAttr id="editContact_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

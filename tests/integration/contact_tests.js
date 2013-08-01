@@ -69,25 +69,25 @@ Ember.Test.registerHelper('createContact', function(app, contactAlias) {
 	});
 	return wait();
 });
-/*
-Ember.Test.registerHelper('goToEditGroup', function(app, groupName) {
-	goToGroups()
+
+Ember.Test.registerHelper('goToEditContact', function(app, contactAlias) {
+	goToContacts()
 	.then(function() {
-		click("#groupListing tbody tr:contains("+groupName+") #editGroup");
+		click("#contactListing tbody tr:contains("+contactAlias+") #editContact");
 	});
 	return wait();
 });
 
-Ember.Test.registerHelper('editGroup', function(app, groupName, newGroupName) {
-	goToEditGroup(groupName)
+Ember.Test.registerHelper('editContact', function(app, contactAlias, newContactAlias) {
+	goToEditContact(contactAlias)
 	.then(function() {
-		fillIn("#editGroup_"+groupName+" input", newGroupName);
+		fillIn("#editContact_"+contactAlias+" input", newContactAlias);
 	}).then(function() {
-		click("#editGroup_"+newGroupName+" button:contains('Save & Close')");
+		click("#editContact_"+newContactAlias+" button:contains('Save & Close')");
 	})
 	return wait();
 });
-
+/*
 Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
 	goToGroups()
 	.then(function() {
@@ -170,47 +170,47 @@ test("Creation of a many Contacts", function () {
 		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 	})
 });
+
+test("Update of a Contact is available", function () {
+	var contactAlias= "Alias1";
+	createContact(contactAlias)
+	.then(function() {
+		return goToEditContact(contactAlias);
+	}).then(function() {
+		deepEqual(find("#editContact_"+contactAlias).css('display'), "block", "After clicking 'Edit Contact', UI allowing to edit a Contact should be displayed");
+	}).then(function() {
+		return click("#editContact_"+contactAlias+" .close");
+	})
+});
+
+test("Update of a Contact can be cancelled", function () {
+	var contactAlias1= "Alias1";
+	var contactAlias2= "Alias2";
+	createContact(contactAlias1)
+	.then(function() {
+		return goToEditContact(contactAlias1);
+	}).then(function() {
+		return fillIn("#editContact_"+contactAlias1+" input", contactAlias2);
+	}).then(function() {
+		return click("#editContact_"+contactAlias2+" .close");
+	}).then(function() {
+		deepEqual(find("#editContact_"+contactAlias1).css('display'), "none", "After edit cancelation, UI allowing to edit a Contact should no longer be displayed");
+		ok(find("#contactListing tbody tr:contains("+contactAlias1+")").length>0, "After edit cancelation, the un-edited Contact should be displayed in the list of Contact(s)");
+	})
+});
+
+test("Update of a Contact", function () {
+	var contactAlias1= "Alias1";
+	var contactAlias2= "Alias2";
+	createContact(contactAlias1)
+	.then(function() {
+		return editContact(contactAlias1, contactAlias2);
+	}).then(function() {
+		ok(find("#contactListing tbody tr:contains("+contactAlias2+")").length>0, "After edition, the updated name of the Contact should be displayed in the list of Contact(s)");
+		deepEqual(find("#contactListing tbody tr:contains("+contactAlias1+")").length, 0, "After edition, the old name of the Contact should no longer be displayed in the list of Contact(s)");
+	})
+});
 /*
-test("Update of a Group is available", function () {
-	var groupName= "Group1";
-	createGroup(groupName)
-	.then(function() {
-		return goToEditGroup(groupName);
-	}).then(function() {
-		deepEqual(find("#editGroup_"+groupName).css('display'), "block", "After clicking 'Edit Group', UI allowing to edit a Group should be displayed");
-	}).then(function() {
-		return click("#editGroup_"+groupName+" .close");
-	})
-});
-
-test("Update of a Group can be cancelled", function () {
-	var groupName1= "Group1";
-	var groupName2= "Group2";
-	createGroup(groupName1)
-	.then(function() {
-		return goToEditGroup(groupName1);
-	}).then(function() {
-		return fillIn("#editGroup_"+groupName1+" input", groupName2);
-	}).then(function() {
-		return click("#editGroup_"+groupName2+" .close");
-	}).then(function() {
-		deepEqual(find("#editGroup_"+groupName1).css('display'), "none", "After edit cancelation, UI allowing to edit a Group should no longer be displayed");
-		ok(find("#groupListing tbody tr:contains("+groupName1+")").length>0, "After edit cancelation, the un-edited Group should be displayed in the list of Group(s)");
-	})
-});
-
-test("Update of a Group", function () {
-	var groupName1= "Group1";
-	var groupName2= "Group2";
-	createGroup(groupName1)
-	.then(function() {
-		return editGroup(groupName1, groupName2);
-	}).then(function() {
-		ok(find("#groupListing tbody tr:contains("+groupName2+")").length>0, "After edition, the updated name of the Group should be displayed in the list of Group(s)");
-		deepEqual(find("#groupListing tbody tr:contains("+groupName1+")").length, 0, "After edition, the old name of the Group should no longer be displayed in the list of Group(s)");
-	})
-});
-
 test("Deletion of the last Group", function() {
 	var groupName= "Group1";
 	createGroup(groupName)
