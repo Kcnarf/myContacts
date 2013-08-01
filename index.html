@@ -221,7 +221,7 @@
 										</td>
 										<td>
 											{{partial 'editGroup'}}
-											<i class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
+											<i id="deleteGroup" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 										</td>
 									</tr>
 								{{/each}}
@@ -389,7 +389,7 @@
 	<script type="text/x-handlebars" data-template-name="_editGroup">
 		<!-- Button to trigger modal -->
 		<span data-toggle="tooltip" title="Edit group">
-			<span class="action" {{bindAttr data-target='editGroup_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
+			<span id="editGroup" class="action" {{bindAttr data-target='editGroup_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
 		</span>
 		<!-- Modal -->
 		<div {{bindAttr id="editGroup_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
