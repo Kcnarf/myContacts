@@ -277,7 +277,25 @@
 				Achievements
 			</div>
 			<div class="span10">
-				Listing come here
+				<table id="achievementListing" class="table table-hover">
+							<thead>
+								<tr>
+									<td>{{unachievedAchievementCount}} achievement{{#if severalUnachievedAchievements}}s{{/if}} remains unachieved</td>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each controller itemController="achievement"}}
+									<tr id="achievementItem">
+										<td>
+											{{partial 'achievementPartial'}}
+										</td>
+										<td>
+											<i id="toggleAchieved" class="icon-check action" {{action 'toggleAchieved'}} data-toggle="tooltip" title="set as achieved/unachieved"></i>&nbsp;
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
 			</dic>
 		</div>
 	</script>
@@ -305,6 +323,10 @@
 	
 	<script type="text/x-handlebars" id="_groupPartial">
 		<i class="icon-group"></i>&nbsp;{{name}}
+	</script>
+
+	<script type="text/x-handlebars" id="_achievementPartial">
+		<i class="icon-trophy"></i>&nbsp;{{title}}
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="_readContact">

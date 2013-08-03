@@ -5,15 +5,15 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	adapter: 'DS.LSAdapter'
+	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	//adapter: 'DS.RESTAdapter'
+	adapter: 'DS.RESTAdapter'
 });
 
-// DS.RESTAdapter.reopen({
-  // url: 'http://localhost/myContactsServer'
-// });
+DS.RESTAdapter.reopen({
+  url: 'http://localhost/myContactsServer'
+});
 
 
 App.Router.map(function() {
@@ -32,6 +32,7 @@ App.ApplicationRoute = Ember.Route.extend({
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
 		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
+		App.Achievement.find() // populate the store with all Achievement instances
 	},
 	redirect: function(){
 		this.transitionTo('index')
@@ -89,6 +90,22 @@ App.GroupsRoute = Ember.Route.extend({
 
 /*******************************
 * Group
+*******************************/
+
+// N/A
+
+/*******************************
+* Achievements
+*******************************/
+
+App.AchievementsRoute = Ember.Route.extend({
+	model: function(){
+		return App.Achievement.all();
+	}
+});
+
+/*******************************
+* Achievement
 *******************************/
 
 // N/A
