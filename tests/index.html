@@ -33,7 +33,7 @@
 						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
 					</ul>
 					<ul class="nav pull-right">
-						+						<li class="dropdown">
+						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
 									<i class="icon-plus"></i>&nbsp;
 									<b class="caret"></b>
@@ -113,7 +113,7 @@
 										<td>
 											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
 											{{partial 'editContact'}}
-											<i id="deleteContact"class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
+											<i id="deleteContact" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
 									</tr>
 								{{/each}}
@@ -281,7 +281,25 @@
 				Achievements
 			</div>
 			<div class="span10">
-				Listing come here
+				<table id="achievementListing" class="table table-hover">
+							<thead>
+								<tr>
+									<td>{{unachievedAchievementCount}} achievement{{#if severalUnachievedAchievements}}s{{/if}} still unachieved</td>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each controller itemController="achievement"}}
+									<tr id="achievementItem">
+										<td>
+											{{partial 'achievementPartial'}}
+										</td>
+										<td>
+											<i id="toggleAchieved" {{bindAttr class="is_achieved:icon-check:icon-check-empty :action"}} {{action 'toggleAchieved'}} data-toggle="tooltip" title="Toggle achieved/unachieved"></i>&nbsp;
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
+						</table>
 			</dic>
 		</div>
 	</script>
@@ -309,6 +327,10 @@
 	
 	<script type="text/x-handlebars" id="_groupPartial">
 		<i class="icon-group"></i>&nbsp;{{name}}
+	</script>
+
+	<script type="text/x-handlebars" id="_achievementPartial">
+		<i class="icon-trophy"></i>&nbsp;{{title}}
 	</script>
 
 	<script type="text/x-handlebars" data-template-name="_readContact">
