@@ -5,15 +5,15 @@ App = Ember.Application.create({
 App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
-	//adapter: 'DS.LSAdapter'
+	adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	adapter: 'DS.RESTAdapter'
+	//adapter: 'DS.RESTAdapter'
 });
 
-DS.RESTAdapter.reopen({
-  url: 'http://localhost/myContactsServer'
-});
+// DS.RESTAdapter.reopen({
+  // url: 'http://localhost/myContactsServer'
+// });
 
 
 App.Router.map(function() {
@@ -23,7 +23,8 @@ App.Router.map(function() {
 		this.resource('contact', {path: ':contact_id'});
 	});
 	this.resource('groups');
-	this.resource('about');
+	this.resource('achievements');
+	this.route('about');
 });
 
 App.ApplicationRoute = Ember.Route.extend({

@@ -29,7 +29,16 @@
 						<li>{{#linkTo 'groups'}}<i class="icon-group"></i>&nbsp;Groups{{/linkTo}}</li>
 					</ul>
 					<ul class="nav pull-right">
-						<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" style="cursor: pointer;">
+									<i class="icon-plus"></i>&nbsp;
+									<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>{{#linkTo 'achievements'}}<i class="icon-trophy"></i>&nbsp;Achievements{{/linkTo}}</li>
+								<li>{{#linkTo 'about'}}About{{/linkTo}}</li>
+							</ul>
+						</li>
 					</ul>
 				</div>
 			</div>
@@ -262,6 +271,17 @@
 		</div>
 	</script>
 
+	<script type="text/x-handlebars" id="achievements">
+		<div class="row-fluid">
+			<div class="span2 lead">
+				Achievements
+			</div>
+			<div class="span10">
+				Listing come here
+			</dic>
+		</div>
+	</script>
+
 	<script type="text/x-handlebars" id="about">
 		<div class="row-fluid">
 			<div class="span4 offset4">
@@ -421,12 +441,15 @@
 	<script src="js/models/contact_model.js"></script>
 	<script src="js/models/group_model.js"></script>
 	<script src="js/models/contact_group_link_model.js"></script>
+	<script src="js/models/achievement_model.js"></script>
 	<script src="js/controllers/contacts_controller.js"></script>
 	<script src="js/controllers/contacts_search_controller.js"></script>
 	<script src="js/controllers/contacts_create_controller.js"></script>
 	<script src="js/controllers/contact_controller.js"></script>
 	<script src="js/controllers/groups_controller.js"></script>
 	<script src="js/controllers/group_controller.js"></script>
+	<script src="js/controllers/achievements_controller.js"></script>
+	<script src="js/controllers/achievement_controller.js"></script>
 	
 	<!-- FOR DEBUG PURPOSE -->
 	<script src="js/libs/ember-localstorage-adapter.js"></script>
