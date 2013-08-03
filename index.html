@@ -280,7 +280,7 @@
 				<table id="achievementListing" class="table table-hover">
 							<thead>
 								<tr>
-									<td>{{unachievedAchievementCount}} achievement{{#if severalUnachievedAchievements}}s{{/if}} remains unachieved</td>
+									<td>{{unachievedAchievementCount}} achievement{{#if severalUnachievedAchievements}}s{{/if}} still unachieved</td>
 								</tr>
 							</thead>
 							<tbody>
@@ -290,7 +290,7 @@
 											{{partial 'achievementPartial'}}
 										</td>
 										<td>
-											<i id="toggleAchieved" class="icon-check action" {{action 'toggleAchieved'}} data-toggle="tooltip" title="set as achieved/unachieved"></i>&nbsp;
+											<i id="toggleAchieved" {{bindAttr class="is_achieved:icon-check:icon-check-empty :action"}} {{action 'toggleAchieved'}} data-toggle="tooltip" title="Toggle achieved/unachieved"></i>&nbsp;
 										</td>
 									</tr>
 								{{/each}}

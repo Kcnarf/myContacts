@@ -2,7 +2,7 @@ App.Achievement = DS.Model.extend({
 
 	title: DS.attr('string'),
 	description: DS.attr('string'),
-	ais_chieved: DS.attr('boolean')
+	is_achieved: DS.attr('boolean')
 	
 	// // Pages of myContacts
 	// visit_achievements_page: DS.attr('boolean'),
