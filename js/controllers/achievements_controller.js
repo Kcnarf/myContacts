@@ -1,7 +1,7 @@
 App.AchievementsController= Ember.ArrayController.extend({
 	
 	unachievedAchievements: function () {
-		return this.get('content').filterProperty('is_achieved',true);
+		return this.get('content').filterProperty('is_achieved',false);
 	}.property('content.@each.is_achieved'),
 	
 	unachievedAchievementCount: function() {
@@ -10,5 +10,9 @@ App.AchievementsController= Ember.ArrayController.extend({
 	
 	severalUnachievedAchievements: function() {
 		return this.get('unachievedAchievementCount') > 1;
+	}.property('unachievedAchievementCount'),
+	
+	noUnachievedAchievement: function() {
+		return this.get('unachievedAchievementCount') === 0;
 	}.property('unachievedAchievementCount')
 })
