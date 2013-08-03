@@ -19,12 +19,14 @@ App.Store = DS.Store.extend({
 App.Contact.FIXTURES = [];
 App.Group.FIXTURES = [];
 App.Contact_group_link.FIXTURES = [];
+App.Achievement.FIXTURES = [];
 	
 // Run before each test case.
 QUnit.testStart(function () {
 	App.Contact.FIXTURES = [];
 	App.Group.FIXTURES = [];
 	App.Contact_group_link.FIXTURES = [];
+	App.Achievement.FIXTURES = [];
 	// Put the application into a known state, and destroy the defaultStore.
 	// Be careful about DS.Model instances stored in App; they'll be invalid
 	// after this.
