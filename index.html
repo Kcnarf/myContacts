@@ -295,7 +295,7 @@
 								{{#each controller itemController="achievement"}}
 									<tr id="achievementItem">
 										<td>
-											{{partial 'achievementPartial'}}
+											<span {{bindAttr class="is_achieved::muted"}}>{{partial 'achievementPartial'}}<span>
 											<br />
 											<span class="muted">How to achieve it: {{how_to}}<span>
 										</td>
