@@ -69,14 +69,18 @@ App.AchievementsController= Ember.ArrayController.extend({
 		this.set('memorizedContactCount', this.get('contactCount'));
 	}.observes('contactCount'),
 	
-	groupCountObserver: function() {
-		if (this.get('memorizedGroupCount') < this.get('groupCount')) {
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
-		}
-		else if (this.get('memorizedGroupCount') > this.get('groupCount')) {
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Mass killer').get('firstObject'));
-		}
-		this.set('memorizedGroupCount', this.get('groupCount'));
-	}.observes('groupCount')
+	// groupCountObserver: function() {
+		// if (this.get('memorizedGroupCount') < this.get('groupCount')) {
+			// this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
+		// }
+		// else if (this.get('memorizedGroupCount') > this.get('groupCount')) {
+			// this.setAsAchieved(this.get('content').filterProperty('title', 'Mass killer').get('firstObject'));
+		// }
+		// this.set('memorizedGroupCount', this.get('groupCount'));
+	// }.observes('groupCount'),
+	
+	groupRemoved: function() {
+		this.setAsAchieved(this.get('content').filterProperty('title', 'Mass killer').get('firstObject'));
+	}
 	
 })
