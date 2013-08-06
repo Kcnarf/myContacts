@@ -20,7 +20,6 @@ App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.route('create');
-		this.resource('contact', {path: ':contact_id'});
 	});
 	this.resource('groups');
 	this.resource('achievements');
