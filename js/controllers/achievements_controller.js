@@ -30,7 +30,7 @@ App.AchievementsController= Ember.ArrayController.extend({
 			this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
 		}
 		else if (this.get('currentPath') == "achievements") {
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Eager Learner').get('firstObject'));
+			this.setAsAchieved(this.get('content').filterProperty('title', 'Eager learner').get('firstObject'));
 		}
 	}.observes('currentPath')
 })
