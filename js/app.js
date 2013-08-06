@@ -1,6 +1,5 @@
 App = Ember.Application.create({
-	LOG_TRANSITIONS: true,
-	LOG_ACTIVE_GENERATION: true
+	LOG_TRANSITIONS: true
 });
 
 App.Store= DS.Store.extend({
@@ -32,9 +31,8 @@ App.ApplicationRoute = Ember.Route.extend({
 	setupController: function(){
 		App.Contact.find(); // populate the store with all Contact instances
 		App.Group.find(); // populate the store with all Group instances
-		App.Contact_group_link.find(); // populate the store with all links/relationships between Contact and Group
-		App.Achievement.find(); // populate the store with all Achievement instances
-		
+		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
+		App.Achievement.find() // populate the store with all Achievement instances
 	},
 	redirect: function(){
 		this.transitionTo('index')
