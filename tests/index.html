@@ -299,12 +299,12 @@
 								{{#each controller itemController="achievement"}}
 									<tr id="achievementItem">
 										<td>
-											{{partial 'achievementPartial'}}
+											<span {{bindAttr class="is_achieved::muted"}}>{{partial 'achievementPartial'}}</span>
 											<br />
 											<span class="muted">How to achieve it: {{how_to}}<span>
 										</td>
 										<td>
-											<i id="toggleAchieved" {{bindAttr class="is_achieved:icon-check:icon-check-empty :action :pull-right"}} {{action 'toggleAchieved'}} data-toggle="tooltip" title="Toggle achieved/unachieved"></i>&nbsp;
+											<i id="toggleAchieved" {{bindAttr class="is_achieved:icon-check:icon-check-empty :action"}} {{action 'toggleAchieved'}} data-toggle="tooltip" title="Toggle achieved/unachieved"></i>&nbsp;
 										</td>
 									</tr>
 								{{/each}}
