@@ -124,7 +124,7 @@ test("Creation of a Group can be cancelled", function () {
 	var groupName= "Group1";
 	goToCreateGroup()
 	.then(function() {
-		fillIn("#createGroup #new_group_name input", groupName);
+		return fillIn("#createGroup #new_group_name input", groupName);
 	}).then(function() {
 		return click("#createGroup .close");
 	}).then(function() {
