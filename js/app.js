@@ -33,6 +33,8 @@ App.ApplicationRoute = Ember.Route.extend({
 		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
 		App.Achievement.find() // populate the store with all Achievement instances
 		
+		this.controllerFor('contacts').set('model', App.Contact.all());
+		this.controllerFor('groups').set('model', App.Group.all());
 		this.controllerFor('achievements').set('model', App.Achievement.all());
 	},
 	redirect: function(){
