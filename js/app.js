@@ -22,7 +22,7 @@ App.Router.map(function() {
 		this.route('create');
 	});
 	this.resource('groups', function(){
-		this.route('new');
+		this.route('create');
 		this.resource('group', {path: '/:group_id'}, function(){
 			this.route('edit');
 		});
@@ -99,6 +99,50 @@ App.GroupsRoute = Ember.Route.extend({
 /*******************************
 * Group
 *******************************/
+App.GroupsCreateRoute = Ember.Route.extend({
+	model: function () {
+		return App.Group.createRecord();
+	},
+	renderTemplate: function() {
+    this.render({
+			outlet: 'createGroupOutlet'
+			});
+  },
+	events: {
+		rollback: function() {
+			this.get('controller').get('content').get('transaction').rollback();
+		},
+		rollbackAndClose: function() {
+			this.get('controller').get('content').get('transaction').rollback();
+			this.transitionTo('groups')
+		},
+		commitAndClose: function() {
+			this.get('controller').get('content').get('transaction').commit();
+			if(this.get('controller').get('content').didUpdate) {
+				return this.transitionTo('groups');
+			}
+		}
+	}
+});
+
+App.GroupsCreateView = Em.View.extend({
+	templateName: 'groups/create',
+	tagName: 'creategroupmodal',
+
+	classNames: ['modal', 'fade', 'in'],
+
+	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
+	role:"dialog",
+	aria_hidden:"true",
+	tabindex:"-1",
+
+	didInsertElement: function () {
+		return this.$().modal('show');
+	},
+	willDestroyElement: function () {
+		return this.$().modal('hide');
+	}
+});
 
 App.GroupEditRoute = Ember.Route.extend({
 	model: function () {

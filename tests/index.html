@@ -221,7 +221,7 @@
 			<div class="span10">
 				<div class="row-fluid">
 					<!-- trigger modal -->
-					<a	class="action" data-target="#createGroup" data-toggle="modal">Create a Group</a>
+					{{#linkTo 'groups.create'}}<span id="createGroup">Create a Group</span>{{/linkTo}}
 					<hr/>
 					{{#if groupCount}}
 						<table id="groupListing" class="table table-hover">
@@ -247,37 +247,35 @@
 						</table>
 					{{else}}
 						<div id="noGroupDefined" class='muted'>
-							No group yet. 
-							<!-- trigger modal -->
-							Try to <a class="action" data-target="#createGroup" data-toggle="modal">create one</a>.
+							No group yet. Try to {{#linkTo 'groups.create'}}<span id="createGroup">create one</span>{{/linkTo}}.
 						</div>
 					{{/if}}
 				</div>
 			</div>
 		</div>
 		
-		<!-- Create Group Modal -->
-		<div id="createGroup" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">
-					{{#if new_group_name}}
-						<i class="icon-group"></i>&nbsp;{{new_group_name}} <small>- create</small>
-					{{else}}
-						Create a Group
-					{{/if}}
-				</h3>
-			</div>
-			<div class="modal-body">
-				<p id="new_group_name">name: {{view Ember.TextField valueBinding='new_group_name'}}</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" {{action 'createGroup' this}}>Create</button>
-				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'createGroup'}}>Create & Close</button>
-			</div>
-		</div>
-		
+		{{outlet 'createGroupOutlet'}}
 		{{outlet 'editGroupOutlet'}}
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="groups/create">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>×</button>
+			<h3 id="myModalLabel">
+				{{#if name}}
+					{{partial 'groupPartial'}} <small>- create</small>
+				{{else}}
+					Create a Group
+				{{/if}}
+			</h3>
+		</div>
+		<div class="modal-body">
+			<p id="name">name: {{view Ember.TextField valueBinding='name'}}</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>Cancel & Close</button>
+			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'commitAndClose'}}>Create & Close</button>
+		</div>
 	</script>
 	
 	<script type="text/x-handlebars" data-template-name="group/edit">
