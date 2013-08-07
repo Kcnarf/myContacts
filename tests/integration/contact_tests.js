@@ -83,9 +83,9 @@ Ember.Test.registerHelper('goToEditContact', function(app, contactAlias) {
 Ember.Test.registerHelper('editContact', function(app, contactAlias, newContactAlias) {
 	goToEditContact(contactAlias)
 	.then(function() {
-		fillIn("#editContact_"+contactAlias+" input", newContactAlias);
+		fillIn("editContactModal input", newContactAlias);
 	}).then(function() {
-		click("#editContact_"+newContactAlias+" button:contains('Save & Close')");
+		click("editContactModal button:contains('Save & Close')");
 	})
 	return wait();
 });
@@ -180,9 +180,9 @@ test("Update of a Contact is available", function () {
 	.then(function() {
 		return goToEditContact(contactAlias);
 	}).then(function() {
-		deepEqual(find("#editContact_"+contactAlias).css('display'), "block", "After clicking 'Edit Contact', UI allowing to edit a Contact should be displayed");
+		deepEqual(find("editContactModal").css('display'), "block", "After clicking 'Edit Contact', UI allowing to edit a Contact should be displayed");
 	}).then(function() {
-		return click("#editContact_"+contactAlias+" .close");
+		return click("editContactModal .close");
 	})
 });
 
@@ -193,11 +193,11 @@ test("Update of a Contact can be cancelled", function () {
 	.then(function() {
 		return goToEditContact(contactAlias1);
 	}).then(function() {
-		return fillIn("#editContact_"+contactAlias1+" input", contactAlias2);
+		return fillIn("editContactModal input", contactAlias2);
 	}).then(function() {
-		return click("#editContact_"+contactAlias2+" .close");
+		return click("editContactModal .close");
 	}).then(function() {
-		deepEqual(find("#editContact_"+contactAlias1).css('display'), "none", "After edit cancelation, UI allowing to edit a Contact should no longer be displayed");
+		deepEqual(find("editContactModal").length, 0, "After edit cancelation, UI allowing to edit a Contact should no longer exists");
 		ok(find("#contactListing tbody tr:contains("+contactAlias1+")").length>0, "After edit cancelation, the un-edited Contact should be displayed in the list of Contact(s)");
 	})
 });
