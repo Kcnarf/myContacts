@@ -105,7 +105,9 @@ App.GroupEditRoute = Ember.Route.extend({
 		return this.modelFor('group');
 	},
 	renderTemplate: function() {
-    this.render({ outlet: 'editGroupModal' });
+    this.render({
+			outlet: 'editGroupModal'
+			});
   },
 	events: {
 		rollback: function() {

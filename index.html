@@ -233,16 +233,15 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{!#each controller itemController="group"}}
-								{{#each controller}}
+								{{#each controller itemController="group"}}
+								{{!#each controller}}
 									<tr id="groupItem">
 										<td>
 											{{partial 'groupPartial'}}
 										</td>
 										<td>
-											{{partial 'editGroup'}}
-											<i id="deleteGroup" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 											{{#linkTo 'group.edit' this}}<i id="editGroup" class="icon-edit action" data-toggle="tooltip" title="Edit group"></i>&nbsp;{{/linkTo}}
+											<i id="deleteGroup" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete group"></i>&nbsp;
 										</td>
 									</tr>
 								{{/each}}
@@ -467,29 +466,6 @@
 			</div>
 		</div>
 	</script>
-	
-	<script type="text/x-handlebars" data-template-name="_editGroup">
-		<!-- Button to trigger modal -->
-		<span data-toggle="tooltip" title="Edit group">
-			<span id="editGroup" class="action" {{bindAttr data-target='editGroup_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
-		</span>
-		<!-- Modal -->
-		<div {{bindAttr id="editGroup_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>×</button>
-				<h3 id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
-			</div>
-			<div class="modal-body">
-				<p>name: {{view Ember.TextField valueBinding='name'}}</p>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" {{action 'rollback'}}>Restore</button>
-				<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>Restore & Close</button>
-				<button class="btn" {{action 'update'}}>Save</button>
-				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'update'}}>Save & Close</button>
-			</div>
-		</div>
-	</script>
 
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
@@ -507,7 +483,7 @@
 	<script src="js/controllers/contacts_create_controller.js"></script>
 	<script src="js/controllers/contact_controller.js"></script>
 	<script src="js/controllers/groups_controller.js"></script>
-	<script src="js/controllers/group_edit_controller.js"></script>
+	<script src="js/controllers/group_controller.js"></script>
 	<script src="js/controllers/achievements_controller.js"></script>
 	<script src="js/controllers/achievement_controller.js"></script>
 	

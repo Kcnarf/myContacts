@@ -1,4 +1,4 @@
-App.GroupEditController = Ember.ObjectController.extend({
+App.GroupController = Ember.ObjectController.extend({
   	
 	editGroup_modalId: function() {
 		return 'editGroup_'+ this.get('name');
