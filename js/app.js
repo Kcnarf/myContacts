@@ -20,6 +20,9 @@ App.Router.map(function() {
 	this.resource('contacts', function(){
 		this.route('search');
 		this.route('create');
+		this.resource('contact', {path: '/:contact_id'}, function(){
+			this.route('edit');
+		});
 	});
 	this.resource('groups', function(){
 		this.route('create');
@@ -84,7 +87,53 @@ App.ContactsCreateRoute = Ember.Route.extend({
 * Contact
 *******************************/
 
-// N/A
+App.ContactEditRoute = Ember.Route.extend({
+	model: function () {
+		return this.modelFor('contact');
+	},
+	renderTemplate: function() {
+    this.render({
+			outlet: 'editContactOutlet'
+			});
+  },
+	events: {
+		rollback: function() {
+			this.get('controller').get('content').get('transaction').rollback()
+		},
+		rollbackAndClose: function() {
+			this.get('controller').get('content').get('transaction').rollback();
+			this.transitionTo('contacts')
+		},
+		commit: function() {
+			this.get('controller').get('content').get('transaction').commit();
+		},
+		commitAndClose: function() {
+			this.get('controller').get('content').get('transaction').commit();
+			if(this.get('controller').get('content').didUpdate) {
+				return this.transitionTo('contacts');
+			}
+		}
+	}
+});
+
+App.ContactEditView = Em.View.extend({
+	templateName: 'contact/edit',
+	tagName: 'editcontactmodal',
+
+	classNames: ['modal', 'fade', 'in'],
+
+	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
+	role:"dialog",
+	aria_hidden:"true",
+	tabindex:"-1",
+
+	didInsertElement: function () {
+		return this.$().modal('show');
+	},
+	willDestroyElement: function () {
+		return this.$().modal('hide');
+	}
+});
 
 /*******************************
 * Groups

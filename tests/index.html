@@ -90,6 +90,9 @@
 	
 	<script type="text/x-handlebars" id="contacts">
 		{{outlet}}
+		
+		
+		{{outlet 'editContactOutlet'}}
 	</script>	
 
 	<script type="text/x-handlebars" id="contacts/search">
@@ -114,7 +117,7 @@
 										</td>
 										<td>
 											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-											{{partial 'editContact'}}
+											{{#linkTo 'contact.edit' this}}<i id="editContact" class="icon-edit action" data-toggle="tooltip" title="Edit contact"></i>&nbsp;{{/linkTo}}
 											<i id="deleteContact" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
 									</tr>
@@ -156,7 +159,7 @@
 									</td>
 									<td>
 										<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
-										{{partial 'editContact'}}
+										{{#linkTo 'contact.edit' this}}<i id="editContact" class="icon-edit action" data-toggle="tooltip" title="Edit contact"></i>&nbsp;{{/linkTo}}
 										<i id="deleteContact" class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>
 								</tr>
@@ -213,6 +216,51 @@
 		</div>
 	</script>
 	
+	<script type="text/x-handlebars" data-template-name="contact/edit">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>×</button>
+			<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- edit</small></h3>
+		</div>
+		<div class="modal-body">
+			<p>alias: {{view Ember.TextField valueBinding='alias'}}</p>
+			<span 
+				{{bindAttr class='groups::muted'}}>group(s): 
+				{{view Ember.Select contentBinding=allGroups
+						optionLabelPath='content.name'
+						optionValuePath='content'
+						selectionBinding='selectedGroups'
+						multiple=true}}
+			</span>
+			<hr/>
+			<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
+			<br/>
+			<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
+			<div class="row-fluid">
+				<div class="span6">
+					<h4>Personnal information</h4>
+					<ul>
+						<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+						<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+					</ul>
+				</div>
+				<div class="span6">
+					<h4>Office information</h4>
+					<ul>
+						<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+						<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" {{action 'rollback'}}>Restore</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>Restore & Close</button>
+			<button class="btn" {{action 'commit'}}>Save</button>
+			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'commitAndClose'}}>Save & Close</button>
+		</div>
+	</script>
+	
 	<script type="text/x-handlebars" id="groups">
 		<div class="row-fluid">
 			<div class="span2 lead">
@@ -253,6 +301,7 @@
 				</div>
 			</div>
 		</div>
+		<hr>
 		
 		{{outlet 'createGroupOutlet'}}
 		{{outlet 'editGroupOutlet'}}
@@ -407,58 +456,6 @@
 			</div>
 			<div class="modal-footer">
 				<button class="btn" data-dismiss="modal" aria-hidden="true" >Back to Contacts</button>
-			</div>
-		</div>
-	</script>
-	
-	<script type="text/x-handlebars" data-template-name="_editContact">
-		<!-- Button to trigger modal -->
-		<span data-toggle="tooltip" title="Edit contact">
-			<span id="editContact" class="action" {{bindAttr data-target='editContact_modalTrigererId'}} data-toggle="modal"><i class="icon-edit"></i>&nbsp;</span>
-		</span>
-		<!-- Modal -->
-		<div {{bindAttr id="editContact_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>×</button>
-				<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- edit</small></h3>
-			</div>
-			<div class="modal-body">
-				<p>alias: {{view Ember.TextField valueBinding='alias'}}</p>
-				<span 
-					{{bindAttr class='groups::muted'}}>group(s): 
-					{{view Ember.Select contentBinding=allGroups
-							optionLabelPath='content.name'
-							optionValuePath='content'
-							selectionBinding='selectedGroups'
-							multiple=true}}
-				</span>
-				<hr/>
-				<span {{bindAttr class='first_name::muted'}}>First name: {{view Ember.TextField valueBinding='first_name'}}</span>
-				<br/>
-				<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
-				<div class="row-fluid">
-					<div class="span6">
-						<h4>Personnal information</h4>
-						<ul>
-							<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
-							<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
-							<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
-						</ul>
-					</div>
-					<div class="span6">
-						<h4>Office information</h4>
-						<ul>
-							<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
-							<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" {{action 'rollback'}}>Restore</button>
-				<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>Restore & Close</button>
-				<button class="btn" {{action 'update'}}>Save</button>
-				<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'update'}}>Save & Close</button>
 			</div>
 		</div>
 	</script>
