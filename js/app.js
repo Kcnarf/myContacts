@@ -141,10 +141,10 @@ App.GroupEditView = Em.View.extend({
 	tabindex:"-1",
 
 	didInsertElement: function () {
-		return this.$("editgroupmodal").modal('show');
+		return this.$().modal('show');
 	},
 	willDestroyElement: function () {
-		return this.$("editgroupmodal").modal('hide');
+		return this.$().modal('hide');
 	}
 });
 
