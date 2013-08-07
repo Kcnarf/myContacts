@@ -21,7 +21,12 @@ App.Router.map(function() {
 		this.route('search');
 		this.route('create');
 	});
-	this.resource('groups');
+	this.resource('groups', function(){
+		this.route('new');
+		this.resource('group', {path: '/:group_id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource('achievements');
 	this.route('about');
 });
@@ -95,7 +100,33 @@ App.GroupsRoute = Ember.Route.extend({
 * Group
 *******************************/
 
-// N/A
+App.GroupEditRoute = Ember.Route.extend({
+	model: function () {
+		return this.modelFor('group');
+	},
+	renderTemplate: function() {
+    this.render({ outlet: 'editGroupModal' });
+  }
+});
+
+App.GroupEditView = Em.View.extend({
+		templateName: 'group/edit',
+		tagName: 'editGroupModal',
+    
+		classNames: ['modal', 'fade', 'in'],
+		
+		attributeBindings: ['role', 'aria_hidden:aria-hidden', ' tabindex'],
+		role:"dialog",
+		aria_hidden:"true",
+		tabindex:-1,
+
+    didInsertElement: function () {
+        return this.$("#editGroupModal").modal('show');
+    },
+    willDestroyElement: function () {
+        return this.$("#editGroupModal").modal('hide');
+    }
+});
 
 /*******************************
 * Achievements
