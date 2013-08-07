@@ -233,7 +233,8 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each controller itemController="group"}}
+								{{!#each controller itemController="group"}}
+								{{#each controller}}
 									<tr id="groupItem">
 										<td>
 											{{partial 'groupPartial'}}
@@ -284,7 +285,7 @@
 	
 	<script type="text/x-handlebars" data-template-name="group/edit">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>×</button>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose' this}}>×</button>
 			<h3 id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
 		</div>
 		<div class="modal-body">
@@ -292,9 +293,9 @@
 		</div>
 		<div class="modal-footer">
 			<button class="btn" {{action 'rollback'}}>Restore</button>
-			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollback'}}>Restore & Close</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose' this}}>Restore & Close</button>
 			<button class="btn" {{action 'update'}}>Save</button>
-			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'update'}}>Save & Close</button>
+			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'updateAndClose'}}>Save & Close</button>
 		</div>
 	</script>
 
@@ -506,7 +507,7 @@
 	<script src="js/controllers/contacts_create_controller.js"></script>
 	<script src="js/controllers/contact_controller.js"></script>
 	<script src="js/controllers/groups_controller.js"></script>
-	<script src="js/controllers/group_controller.js"></script>
+	<script src="js/controllers/group_edit_controller.js"></script>
 	<script src="js/controllers/achievements_controller.js"></script>
 	<script src="js/controllers/achievement_controller.js"></script>
 	
