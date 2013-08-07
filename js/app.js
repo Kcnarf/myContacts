@@ -106,26 +106,32 @@ App.GroupEditRoute = Ember.Route.extend({
 	},
 	renderTemplate: function() {
     this.render({ outlet: 'editGroupModal' });
-  }
+  },
+	events: {
+		rollbackAndClose: function(group) {
+			group.rollback();
+			this.transitionTo('groups')
+		}
+	}
 });
 
 App.GroupEditView = Em.View.extend({
-		templateName: 'group/edit',
-		tagName: 'editGroupModal',
-    
-		classNames: ['modal', 'fade', 'in'],
-		
-		attributeBindings: ['role', 'aria_hidden:aria-hidden', ' tabindex'],
-		role:"dialog",
-		aria_hidden:"true",
-		tabindex:-1,
+	templateName: 'group/edit',
+	tagName: 'editGroupModal',
 
-    didInsertElement: function () {
-        return this.$("#editGroupModal").modal('show');
-    },
-    willDestroyElement: function () {
-        return this.$("#editGroupModal").modal('hide');
-    }
+	classNames: ['modal', 'fade', 'in'],
+
+	attributeBindings: ['role', 'aria_hidden:aria-hidden', ' tabindex'],
+	role:"dialog",
+	aria_hidden:"true",
+	tabindex:-1,
+
+	didInsertElement: function () {
+		return this.$("#editGroupModal").modal('show');
+	},
+	willDestroyElement: function () {
+		return this.$("#editGroupModal").modal('hide');
+	}
 });
 
 /*******************************
