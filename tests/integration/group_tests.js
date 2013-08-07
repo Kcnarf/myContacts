@@ -83,9 +83,9 @@ Ember.Test.registerHelper('goToEditGroup', function(app, groupName) {
 Ember.Test.registerHelper('editGroup', function(app, groupName, newGroupName) {
 	goToEditGroup(groupName)
 	.then(function() {
-		fillIn("#editGroup_"+groupName+" input", newGroupName);
+		fillIn("editgroupmodal input", newGroupName);
 	}).then(function() {
-		click("#editGroup_"+newGroupName+" button:contains('Save & Close')");
+		click("editgroupmodal button:contains('Save & Close')");
 	})
 	return wait();
 });
@@ -177,9 +177,9 @@ test("Update of a Group is available", function () {
 	.then(function() {
 		return goToEditGroup(groupName);
 	}).then(function() {
-		deepEqual(find("#editGroup_"+groupName).css('display'), "block", "After clicking 'Edit Group', UI allowing to edit a Group should be displayed");
+		deepEqual(find("editgroupmodal").css('display'), "block", "After clicking 'Edit Group', UI allowing to edit a Group should be displayed");
 	}).then(function() {
-		return click("#editGroup_"+groupName+" .close");
+		return click("editgroupmodal .close");
 	})
 });
 
@@ -190,11 +190,11 @@ test("Update of a Group can be cancelled", function () {
 	.then(function() {
 		return goToEditGroup(groupName1);
 	}).then(function() {
-		return fillIn("#editGroup_"+groupName1+" input", groupName2);
+		return fillIn("editgroupmodal input", groupName2);
 	}).then(function() {
-		return click("#editGroup_"+groupName2+" .close");
+		return click("editgroupmodal .close");
 	}).then(function() {
-		deepEqual(find("#editGroup_"+groupName1).css('display'), "none", "After edit cancelation, UI allowing to edit a Group should no longer be displayed");
+		deepEqual(find("editgroupmodal").length, 0, "After edit cancelation, UI allowing to edit a Group should no longer exists");
 		ok(find("#groupListing tbody tr:contains("+groupName1+")").length>0, "After edit cancelation, the un-edited Group should be displayed in the list of Group(s)");
 	})
 });

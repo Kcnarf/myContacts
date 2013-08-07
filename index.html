@@ -209,12 +209,6 @@
 		</div>
 	</script>
 	
-	<!--script type="text/x-handlebars" id="groups">
-		{{outlet}}
-		{{outlet 'editGroupModal'}}
-	</script>
-	
-	<script type="text/x-handlebars" id="groups/index"-->
 	<script type="text/x-handlebars" id="groups">
 		<div class="row-fluid">
 			<div class="span2 lead">
@@ -279,12 +273,12 @@
 			</div>
 		</div>
 		
-		{{outlet 'editGroupModal'}}
+		{{outlet 'editGroupOutlet'}}
 	</script>
 	
 	<script type="text/x-handlebars" data-template-name="group/edit">
 		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose' this}}>×</button>
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>×</button>
 			<h3 id="myModalLabel">{{partial 'groupPartial'}} <small>- edit</small></h3>
 		</div>
 		<div class="modal-body">
@@ -292,7 +286,7 @@
 		</div>
 		<div class="modal-footer">
 			<button class="btn" {{action 'rollback'}}>Restore</button>
-			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose' this}}>Restore & Close</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'rollbackAndClose'}}>Restore & Close</button>
 			<button class="btn" {{action 'update'}}>Save</button>
 			<button class="btn btn-primary" data-dismiss="modal" aria-hidden="true" {{action 'updateAndClose'}}>Save & Close</button>
 		</div>
