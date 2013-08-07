@@ -65,9 +65,9 @@ Ember.Test.registerHelper('goToCreateGroup', function(app) {
 Ember.Test.registerHelper('createGroup', function(app, groupName) {
 	goToCreateGroup()
 	.then(function() {
-		fillIn("#createGroup #new_group_name input", groupName);
+		fillIn("creategroupmodal #name input", groupName);
 	}).then(function() {
-		click("#createGroup button:contains('Create & Close')");
+		click("creategroupmodal button:contains('Create & Close')");
 	});
 	return wait();
 });
@@ -114,9 +114,9 @@ test("Special message when no Group", function () {
 test("Creation of a Group is available", function () {
 	goToCreateGroup()
 	.then(function() {
-		deepEqual(find("#createGroup").css('display'), "block", "After clicking 'Create a Group', UI allowing to create a Group should be displayed");
+		deepEqual(find("creategroupmodal").css('display'), "block", "After clicking 'Create a Group', UI allowing to create a Group should be displayed");
 	}).then(function() {
-		return click("#createGroup .close");
+		return click("creategroupmodal .close");
 	})
 });
 
@@ -124,11 +124,11 @@ test("Creation of a Group can be cancelled", function () {
 	var groupName= "Group1";
 	goToCreateGroup()
 	.then(function() {
-		return fillIn("#createGroup #new_group_name input", groupName);
+		return fillIn("creategroupmodal #name input", groupName);
 	}).then(function() {
-		return click("#createGroup .close");
+		return click("creategroupmodal .close");
 	}).then(function() {
-		deepEqual(find("#createGroup").css('display'), "none", "After cancelation, modal 'Create Group' should no longer be displayed");
+		deepEqual(find("creategroupmodal").length, 0, "After cancelation, modal 'Create Group' should no longer exists");
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
 	})
 });
