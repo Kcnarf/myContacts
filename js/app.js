@@ -21,7 +21,12 @@ App.Router.map(function() {
 		this.route('search');
 		this.route('create');
 	});
-	this.resource('groups');
+	this.resource('groups', function(){
+		this.route('new');
+		this.resource('group', {path: '/:group_id'}, function(){
+			this.route('edit');
+		});
+	});
 	this.resource('achievements');
 	this.route('about');
 });
@@ -95,7 +100,53 @@ App.GroupsRoute = Ember.Route.extend({
 * Group
 *******************************/
 
-// N/A
+App.GroupEditRoute = Ember.Route.extend({
+	model: function () {
+		return this.modelFor('group');
+	},
+	renderTemplate: function() {
+    this.render({
+			outlet: 'editGroupOutlet'
+			});
+  },
+	events: {
+		rollback: function() {
+			this.get('controller').get('content').get('transaction').rollback()
+		},
+		rollbackAndClose: function() {
+			this.get('controller').get('content').get('transaction').rollback();
+			this.transitionTo('groups')
+		},
+		update: function() {
+			this.get('controller').get('content').get('transaction').commit();
+		},
+		updateAndClose: function() {
+			this.get('controller').get('content').get('transaction').commit();
+			if(this.get('controller').get('content').didUpdate) {
+				return this.transitionTo('groups');
+			}
+		}
+	}
+});
+
+App.GroupEditView = Em.View.extend({
+	templateName: 'group/edit',
+	tagName: 'editgroupmodal',
+
+	classNames: ['modal', 'fade', 'in'],
+
+	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
+	role:"dialog",
+	aria_hidden:"true",
+	tabindex:"-1",
+
+	didInsertElement: function () {
+		return this.$().modal('show');
+	},
+	willDestroyElement: function () {
+		return this.$().modal('hide');
+	}
+});
 
 /*******************************
 * Achievements
