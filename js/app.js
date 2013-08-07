@@ -108,9 +108,21 @@ App.GroupEditRoute = Ember.Route.extend({
     this.render({ outlet: 'editGroupModal' });
   },
 	events: {
-		rollbackAndClose: function(group) {
-			group.rollback();
+		rollback: function() {
+			this.get('controller').get('content').rollback()
+		},
+		rollbackAndClose: function() {
+			this.get('controller').get('content').rollback();
 			this.transitionTo('groups')
+		},
+		update: function() {
+			this.get('controller').get('content').get('transaction').commit();
+		},
+		updateAndClose: function() {
+			this.get('controller').get('content').get('transaction').commit();
+			if(this.get('controller').get('content').didUpdate) {
+				return this.transitionTo('groups');
+			}
 		}
 	}
 });
