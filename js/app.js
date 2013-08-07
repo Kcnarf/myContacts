@@ -109,9 +109,6 @@ App.GroupsCreateRoute = Ember.Route.extend({
 			});
   },
 	events: {
-		rollback: function() {
-			this.get('controller').get('content').get('transaction').rollback();
-		},
 		rollbackAndClose: function() {
 			this.get('controller').get('content').get('transaction').rollback();
 			this.transitionTo('groups')
@@ -161,10 +158,10 @@ App.GroupEditRoute = Ember.Route.extend({
 			this.get('controller').get('content').get('transaction').rollback();
 			this.transitionTo('groups')
 		},
-		update: function() {
+		commit: function() {
 			this.get('controller').get('content').get('transaction').commit();
 		},
-		updateAndClose: function() {
+		commitAndClose: function() {
 			this.get('controller').get('content').get('transaction').commit();
 			if(this.get('controller').get('content').didUpdate) {
 				return this.transitionTo('groups');
