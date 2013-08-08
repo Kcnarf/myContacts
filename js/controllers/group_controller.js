@@ -1,13 +1,5 @@
 App.GroupController = Ember.ObjectController.extend({
   
-	update: function() {
-		this.get('transaction').commit()
-	},
-	
-	rollback: function() {
-		this.get('transaction').rollback();
-	},
-	
 	delete: function () {
 		var old_contact_group_links= this.get('content.contact_group_links.content');
 		while(!Ember.isEmpty(old_contact_group_links)) {

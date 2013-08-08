@@ -188,17 +188,17 @@ App.GroupsCreateRoute = Ember.Route.extend({
 		return App.Group.createRecord();
 	},
 	renderTemplate: function() {
-    this.render({
+		this.render({
 			outlet: 'createGroupOutlet'
-			});
+		});
   },
 	events: {
 		rollbackAndClose: function() {
-			this.get('controller').get('content').get('transaction').rollback();
+			this.get('controller').rollback();
 			this.transitionTo('groups')
 		},
 		commitAndClose: function() {
-			this.get('controller').get('content').get('transaction').commit();
+			this.get('controller').update();
 			if(this.get('controller').get('content').didUpdate) {
 				return this.transitionTo('groups');
 			}
@@ -230,23 +230,23 @@ App.GroupEditRoute = Ember.Route.extend({
 		return this.modelFor('group');
 	},
 	renderTemplate: function() {
-    this.render({
+		this.render({
 			outlet: 'editGroupOutlet'
-			});
+		});
   },
 	events: {
 		rollback: function() {
-			this.get('controller').get('content').get('transaction').rollback()
+			this.get('controller').rollback()
 		},
 		rollbackAndClose: function() {
-			this.get('controller').get('content').get('transaction').rollback();
+			this.get('controller').rollback()
 			this.transitionTo('groups')
 		},
 		commit: function() {
-			this.get('controller').get('content').get('transaction').commit();
+			this.get('controller').update()
 		},
 		commitAndClose: function() {
-			this.get('controller').get('content').get('transaction').commit();
+			this.get('controller').update()
 			if(this.get('controller').get('content').didUpdate) {
 				return this.transitionTo('groups');
 			}
