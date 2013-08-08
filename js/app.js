@@ -103,25 +103,6 @@ App.ContactReadRoute = Ember.Route.extend({
 	}
 });
 
-App.ContactReadView = Em.View.extend({
-	templateName: 'contact/read',
-	tagName: 'readcontactmodal',
-
-	classNames: ['modal', 'fade', 'in'],
-
-	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
-	role:"dialog",
-	aria_hidden:"true",
-	tabindex:"-1",
-
-	didInsertElement: function () {
-		return this.$().modal('show');
-	},
-	willDestroyElement: function () {
-		return this.$().modal('hide');
-	}
-});
-
 App.ContactEditRoute = Ember.Route.extend({
 	model: function () {
 		return this.modelFor('contact');
@@ -148,25 +129,6 @@ App.ContactEditRoute = Ember.Route.extend({
 				return this.transitionTo('contacts');
 			}
 		}
-	}
-});
-
-App.ContactEditView = Em.View.extend({
-	templateName: 'contact/edit',
-	tagName: 'editcontactmodal',
-
-	classNames: ['modal', 'fade', 'in'],
-
-	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
-	role:"dialog",
-	aria_hidden:"true",
-	tabindex:"-1",
-
-	didInsertElement: function () {
-		return this.$().modal('show');
-	},
-	willDestroyElement: function () {
-		return this.$().modal('hide');
 	}
 });
 
@@ -206,25 +168,6 @@ App.GroupsCreateRoute = Ember.Route.extend({
 	}
 });
 
-App.GroupsCreateView = Em.View.extend({
-	templateName: 'groups/create',
-	tagName: 'creategroupmodal',
-
-	classNames: ['modal', 'fade', 'in'],
-
-	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
-	role:"dialog",
-	aria_hidden:"true",
-	tabindex:"-1",
-
-	didInsertElement: function () {
-		return this.$().modal('show');
-	},
-	willDestroyElement: function () {
-		return this.$().modal('hide');
-	}
-});
-
 App.GroupEditRoute = Ember.Route.extend({
 	model: function () {
 		return this.modelFor('group');
@@ -251,25 +194,6 @@ App.GroupEditRoute = Ember.Route.extend({
 				return this.transitionTo('groups');
 			}
 		}
-	}
-});
-
-App.GroupEditView = Em.View.extend({
-	templateName: 'group/edit',
-	tagName: 'editgroupmodal',
-
-	classNames: ['modal', 'fade', 'in'],
-
-	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
-	role:"dialog",
-	aria_hidden:"true",
-	tabindex:"-1",
-
-	didInsertElement: function () {
-		return this.$().modal('show');
-	},
-	willDestroyElement: function () {
-		return this.$().modal('hide');
 	}
 });
 
