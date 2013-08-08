@@ -88,6 +88,7 @@
 		{{outlet}}
 		
 		
+		{{outlet 'readContactOutlet'}}
 		{{outlet 'editContactOutlet'}}
 	</script>	
 
@@ -109,7 +110,7 @@
 								{{#each favoriteContacts itemController="Contact"}}
 									<tr>
 										<td>
-											{{partial 'readContact'}}
+											{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 										</td>
 										<td>
 											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
@@ -151,7 +152,7 @@
 							{{#each searchContacts itemController="contact"}}
 								<tr>
 									<td>
-										{{partial 'readContact'}}
+										{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 									</td>
 									<td>
 										<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
@@ -209,6 +210,48 @@
 					<div class="btn" {{action 'rollback' this}}><i class="icon-cancel"></i>&nbsp;Cancel</div>
 				</div>
 			</div>
+		</div>
+	</script>
+	
+	<script type="text/x-handlebars" data-template-name="contact/read">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true" {{action 'close'}}>×</button>
+			<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- read</small></h3>
+		</div>
+		<div class="modal-body">
+			{{#if groups}}
+				in {{groupCount}} group(s):{{#each group in groups}}
+					{{#with group}}
+						{{partial 'groupPartial'}},
+					{{/with}}
+				{{/each}}
+			{{else}}
+				<p class="muted">not in any group</p>
+			{{/if}}
+			<hr/>
+			<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
+			<br/>
+			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
+			<div class="row-fluid">
+				<div class="span6">
+					<h4>Personnal information</h4>
+					<ul>
+						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
+						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
+						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+					</ul>
+				</div>
+				<div class="span6">
+					<h4>Office information</h4>
+					<ul>
+						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
+						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true" {{action 'close'}}>Back to Contacts</button>
 		</div>
 	</script>
 	
@@ -406,57 +449,8 @@
 	<script type="text/x-handlebars" id="_achievementPartial">
 		<i class="icon-trophy"></i>&nbsp;{{title}}
 	</script>
-
-	<script type="text/x-handlebars" data-template-name="_readContact">
-		<!-- Button to trigger modal -->
-		<span data-toggle="tooltip" title="Show contact information">
-			<span class="action" {{bindAttr data-target='readContact_modalTrigererId'}} data-toggle="modal"><i class="icon-user"></i>&nbsp;{{alias}}</span>
-		</span>
-		<!-- Modal -->
-		<div {{bindAttr id="readContact_modalId" }} class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				<h3 id="myModalLabel">{{partial 'contactPartial'}} <small>- read</small></h3>
-			</div>
-			<div class="modal-body">
-				{{#if groups}}
-					in {{groupCount}} group(s):{{#each group in groups}}
-						{{#with group}}
-							{{partial 'groupPartial'}},
-						{{/with}}
-					{{/each}}
-				{{else}}
-					<p class="muted">not in any group</p>
-				{{/if}}
-				<hr/>
-				<span {{bindAttr class='first_name::muted'}}>First name: {{first_name}}</span>
-				<br/>
-				<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
-				<div class="row-fluid">
-					<div class="span6">
-						<h4>Personnal information</h4>
-						<ul>
-							<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
-							<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
-							<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
-						</ul>
-					</div>
-					<div class="span6">
-						<h4>Office information</h4>
-						<ul>
-							<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
-							<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn" data-dismiss="modal" aria-hidden="true" >Back to Contacts</button>
-			</div>
-		</div>
-	</script>
 	
-
+	
 	<script src="js/libs/jquery-1.9.1.js"></script>
 	<script src="js/libs/bootstrap-dropdown.js"></script>
 	<script src="js/libs/bootstrap-modal.js"></script>
