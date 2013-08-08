@@ -11,7 +11,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		this.transitionToRoute('contact.read', contact)
 	},
 	
-	switchFavorite: function (contact) {
+	toggleFavorite: function (contact) {
 		contact.set('is_favorite', !contact.get('is_favorite'));
 		contact.get('transaction').commit()
 	},

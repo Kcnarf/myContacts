@@ -113,7 +113,7 @@
 											{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 										</td>
 										<td>
-											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+											<i id="toggleFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "toggleFavorite" this}}></i>&nbsp;
 											{{#linkTo 'contact.edit' this}}<i id="editContact" class="icon-edit action" data-toggle="tooltip" title="Edit contact"></i>&nbsp;{{/linkTo}}
 											<i id="deleteContact" class="icon-trash action" {{action 'delete' this}} data-toggle="tooltip" title="Delete contact"></i>&nbsp;
 										</td>
@@ -155,7 +155,7 @@
 										{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 									</td>
 									<td>
-										<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
+										<i id="toggleFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "toggleFavorite" this}}></i>&nbsp;
 										{{#linkTo 'contact.edit' this}}<i id="editContact" class="icon-edit action" data-toggle="tooltip" title="Edit contact"></i>&nbsp;{{/linkTo}}
 										<i id="deleteContact" class="icon-trash action" data-toggle="tooltip" title="Delete contact"{{action 'delete' this}}></i>&nbsp;
 									</td>

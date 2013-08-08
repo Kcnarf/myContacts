@@ -106,10 +106,10 @@ Ember.Test.registerHelper('deleteContact', function(app, contactAlias) {
 	return wait();
 });
 
-Ember.Test.registerHelper('switchFavorite', function(app, contactAlias) {
+Ember.Test.registerHelper('toggleFavorite', function(app, contactAlias) {
 	goToContacts()
 	.then(function() {
-		click("#contactListing tbody tr:contains("+contactAlias+") #switchFavorite");
+		click("#contactListing tbody tr:contains("+contactAlias+") #toggleFavorite");
 	});
 	return wait();
 });
@@ -280,7 +280,7 @@ test("Setting the fist Contact as favorite", function () {
 	var expectedFavoriteContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
 		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
@@ -296,13 +296,13 @@ test("Setting many Contacts as favorite", function () {
 	var expectedFavoriteContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		contactAlias= "Alias2";
 		expectedFavoriteContactCount= 2;
 		createContact(contactAlias)
 	}).then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
 		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
@@ -317,9 +317,9 @@ test("Unsetting the last favorite Contact", function () {
 	var contactAlias= "Alias1";
 	createContact(contactAlias)
 	.then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 1, "Without any favorite contact defined, App should display message 'No favorite contact yet'");
 		deepEqual(find("#favoriteContactListing").length, 0, "With no favorite contact defined, App should not display a list of favorite Contact(s)");
@@ -331,14 +331,14 @@ test("Unsetting the non-last favorite Contact", function () {
 	var expectedFavoriteContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		contactAlias= "Alias2";
 		createContact(contactAlias)
 	}).then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		deepEqual(find("#noFavoriteContactDefined:contains('No favorite contact yet')").length, 0, "With at least 1 favorite contact defined, App should not display message 'No favorite contact yet'");
 		ok(find("#favoriteContactListing thead tr").length>0, "With at least 1 favorite contact defined, App should display the number of favorite Contact(s)");
@@ -353,7 +353,7 @@ test("Deleting of a favorite contact", function () {
 	var contactAlias= "Alias1";
 	createContact(contactAlias)
 	.then(function() {
-		return switchFavorite(contactAlias);
+		return toggleFavorite(contactAlias);
 	}).then(function() {
 		return deleteContact(contactAlias);
 	}).then(function() {
