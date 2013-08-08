@@ -21,16 +21,18 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	},
 	
 	delete: function (contact) {
-		var linkedGroups = contact.get('groups').toArray();
-		var linkedGroup = null;
-		for(var i=0;i<linkedGroups.length;i++) {
-			linkedGroup = linkedGroups.objectAt(i);
-			linkedGroup.get('contacts').removeObject(contact);
-			linkedGroup.get('store').commit()
+		var old_contact_group_links= contact.get('contact_group_links.content');
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
+			contact.get('contact_group_links').removeObject(old_contact_group_link.record);
+			linkedGroup= old_contact_group_link.record.get('group');
+			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
+			old_contact_group_link.record.deleteRecord();
+			old_contact_group_link.record.get('store').commit()
 		};
-		contact.deleteRecord()
-		this.get('store').commit();
-		this.transitionToRoute('contacts.search');
+		
+		contact.deleteRecord();
+		this.get('store').commit()
 	},
 	
 	favoriteContacts: function () {

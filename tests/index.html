@@ -111,7 +111,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								{{#each favoriteContacts itemController="Contact"}}
+								{{#each favoriteContacts}}
 									<tr>
 										<td>
 											{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
@@ -153,7 +153,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{{#each searchContacts itemController="contact"}}
+							{{#each searchContacts}}
 								<tr>
 									<td>
 										{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
@@ -471,7 +471,6 @@
 	<script src="../js/controllers/contacts_controller.js"></script>
 	<script src="../js/controllers/contacts_search_controller.js"></script>
 	<script src="../js/controllers/contacts_create_controller.js"></script>
-	<script src="../js/controllers/contact_controller.js"></script>
 	<script src="../js/controllers/contact_read_controller.js"></script>
 	<script src="../js/controllers/contact_edit_controller.js"></script>
 	<script src="../js/controllers/groups_controller.js"></script>
