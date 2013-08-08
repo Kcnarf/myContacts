@@ -1,13 +1,5 @@
 App.GroupController = Ember.ObjectController.extend({
-  	
-	editGroup_modalId: function() {
-		return 'editGroup_'+ this.get('name');
-	}.property('name'),
-	
-	editGroup_modalTrigererId: function() {
-		return '#' + this.get('editGroup_modalId');
-	}.property('editGroup_modalId'),
-	
+  
 	update: function() {
 		this.get('transaction').commit()
 	},
