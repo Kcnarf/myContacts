@@ -12,10 +12,17 @@ App.GroupsController = Ember.ArrayController.extend({
 		return this.get('groupCount') > 1;
 	}.property('groupCount'),
 	
-	createGroup: function() {
-		var newGroup = App.Group.createRecord();
-		newGroup.set('name', this.get('new_group_name'));
-		newGroup.get('transaction').commit();
-		this.set('new_group_name', '')
+	delete: function (group) {
+		var old_contact_group_links= group.get('contact_group_links.content');
+		while(!Ember.isEmpty(old_contact_group_links)) {
+			old_contact_group_link = old_contact_group_links.get('firstObject')
+			group.get('contact_group_links').removeObject(old_contact_group_link.record);
+			linkedContact= old_contact_group_link.record.get('contact');
+			linkedContact.get('contact_group_links').removeObject(old_contact_group_link.record);
+			old_contact_group_link.record.deleteRecord();
+			old_contact_group_link.record.get('store').commit()
+		};
+		group.deleteRecord()
+		this.get('store').commit()
 	}
 });
