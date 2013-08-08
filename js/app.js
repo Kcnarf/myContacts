@@ -133,17 +133,17 @@ App.ContactEditRoute = Ember.Route.extend({
   },
 	events: {
 		rollback: function() {
-			this.get('controller').get('content').get('transaction').rollback()
+			this.get('controller').rollback()
 		},
 		rollbackAndClose: function() {
-			this.get('controller').get('content').get('transaction').rollback();
+			this.get('controller').rollback();
 			this.transitionTo('contacts')
 		},
 		commit: function() {
-			this.get('controller').get('content').get('transaction').commit();
+			this.get('controller').update();
 		},
 		commitAndClose: function() {
-			this.get('controller').get('content').get('transaction').commit();
+			this.get('controller').update();
 			if(this.get('controller').get('content').didUpdate) {
 				return this.transitionTo('contacts');
 			}
@@ -239,14 +239,14 @@ App.GroupEditRoute = Ember.Route.extend({
 			this.get('controller').rollback()
 		},
 		rollbackAndClose: function() {
-			this.get('controller').rollback()
+			this.get('controller').rollback();
 			this.transitionTo('groups')
 		},
 		commit: function() {
 			this.get('controller').update()
 		},
 		commitAndClose: function() {
-			this.get('controller').update()
+			this.get('controller').update();
 			if(this.get('controller').get('content').didUpdate) {
 				return this.transitionTo('groups');
 			}
