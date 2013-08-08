@@ -72,6 +72,14 @@ Ember.Test.registerHelper('createContact', function(app, contactAlias) {
 	return wait();
 });
 
+Ember.Test.registerHelper('goToReadContact', function(app, contactAlias) {
+	goToContacts()
+	.then(function() {
+		click("#contactListing tbody tr:contains("+contactAlias+") #readContact");
+	});
+	return wait();
+});
+
 Ember.Test.registerHelper('goToEditContact', function(app, contactAlias) {
 	goToContacts()
 	.then(function() {
@@ -171,6 +179,20 @@ test("Creation of a many Contacts", function () {
 		ok(find("#contactListing thead tr:contains('"+expectedContactCount+"')").length>0, "App should display the right count of Contacts");
 		deepEqual(find("#contactListing tbody tr").length, expectedContactCount, "App should display each Contact(s)");
 		ok(find("#contactListing tbody tr:contains("+contactAlias+")").length>0, "The name of a newly created contact should be displayed in the list of Contact(s)");
+	})
+});
+
+test("View of a Contact is available", function () {
+	var contactAlias= "Alias1";
+	createContact(contactAlias)
+	.then(function() {
+		return goToReadContact(contactAlias);
+	}).then(function() {
+		deepEqual(find("readContactModal").css('display'), "block", "After clicking 'View Contact', UI allowing to view a Contact should be displayed");
+	}).then(function() {
+		return click("readContactModal .close");
+	}).then(function() {
+		deepEqual(find("readContactModal").length, 0, "After display cancelation, UI allowing to view a Contact should no longer exists");
 	})
 });
 

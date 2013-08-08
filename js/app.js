@@ -21,6 +21,7 @@ App.Router.map(function() {
 		this.route('search');
 		this.route('create');
 		this.resource('contact', {path: '/:contact_id'}, function(){
+			this.route('read');
 			this.route('edit');
 		});
 	});
@@ -71,7 +72,7 @@ App.ContactsSearchRoute = Ember.Route.extend({
 		return this.modelFor('contacts');
 	}
 });
-
+	
 App.ContactsCreateRoute = Ember.Route.extend({
 	model: function() {
 		return App.Contact.createRecord();
@@ -86,6 +87,40 @@ App.ContactsCreateRoute = Ember.Route.extend({
 /*******************************
 * Contact
 *******************************/
+App.ContactReadRoute = Ember.Route.extend({
+	model: function () {
+		return this.modelFor('contact');
+	},
+	renderTemplate: function() {
+    this.render({
+			outlet: 'readContactOutlet'
+			});
+  },
+	events: {
+		close: function() {
+			this.transitionTo('contacts')
+		}
+	}
+});
+
+App.ContactReadView = Em.View.extend({
+	templateName: 'contact/read',
+	tagName: 'readcontactmodal',
+
+	classNames: ['modal', 'fade', 'in'],
+
+	attributeBindings: ['role', 'aria_hidden:aria-hidden', 'tabindex'],
+	role:"dialog",
+	aria_hidden:"true",
+	tabindex:"-1",
+
+	didInsertElement: function () {
+		return this.$().modal('show');
+	},
+	willDestroyElement: function () {
+		return this.$().modal('hide');
+	}
+});
 
 App.ContactEditRoute = Ember.Route.extend({
 	model: function () {
