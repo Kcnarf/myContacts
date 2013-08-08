@@ -114,7 +114,7 @@
 								{{#each favoriteContacts itemController="Contact"}}
 									<tr>
 										<td>
-											{{#linkTo 'contact.read' this}}<span data-toggle="tooltip" title="Show contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
+											{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 										</td>
 										<td>
 											<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
@@ -156,7 +156,7 @@
 							{{#each searchContacts itemController="contact"}}
 								<tr>
 									<td>
-										{{#linkTo 'contact.read' this}}<span data-toggle="tooltip" title="Show contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
+										{{#linkTo 'contact.read' this}}<span id="readContact" data-toggle="tooltip" title="View contact">{{partial 'contactPartial'}}</span>{{/linkTo}}
 									</td>
 									<td>
 										<i id="switchFavorite" {{bindAttr class="is_favorite:icon-star:icon-star-empty :action"}} data-toggle="tooltip" title="Add/remove from favorite contacts" {{action "switchFavorite" this}}></i>&nbsp;
