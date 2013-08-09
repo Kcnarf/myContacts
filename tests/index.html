@@ -192,20 +192,26 @@
 			<br/>
 			<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
 			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+				<div class="span12">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#personnalInformation" data-toggle="tab">Personnal information</a></li>
+						<li><a href="#officeInformation" data-toggle="tab">Office information</a></li>
 					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
-					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="personnalInformation">
+							<ul>
+								<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+								<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+								<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="officeInformation">
+							<ul>
+								<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+								<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 			<hr/>
@@ -238,20 +244,26 @@
 			<br/>
 			<span {{bindAttr class='last_name::muted'}}>Last name: {{last_name}}</span>
 			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+				<div class="span12">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#personnalInformation" data-toggle="tab">Personnal information</a></li>
+						<li><a href="#officeInformation" data-toggle="tab">Office information</a></li>
 					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
-					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="personnalInformation">
+							<ul>
+								<li {{bindAttr class='home_phone::muted'}}>home phone: {{home_phone}}</li>
+								<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{mobile_phone}}</li>
+								<li {{bindAttr class='personal_mail::muted'}}>mail: {{personal_mail}}</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="officeInformation">
+							<ul>
+								<li {{bindAttr class='office_phone::muted'}}>office phone: {{office_phone}}</li>
+								<li {{bindAttr class='office_mail::muted'}}>office mail: {{office_mail}}</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -280,20 +292,26 @@
 			<br/>
 			<span {{bindAttr class='last_name::muted'}}>Last name: {{view Ember.TextField valueBinding='last_name'}}</span>
 			<div class="row-fluid">
-				<div class="span6">
-					<h4>Personnal information</h4>
-					<ul>
-						<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
-						<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
-						<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+				<div class="span12">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#personnalInformation" data-toggle="tab">Personnal information</a></li>
+						<li><a href="#officeInformation" data-toggle="tab">Office information</a></li>
 					</ul>
-				</div>
-				<div class="span6">
-					<h4>Office information</h4>
-					<ul>
-						<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
-						<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
-					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" id="personnalInformation">
+							<ul>
+								<li {{bindAttr class='home_phone::muted'}}>home phone: {{view Ember.TextField valueBinding='home_phone'}}</li>
+								<li {{bindAttr class='mobile_phone::muted'}}>mobile phone: {{view Ember.TextField valueBinding='mobile_phone'}}</li>
+								<li {{bindAttr class='personal_mail::muted'}}>mail: {{view Ember.TextField valueBinding='personal_mail'}}</li>
+							</ul>
+						</div>
+						<div class="tab-pane" id="officeInformation">
+							<ul>
+								<li {{bindAttr class='office_phone::muted'}}>office phone: {{view Ember.TextField valueBinding='office_phone'}}</li>
+								<li {{bindAttr class='office_mail::muted'}}>office mail: {{view Ember.TextField valueBinding='office_mail'}}</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -449,8 +467,8 @@
 	<script type="text/x-handlebars" id="_groupPartial">
 		<i class="icon-group"></i>&nbsp;{{name}}
 	</script>
-
-	<script type="text/x-handlebars" id="_achievementPartial">
+	
+	<script script type="text/x-handlebars" id="_achievementPartial">
 		<i class="icon-trophy"></i>&nbsp;{{title}}
 	</script>
 	
@@ -458,6 +476,7 @@
 	<script src="../app/js/libs/jquery-1.9.1.js"></script>
 	<script src="../app/js/libs/bootstrap-dropdown.js"></script>
 	<script src="../app/js/libs/bootstrap-modal.js"></script>
+	<script src="../app/js/libs/bootstrap-tab.js"></script>
 	<script src="../app/js/libs/handlebars-1.0.0-rc.4.js"></script>
 	<script src="../app/js/libs/ember-1.0.0-rc.6.1-2a9ce26.js"></script>
 	<script src="../app/js/libs/ember-data-0.0.13-3981a7c.js"></script>
@@ -484,6 +503,9 @@
 	<script src="../app/js/views/contact_edit_view.js"></script>
 	<script src="../app/js/views/groups_create_view.js"></script>
 	<script src="../app/js/views/group_edit_view.js"></script>
+	
+	<!-- FOR DEBUG PURPOSE -->
+	<script src="../app/js/libs/ember-localstorage-adapter.js"></script>
 	
 	<!-- FOR TEST PURPOSE -->
 	<script src="./resources/qunit-1.12.0.js"></script>
