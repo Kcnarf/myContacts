@@ -1,51 +1,6 @@
-// Setup of Ember's Testing framework
-document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
-App.rootElement = '#ember-testing';
-App.LOG_TRANSITIONS= false;
-App.setupForTesting();
-App.injectTestHelpers();
-
-// Replace our REST-based store with a fixture-based store for testing, so we
-// don't need a server.  We disable simulateRemoteResponse so that objects will
-// appear to load at the end of every Ember.run block instead of waiting for a
-// timer to fire.
-App.Store = DS.Store.extend({
-	adapter: DS.FixtureAdapter.create({
-		simulateRemoteResponse: false
-	})
-});
-
-// Declare some fixture objects to use in our test application.
-App.Contact.FIXTURES = [];
-App.Group.FIXTURES = [];
-App.Contact_group_link.FIXTURES = [];
-App.Achievement.FIXTURES = [];
-	
-// Run before each test case.
-QUnit.testStart(function () {
-	App.Contact.FIXTURES = [];
-	App.Group.FIXTURES = [];
-	App.Contact_group_link.FIXTURES = [];
-	App.Achievement.FIXTURES = [];
-	// Put the application into a known state, and destroy the defaultStore.
-	// Be careful about DS.Model instances stored in App; they'll be invalid
-	// after this.
-	// This is broken in some versions of Ember and Ember Data, see:
-	// https://github.com/emberjs/data/issues/847
-	Ember.run(function () { App.reset(); });
-	// Display an error if asynchronous operations are queued outside of
-	// Ember.run.  You need this if you want to stay sane.
-	Ember.testing = true;
-	App.reset();
-});
-
-// Run after each test case.
-QUnit.testDone(function () {
-	Ember.testing = false;
-});
-
-
 //TEST HELPERS -begining
+// in addition to those of group_tests and achievement_tests
+
 Ember.Test.registerHelper('goToContacts', function(app) {
   visit("/")
   .then(function() {

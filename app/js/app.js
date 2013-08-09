@@ -8,7 +8,7 @@ App.Store= DS.Store.extend({
 	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
-	adapter: 'DS.RESTAdapter'
+	 adapter: 'DS.RESTAdapter'
 });
 
 DS.RESTAdapter.reopen({
@@ -140,9 +140,6 @@ App.GroupsRoute = Ember.Route.extend({
 	}
 });
 
-/*******************************
-* Group
-*******************************/
 App.GroupsCreateRoute = Ember.Route.extend({
 	model: function () {
 		return App.Group.createRecord();
@@ -165,6 +162,9 @@ App.GroupsCreateRoute = Ember.Route.extend({
 		}
 	}
 });
+/*******************************
+* Group
+*******************************/
 
 App.GroupEditRoute = Ember.Route.extend({
 	model: function () {
