@@ -1,5 +1,5 @@
 App.AchievementsController= Ember.ArrayController.extend({
-	needs: ["application"],
+	needs: ["application", "groups"],
 
 	unachievedAchievements: function () {
 		return this.get('content').filterProperty('is_achieved',false);
@@ -26,12 +26,6 @@ App.AchievementsController= Ember.ArrayController.extend({
 	
 	currentPathBinding: 'controllers.application.currentPath',
 	currentPathObserver: function() {
-		// if (this.get('currentPath') == "about") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
-		// }
-		// else if (this.get('currentPath') == "achievements") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'Eager learner').get('firstObject'));
-		// }
 		switch(this.get('currentPath')) {
 		 case "about":
 			this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
@@ -55,5 +49,10 @@ App.AchievementsController= Ember.ArrayController.extend({
 			this.setAsAchieved(this.get('content').filterProperty('title', 'Wording counts!').get('firstObject'));
 			break;
 		}
-	}.observes('currentPath')
+	}.observes('currentPath'),
+	
+	groupCountBinding: 'controllers.groups.groupCount',
+	groupsDidChange: function() {
+		console.log('GroupCount has changed')
+	}.observes('groupCount')
 })
