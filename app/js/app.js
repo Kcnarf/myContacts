@@ -44,9 +44,9 @@ App.ApplicationRoute = Ember.Route.extend({
 		
 		this.controllerFor('achievements').set('model', App.Achievement.all());
 	},
-	redirect: function(){
-		this.transitionTo('index')
-	}
+	// redirect: function(){
+		// this.transitionTo('index')
+	// }
 });
 
 /*******************************
