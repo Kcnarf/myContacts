@@ -1,6 +1,18 @@
 App.AchievementsController= Ember.ArrayController.extend({
 	needs: ["application", "groups"],
 
+	init: function() {
+		this._super();
+		this.get('controllers.groups').addArrayObserver(this, {
+		  willChange: function(cows, offset, removeCount, addCount){
+		    console.log('willChange', cows.length, offset, removeCount, addCount);
+		  },
+		  didChange:function(cows, offset, removeCount, addCount){
+		    console.log('didChange', cows.length, offset, removeCount, addCount);
+		  }
+		});
+	},
+	
 	unachievedAchievements: function () {
 		return this.get('content').filterProperty('is_achieved',false);
 	}.property('content.@each.is_achieved'),
@@ -24,7 +36,6 @@ App.AchievementsController= Ember.ArrayController.extend({
 		}
 	},
 	
-	currentPathBinding: 'controllers.application.currentPath',
 	currentPathObserver: function() {
 		switch(this.get('currentPath')) {
 		 case "about":
@@ -49,7 +60,7 @@ App.AchievementsController= Ember.ArrayController.extend({
 			this.setAsAchieved(this.get('content').filterProperty('title', 'Wording counts!').get('firstObject'));
 			break;
 		}
-	}.observes('currentPath'),
+	}.observes('controllers.application.currentPath'),
 	
 	groupCountBinding: 'controllers.groups.groupCount',
 	groupsDidChange: function() {
