@@ -1,17 +1,5 @@
 App.AchievementsController= Ember.ArrayController.extend({
 	needs: ["application", "groups"],
-
-	init: function() {
-		this._super();
-		this.get('controllers.groups').addArrayObserver(this, {
-		  willChange: function(cows, offset, removeCount, addCount){
-		    console.log('willChange', cows.length, offset, removeCount, addCount);
-		  },
-		  didChange:function(cows, offset, removeCount, addCount){
-		    console.log('didChange', cows.length, offset, removeCount, addCount);
-		  }
-		});
-	},
 	
 	unachievedAchievements: function () {
 		return this.get('content').filterProperty('is_achieved',false);
@@ -36,6 +24,34 @@ App.AchievementsController= Ember.ArrayController.extend({
 		}
 	},
 	
+	
+	currentLoadedGroupsLength: null,
+	
+	loadedGroups: function() {
+		return this.get('controllers.groups').filterProperty('isDirty', false);
+	}.property('controllers.groups.@each.isDirty'),
+	
+	loadedGroupsLength: function() {
+		return this.get('loadedGroups').get('length');
+	}.property('loadedGroups'),
+	
+	loadedGroupsLengthObserver: function() {
+		//console.log('loaded groups length changed', this.get('loadedGroupsLength'));
+		if (this.get('currentLoadedGroupsLength')!=null) {
+			if (this.get('currentLoadedGroupsLength')<this.get('loadedGroupsLength')) {
+				//console.log('Group creation');
+				this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
+			} else if (this.get('currentLoadedGroupsLength')>this.get('loadedGroupsLength')) {
+				//console.log('Group deletion');
+				this.setAsAchieved(this.get('content').filterProperty('title', 'Mass killer').get('firstObject'));
+			}
+		} //else {
+			//console.log('First loading');
+		//};
+		this.set('currentLoadedGroupsLength', this.get('loadedGroupsLength'))
+	}.observes('loadedGroupsLength'),
+	
+	currentPathBinding: 'controllers.application.currentPath',
 	currentPathObserver: function() {
 		switch(this.get('currentPath')) {
 		 case "about":
@@ -53,17 +69,12 @@ App.AchievementsController= Ember.ArrayController.extend({
 		case "contacts.contact.edit":
 			this.setAsAchieved(this.get('content').filterProperty('title', 'Something\'s alive out there').get('firstObject'));
 			break;
-		case "groups.create":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
-			break;
+		// case "groups.create":
+			// this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
+			// break;
 		case "groups.group.edit":
 			this.setAsAchieved(this.get('content').filterProperty('title', 'Wording counts!').get('firstObject'));
 			break;
 		}
-	}.observes('controllers.application.currentPath'),
-	
-	groupCountBinding: 'controllers.groups.groupCount',
-	groupsDidChange: function() {
-		console.log('GroupCount has changed')
-	}.observes('groupCount')
+	}.observes('currentPath')
 })
