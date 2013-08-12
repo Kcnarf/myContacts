@@ -91,10 +91,8 @@ test("Achievement 'Something's alive out there' is auto-detected", function () {
 
 test("Achievement 'Classifier' is auto-detected", function () {
 	groupName="Group1";
-	goToCreateGroup()
+	createGroup(groupName)
 	.then(function() {
-		return click("createGroupModal .close");
-	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
 		deepEqual(find("#achievementListing tbody span.muted:contains('Classifier')").length, 0, "Creating a Group should auto-detect achievement 'Classifier'");
