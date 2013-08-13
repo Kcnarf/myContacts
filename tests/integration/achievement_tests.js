@@ -45,10 +45,9 @@ test("Achievement 'About-er' is auto-detected", function () {
 });
 
 test("Achievement 'I'm not alone!' is auto-detected", function () {
-	goToCreateContact()
+	contactAlias="contact1";
+	createContact(contactAlias)
 	.then(function() {
-		return click("#createContact .btn:contains('Cancel')");
-	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
 		deepEqual(find("#achievementListing tbody span.muted:contains('I\'m not alone!')").length, 0, "Creating a Contact should auto-detect achievement 'I'm not alone!'");
@@ -83,8 +82,17 @@ test("Achievement 'Something's alive out there' is auto-detected", function () {
   })
 });
 
-// test("Achievement 'Killer' is auto-detected", function () {
-// });
+test("Achievement 'Killer' is auto-detected", function () {
+	contactAlias="Alias1";
+	createContact(contactAlias)
+	.then(function() {
+		return deleteContact(contactAlias);
+	}).then(function() {
+		return goToAchievements();
+	}).then(function() {
+		deepEqual(find("#achievementListing tbody span.muted:contains('Killer')").length, 0, "Deleting a Contact should auto-detect achievement 'Killer'");
+  })
+});
 
 // test("Achievement 'Lover' is auto-detected", function () {
 // });
@@ -113,8 +121,17 @@ test("Achievement 'Wording counts!' is auto-detected", function () {
   })
 });
 
-// test("Achievement 'Mass killer' is auto-detected", function () {
-// });
+test("Achievement 'Mass killer' is auto-detected", function () {
+	groupName="Group1";
+	createGroup(groupName)
+	.then(function() {
+		return deleteGroup(groupName);
+	}).then(function() {
+		return goToAchievements();
+	}).then(function() {
+		deepEqual(find("#achievementListing tbody span.muted:contains('Classifier')").length, 0, "Creating a Group should auto-detect achievement 'Classifier'");
+  })
+});
 
 // test("Achievement 'Sorter' is auto-detected", function () {
 // });
