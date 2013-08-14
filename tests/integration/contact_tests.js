@@ -95,7 +95,7 @@ test("Creation of a Contact can be cancelled", function () {
 	var contactAlias= "alias1";
 	goToCreateContact()
 	.then(function() {
-		fillIn("#createContact #new_contact_alias input", contactAlias);
+		return fillIn("#createContact #new_contact_alias input", contactAlias);
 	}).then(function() {
 		return click("#createContact .btn:contains('Cancel')");
 	}).then(function() {
@@ -230,7 +230,7 @@ test("Special message when no favorite Contact", function () {
   })
 });
 
-test("Setting the fist Contact as favorite", function () {
+test("Setting the first Contact as favorite", function () {
 	var contactAlias= "Alias1";
 	var expectedFavoriteContactCount= 1;
 	createContact(contactAlias)
@@ -255,7 +255,7 @@ test("Setting many Contacts as favorite", function () {
 	}).then(function() {
 		contactAlias= "Alias2";
 		expectedFavoriteContactCount= 2;
-		createContact(contactAlias)
+		return createContact(contactAlias)
 	}).then(function() {
 		return toggleFavorite(contactAlias);
 	}).then(function() {
@@ -289,7 +289,7 @@ test("Unsetting the non-last favorite Contact", function () {
 		return toggleFavorite(contactAlias);
 	}).then(function() {
 		contactAlias= "Alias2";
-		createContact(contactAlias)
+		return createContact(contactAlias)
 	}).then(function() {
 		return toggleFavorite(contactAlias);
 	}).then(function() {
