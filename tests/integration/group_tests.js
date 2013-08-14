@@ -20,9 +20,9 @@ Ember.Test.registerHelper('goToCreateGroup', function(app) {
 Ember.Test.registerHelper('createGroup', function(app, groupName) {
 	goToCreateGroup()
 	.then(function() {
-		fillIn("creategroupmodal #name input", groupName);
+		fillIn("#group-create-modal #name input", groupName);
 	}).then(function() {
-		click("creategroupmodal button:contains('Create & Close')");
+		click("#group-create-modal button:contains('Create & Close')");
 	});
 	return wait();
 });
@@ -38,9 +38,9 @@ Ember.Test.registerHelper('goToEditGroup', function(app, groupName) {
 Ember.Test.registerHelper('editGroup', function(app, groupName, newGroupName) {
 	goToEditGroup(groupName)
 	.then(function() {
-		fillIn("editgroupmodal input", newGroupName);
+		fillIn("#group-edit-modal input", newGroupName);
 	}).then(function() {
-		click("editgroupmodal button:contains('Save & Close')");
+		click("#group-edit-modal button:contains('Save & Close')");
 	})
 	return wait();
 });
@@ -69,9 +69,9 @@ test("Special message when no Group", function () {
 test("Creation of a Group is available", function () {
 	goToCreateGroup()
 	.then(function() {
-		deepEqual(find("creategroupmodal").css('display'), "block", "After clicking 'Create a Group', UI allowing to create a Group should be displayed");
+		deepEqual(find("#group-create-modal").css('display'), "block", "After clicking 'Create a Group', UI allowing to create a Group should be displayed");
 	}).then(function() {
-		return click("creategroupmodal .close");
+		return click("#group-create-modal .close");
 	})
 });
 
@@ -79,11 +79,11 @@ test("Creation of a Group can be cancelled", function () {
 	var groupName= "Group1";
 	goToCreateGroup()
 	.then(function() {
-		return fillIn("creategroupmodal #name input", groupName);
+		return fillIn("#group-create-modal #name input", groupName);
 	}).then(function() {
-		return click("creategroupmodal .close");
+		return click("#group-create-modal .close");
 	}).then(function() {
-		deepEqual(find("creategroupmodal").length, 0, "After cancelation, modal 'Create Group' should no longer exists");
+		deepEqual(find("#group-create-modal").length, 0, "After cancelation, modal 'Create Group' should no longer exists");
 		deepEqual(find("#noGroupDefined:contains('No group yet')").length, 1, "Without any group defined, App should display message 'No Group yet'");
 	})
 });
@@ -132,9 +132,9 @@ test("Update of a Group is available", function () {
 	.then(function() {
 		return goToEditGroup(groupName);
 	}).then(function() {
-		deepEqual(find("editgroupmodal").css('display'), "block", "After clicking 'Edit Group', UI allowing to edit a Group should be displayed");
+		deepEqual(find("#group-edit-modal").css('display'), "block", "After clicking 'Edit Group', UI allowing to edit a Group should be displayed");
 	}).then(function() {
-		return click("editgroupmodal .close");
+		return click("#group-edit-modal .close");
 	})
 });
 
@@ -145,11 +145,11 @@ test("Update of a Group can be cancelled", function () {
 	.then(function() {
 		return goToEditGroup(groupName1);
 	}).then(function() {
-		return fillIn("editgroupmodal input", groupName2);
+		return fillIn("#group-edit-modal input", groupName2);
 	}).then(function() {
-		return click("editgroupmodal .close");
+		return click("#group-edit-modal .close");
 	}).then(function() {
-		deepEqual(find("editgroupmodal").length, 0, "After edit cancelation, UI allowing to edit a Group should no longer exists");
+		deepEqual(find("#group-edit-modal").length, 0, "After edit cancelation, UI allowing to edit a Group should no longer exists");
 		ok(find("#groupListing tbody tr:contains("+groupName1+")").length>0, "After edit cancelation, the un-edited Group should be displayed in the list of Group(s)");
 	})
 });

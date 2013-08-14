@@ -61,7 +61,7 @@ test("Achievement 'Memoryless' is auto-detected", function () {
 	.then(function() {
 		return goToReadContact(contactAlias);
   }).then(function() {
-		return click("readContactModal .close");
+		return click("#contact-read-modal .close");
 	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
@@ -75,7 +75,7 @@ test("Achievement 'Something's alive out there' is auto-detected", function () {
 	.then(function() {
 		return goToEditContact(contactAlias);
   }).then(function() {
-		return click("editContactModal .close");
+		return click("#contact-edit-modal .close");
 	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
@@ -93,7 +93,7 @@ test("Achievement 'Classifier' is auto-detected", function () {
 	groupName="Group1";
 	goToCreateGroup()
 	.then(function() {
-		return click("createGroupModal .close");
+		return click("#group-create-modal .close");
 	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
@@ -107,7 +107,7 @@ test("Achievement 'Wording counts!' is auto-detected", function () {
 	.then(function() {
 		return goToEditGroup(groupName);
   }).then(function() {
-		return click("editGroupModal .close");
+		return click("#group-edit-modal .close");
 	}).then(function() {
 		return goToAchievements();
 	}).then(function() {

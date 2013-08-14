@@ -46,9 +46,9 @@ Ember.Test.registerHelper('goToEditContact', function(app, contactAlias) {
 Ember.Test.registerHelper('editContact', function(app, contactAlias, newContactAlias) {
 	goToEditContact(contactAlias)
 	.then(function() {
-		fillIn("editContactModal input", newContactAlias);
+		fillIn("#contact-edit-modal input", newContactAlias);
 	}).then(function() {
-		click("editContactModal button:contains('Save & Close')");
+		click("#contact-edit-modal button:contains('Save & Close')");
 	})
 	return wait();
 });
@@ -143,11 +143,11 @@ test("View of a Contact is available", function () {
 	.then(function() {
 		return goToReadContact(contactAlias);
 	}).then(function() {
-		deepEqual(find("readContactModal").css('display'), "block", "After clicking 'View Contact', UI allowing to view a Contact should be displayed");
+		deepEqual(find("#contact-read-modal").css('display'), "block", "After clicking 'View Contact', UI allowing to view a Contact should be displayed");
 	}).then(function() {
-		return click("readContactModal .close");
+		return click("#contact-read-modal .close");
 	}).then(function() {
-		deepEqual(find("readContactModal").length, 0, "After display cancelation, UI allowing to view a Contact should no longer exists");
+		deepEqual(find("#contact-read-modal").length, 0, "After display cancelation, UI allowing to view a Contact should no longer exists");
 	})
 });
 
@@ -157,9 +157,9 @@ test("Update of a Contact is available", function () {
 	.then(function() {
 		return goToEditContact(contactAlias);
 	}).then(function() {
-		deepEqual(find("editContactModal").css('display'), "block", "After clicking 'Edit Contact', UI allowing to edit a Contact should be displayed");
+		deepEqual(find("#contact-edit-modal").css('display'), "block", "After clicking 'Edit Contact', UI allowing to edit a Contact should be displayed");
 	}).then(function() {
-		return click("editContactModal .close");
+		return click("#contact-edit-modal .close");
 	})
 });
 
@@ -170,11 +170,11 @@ test("Update of a Contact can be cancelled", function () {
 	.then(function() {
 		return goToEditContact(contactAlias1);
 	}).then(function() {
-		return fillIn("editContactModal input", contactAlias2);
+		return fillIn("#contact-edit-modal input", contactAlias2);
 	}).then(function() {
-		return click("editContactModal .close");
+		return click("#contact-edit-modal .close");
 	}).then(function() {
-		deepEqual(find("editContactModal").length, 0, "After edit cancelation, UI allowing to edit a Contact should no longer exists");
+		deepEqual(find("#contact-edit-modal").length, 0, "After edit cancelation, UI allowing to edit a Contact should no longer exists");
 		ok(find("#contactListing tbody tr:contains("+contactAlias1+")").length>0, "After edit cancelation, the un-edited Contact should be displayed in the list of Contact(s)");
 	})
 });

@@ -1,6 +1,10 @@
 App.ContactEditView = Em.View.extend({
 	templateName: 'contact/edit',
-	tagName: 'editcontactmodal',
+	
+	init: function () {
+		this.elementId = "contact-edit-modal";
+		this._super();
+	},
 
 	classNames: ['modal', 'fade', 'in'],
 

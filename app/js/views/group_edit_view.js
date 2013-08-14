@@ -1,6 +1,10 @@
 App.GroupEditView = Em.View.extend({
 	templateName: 'group/edit',
-	tagName: 'editgroupmodal',
+	
+	init: function () {
+		this.elementId = "group-edit-modal";
+		this._super();
+	},
 
 	classNames: ['modal', 'fade', 'in'],
 

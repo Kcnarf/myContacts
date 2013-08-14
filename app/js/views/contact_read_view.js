@@ -1,6 +1,10 @@
 App.ContactReadView = Em.View.extend({
 	templateName: 'contact/read',
-	tagName: 'readcontactmodal',
+	
+	init: function () {
+		this.elementId = "contact-read-modal";
+		this._super();
+	},
 
 	classNames: ['modal', 'fade', 'in'],
 

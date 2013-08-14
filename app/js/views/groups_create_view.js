@@ -1,6 +1,10 @@
 App.GroupsCreateView = Em.View.extend({
 	templateName: 'groups/create',
-	tagName: 'creategroupmodal',
+	
+	init: function () {
+		this.elementId = "group-create-modal";
+		this._super();
+	},
 
 	classNames: ['modal', 'fade', 'in'],
 
