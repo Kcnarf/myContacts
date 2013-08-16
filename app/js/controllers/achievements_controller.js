@@ -1,5 +1,11 @@
 App.AchievementsController= Ember.ArrayController.extend({
-	needs: ["application"],
+	needs: ["application", "groupsCreate"],
+	
+	init: function() {
+		this.get('controllers.groupsCreate').one('setAsAchieved', this, function(achievementTitle) {
+			this.setAsAchieved(achievementTitle);
+		});
+	},
 
 	unachievedAchievements: function () {
 		return this.get('content').filterProperty('is_achieved',false);
