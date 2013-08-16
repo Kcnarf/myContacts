@@ -17,7 +17,8 @@ App.AchievementsController= Ember.ArrayController.extend({
 		return this.get('unachievedAchievementCount') === 0;
 	}.property('unachievedAchievementCount'),
 	
-	setAsAchieved: function (achievement) {
+	setAsAchieved: function (achievementTitle) {
+		var achievement= this.get('content').findProperty('title', achievementTitle);
 		if (!achievement.get('is_achieved')) {
 			achievement.set('is_achieved', true);
 			achievement.get('transaction').commit()
@@ -26,33 +27,27 @@ App.AchievementsController= Ember.ArrayController.extend({
 	
 	currentPathBinding: 'controllers.application.currentPath',
 	currentPathObserver: function() {
-		// if (this.get('currentPath') == "about") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
-		// }
-		// else if (this.get('currentPath') == "achievements") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'Eager learner').get('firstObject'));
-		// }
 		switch(this.get('currentPath')) {
 		 case "about":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
+			this.setAsAchieved('About-er');
 			break;
 		case "achievements":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Eager learner').get('firstObject'));
+			this.setAsAchieved('Eager learner');
 			break;
 		case "contacts.create":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'I\'m not alone!').get('firstObject'));
+			this.setAsAchieved('I\'m not alone!');
 			break;
 		case "contacts.contact.read":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Memoryless').get('firstObject'));
+			this.setAsAchieved('Memoryless');
 			break;
 		case "contacts.contact.edit":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Something\'s alive out there').get('firstObject'));
+			this.setAsAchieved('Something\'s alive out there');
 			break;
-		case "groups.create":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Classifier').get('firstObject'));
-			break;
+		// case "groups.create":
+			// this.setAsAchieved('Classifier');
+			// break;
 		case "groups.group.edit":
-			this.setAsAchieved(this.get('content').filterProperty('title', 'Wording counts!').get('firstObject'));
+			this.setAsAchieved('Wording counts!');
 			break;
 		}
 	}.observes('currentPath')
