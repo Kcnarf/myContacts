@@ -1,6 +1,6 @@
-App.Contact_group_link= DS.Model.extend({
-	contact: DS.belongsTo('App.Contact'),
-	group: DS.belongsTo('App.Group'),
+App.ContactGroupLink= DS.Model.extend({
+	contact: DS.belongsTo('contact'),
+	group: DS.belongsTo('group'),
 	
 	relationshipLoaded: function(){
 		this.get('contact').get('isLoaded') && this.get('group').get('isLoaded')

@@ -12,7 +12,7 @@ App.Store= DS.Store.extend({
 });
 
 DS.RESTAdapter.reopen({
-  url: 'http://localhost/myContactsServer'
+  host: 'http://localhost/myContactsServer'
 });
 
 
@@ -36,13 +36,15 @@ App.Router.map(function() {
 });
 
 App.ApplicationRoute = Ember.Route.extend({
-	setupController: function(){
-		App.Contact.find(); // populate the store with all Contact instances
-		App.Group.find(); // populate the store with all Group instances
-		App.Contact_group_link.find() // populate the store with all links/relationships between Contact and Group
-		App.Achievement.find() // populate the store with all Achievement instances
+	init: function() {
+	//setupController: function() {
+		var store = this.get('store');
+		store.findAll('contact'); // populate the store with all Contact instances
+		store.findAll('group'); // populate the store with all Group instances
+		store.findAll('contact_group_link'); // populate the store with all links/relationships between Contact and Group
+		store.findAll('achievement'); // populate the store with all Achievement instances
 		
-		this.controllerFor('achievements').set('model', App.Achievement.all());
+		//this.controllerFor('achievements').set('model', App.Achievement.all());
 	},
 	redirect: function(){
 		this.transitionTo('index')
@@ -55,7 +57,7 @@ App.ApplicationRoute = Ember.Route.extend({
 
 App.ContactsRoute = Ember.Route.extend({
 	model: function(){
-		return App.Contact.all();
+		return this.get('store').findAll('contact');
 	}
 });
 
@@ -73,7 +75,7 @@ App.ContactsSearchRoute = Ember.Route.extend({
 	
 App.ContactsCreateRoute = Ember.Route.extend({
 	model: function() {
-		return App.Contact.createRecord();
+		return this.get('store').createRecord('contact');
 	},
 	
 	activate: function() {
@@ -94,7 +96,7 @@ App.ContactReadRoute = Ember.Route.extend({
 			outlet: 'readContactOutlet'
 			});
   },
-	events: {
+	actions: {
 		close: function() {
 			this.transitionTo('contacts')
 		}
@@ -110,7 +112,7 @@ App.ContactEditRoute = Ember.Route.extend({
 			outlet: 'editContactOutlet'
 			});
   },
-	events: {
+	actions: {
 		rollback: function() {
 			this.get('controller').rollback()
 		},
@@ -136,7 +138,7 @@ App.ContactEditRoute = Ember.Route.extend({
 
 App.GroupsRoute = Ember.Route.extend({
 	model: function(){
-		return App.Group.all();
+		return this.get('store').findAll('group');
 	}
 });
 
@@ -149,7 +151,7 @@ App.GroupsCreateRoute = Ember.Route.extend({
 			outlet: 'createGroupOutlet'
 		});
   },
-	events: {
+	actions: {
 		rollbackAndClose: function() {
 			this.get('controller').rollback();
 			this.transitionTo('groups')
@@ -175,7 +177,7 @@ App.GroupEditRoute = Ember.Route.extend({
 			outlet: 'editGroupOutlet'
 		});
   },
-	events: {
+	actions: {
 		rollback: function() {
 			this.get('controller').rollback()
 		},
@@ -201,7 +203,7 @@ App.GroupEditRoute = Ember.Route.extend({
 
 App.AchievementsRoute = Ember.Route.extend({
 	model: function(){
-		return App.Achievement.all();
+		return this.get('store').findAll('achievement');
 	}
 });
 

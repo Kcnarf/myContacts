@@ -7,34 +7,6 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 	
 	searchText: '',
 	
-	showContact: function (contact) {
-		this.transitionToRoute('contact.read', contact)
-	},
-	
-	toggleFavorite: function (contact) {
-		contact.set('is_favorite', !contact.get('is_favorite'));
-		contact.get('transaction').commit()
-	},
-	
-	edit: function (contact) {
-		this.transitionToRoute('contact.edit', contact);
-	},
-	
-	delete: function (contact) {
-		var old_contact_group_links= contact.get('contact_group_links.content');
-		while(!Ember.isEmpty(old_contact_group_links)) {
-			old_contact_group_link = old_contact_group_links.get('firstObject')
-			contact.get('contact_group_links').removeObject(old_contact_group_link.record);
-			linkedGroup= old_contact_group_link.record.get('group');
-			linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
-			old_contact_group_link.record.deleteRecord();
-			old_contact_group_link.record.get('store').commit()
-		};
-		
-		contact.deleteRecord();
-		this.get('store').commit()
-	},
-	
 	favoriteContacts: function () {
 		return this.get('arrangedContent').filterProperty('is_favorite',true);
 	}.property('arrangedContent.@each.is_favorite'),
@@ -76,7 +48,37 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		return this.get('searchedContactCount') > 1;
 	}.property('searchedContactCount'),
 	
-	resetSearch: function() {
-		this.set('searchText', "");
+	actions: {
+		showContact: function (contact) {
+			this.transitionToRoute('contact.read', contact)
+		},
+		
+		toggleFavorite: function (contact) {
+			contact.set('is_favorite', !contact.get('is_favorite'));
+			contact.get('transaction').commit()
+		},
+		
+		edit: function (contact) {
+			this.transitionToRoute('contact.edit', contact);
+		},
+		
+		delete: function (contact) {
+			var old_contact_group_links= contact.get('contact_group_links.content');
+			while(!Ember.isEmpty(old_contact_group_links)) {
+				old_contact_group_link = old_contact_group_links.get('firstObject')
+				contact.get('contact_group_links').removeObject(old_contact_group_link.record);
+				linkedGroup= old_contact_group_link.record.get('group');
+				linkedGroup.get('contact_group_links').removeObject(old_contact_group_link.record);
+				old_contact_group_link.record.deleteRecord();
+				old_contact_group_link.record.get('store').commit()
+			};
+			
+			contact.deleteRecord();
+			this.get('store').commit()
+		},
+	
+		resetSearch: function() {
+			this.set('searchText', "");
+		}
 	}
 });
