@@ -1,7 +1,7 @@
 App.GroupEditController = Ember.ObjectController.extend({
   
 	rollback: function() {
-		this.get('transaction').rollback();
+		this.get('model').rollback();
 	},
 	
 	update: function() {
