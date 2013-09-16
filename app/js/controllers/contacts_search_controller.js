@@ -55,7 +55,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 		
 		toggleFavorite: function (contact) {
 			contact.set('is_favorite', !contact.get('is_favorite'));
-			contact.get('transaction').commit()
+			contact.save()
 		},
 		
 		edit: function (contact) {
@@ -74,7 +74,7 @@ App.ContactsSearchController = Ember.ArrayController.extend({
 			};
 			
 			contact.deleteRecord();
-			this.get('store').commit()
+			contact.save()
 		},
 	
 		resetSearch: function() {
