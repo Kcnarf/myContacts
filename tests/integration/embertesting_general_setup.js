@@ -9,7 +9,7 @@ App.injectTestHelpers();
 // don't need a server.  We disable simulateRemoteResponse so that objects will
 // appear to load at the end of every Ember.run block instead of waiting for a
 // timer to fire.
-App.Store = DS.Store.extend({
+App.store = DS.Store.create({
 	adapter: DS.FixtureAdapter.create({
 		simulateRemoteResponse: false
 	})
@@ -19,7 +19,7 @@ App.Store = DS.Store.extend({
 QUnit.testStart(function () {
 	App.Contact.FIXTURES = [];
 	App.Group.FIXTURES = [];
-	App.Contact_group_link.FIXTURES = [];
+	App.ContactGroupLink.FIXTURES = [];
 	App.Achievement.FIXTURES = [
 		{id:1, title:'About-er', how_to:'Visit the \'About\' page.', is_achieved:false},
 		{id:2, title:'Eager learner', how_to:'Visit the \'Achievements\' page.', is_achieved:false},
