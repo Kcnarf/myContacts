@@ -23,8 +23,8 @@ App.GroupsController = Ember.ArrayController.extend({
 				old_contact_group_link.record.deleteRecord();
 				old_contact_group_link.record.get('store').commit()
 			};
-			group.deleteRecord()
-			this.get('store').commit()
+			group.deleteRecord();
+			group.save()
 		}
 	}
 });
