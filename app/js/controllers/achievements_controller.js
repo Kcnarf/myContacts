@@ -20,7 +20,7 @@ App.AchievementsController= Ember.ArrayController.extend({
 	setAsAchieved: function (achievement) {
 		if (!achievement.get('is_achieved')) {
 			achievement.set('is_achieved', true);
-			achievement.get('transaction').commit()
+			achievement.save()
 		}
 	},
 	

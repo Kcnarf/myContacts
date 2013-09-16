@@ -144,7 +144,7 @@ App.GroupsRoute = Ember.Route.extend({
 
 App.GroupsCreateRoute = Ember.Route.extend({
 	model: function () {
-		return App.Group.createRecord();
+		return this.get('store').createRecord('group');
 	},
 	renderTemplate: function() {
 		this.render({
