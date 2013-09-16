@@ -9,14 +9,14 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 
 	actions: {
 		rollback: function() {
-			this.get('transaction').rollback();
+			this.get('model').rollback();
 			this.transitionToRoute('contacts.search');
 		},
 		
 		create: function (newContact){
 			this.set('ctrlNewContact', newContact);
 			
-			newContact.get('transaction').commit();
+			newContact.save();
 			if (!Ember.isEmpty(this.get('selectedGroups'))) {
 				ctrl= this;
 				newContact.addObserver('id', this, function(){
