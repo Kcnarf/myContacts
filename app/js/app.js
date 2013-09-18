@@ -2,14 +2,15 @@ App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
-App.Store= DS.Store.extend({
+/*App.Store= DS.Store.extend({
 	//adapter: 'DS.FixtureAdapter'
 	
 	//adapter: 'DS.LSAdapter'
 	// /!\DS.LSAdapter checked with ember-data revision 11
 	
 	 adapter: 'DS.RESTAdapter'
-});
+});*/
+App.ApplicationAdapter = DS.RESTAdapter;
 
 DS.RESTAdapter.reopen({
   host: 'http://localhost/myContactsServer'
