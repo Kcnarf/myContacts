@@ -19,7 +19,14 @@ Ember.Test.registerHelper('setAsAchieved', function(app, achievementTitle) {
 App.injectTestHelpers();
 //TEST HELPERS -end
 
-module("Integration/Achievement");
+module("Integration/Achievement", {
+  setup: function() {
+    Ember.run(App, App.advanceReadiness);
+  },
+  teardown: function() {
+    App.reset();
+  }
+});
 
 test("List of achievement is always displayed", function () {
 	goToAchievements()
