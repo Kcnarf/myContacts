@@ -2,14 +2,6 @@ App = Ember.Application.create({
 	LOG_TRANSITIONS: true
 });
 
-/*App.Store= DS.Store.extend({
-	//adapter: 'DS.FixtureAdapter'
-	
-	//adapter: 'DS.LSAdapter'
-	// /!\DS.LSAdapter checked with ember-data revision 11
-	
-	 adapter: 'DS.RESTAdapter'
-});*/
 App.ApplicationAdapter = DS.RESTAdapter;
 
 DS.RESTAdapter.reopen({
@@ -38,7 +30,6 @@ App.Router.map(function() {
 
 App.ApplicationRoute = Ember.Route.extend({
 	init: function() {
-	//setupController: function() {
 		var store = this.get('store');
 		store.findAll('contact'); // populate the store with all Contact instances
 		store.findAll('group'); // populate the store with all Group instances
@@ -95,7 +86,7 @@ App.ContactReadRoute = Ember.Route.extend({
 	renderTemplate: function() {
     this.render({
 			outlet: 'readContactOutlet'
-			});
+		});
   },
 	actions: {
 		close: function() {
@@ -111,7 +102,7 @@ App.ContactEditRoute = Ember.Route.extend({
 	renderTemplate: function() {
     this.render({
 			outlet: 'editContactOutlet'
-			});
+		});
   },
 	actions: {
 		rollback: function() {
