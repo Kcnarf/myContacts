@@ -403,6 +403,7 @@
 		<div class="row-fluid">
 			<div class="span2 lead">
 				Achievements
+				{{pie-chart data=controller.data isLoaded=controller.model.isLoaded}}
 			</div>
 			<div class="span10">
 				<table id="achievementListing" class="table table-hover">
@@ -467,6 +468,8 @@
 		<i class="icon-trophy"></i>&nbsp;{{title}}
 	</script>
 	
+	<!-- Components -->
+  <script type="text/x-handlebars" data-template-name="components/pie-chart"></script>
 	
 	<script src="../app/js/libs/jquery-1.9.1.js"></script>
 	<script src="../app/js/libs/bootstrap-dropdown.js"></script>
@@ -475,7 +478,6 @@
 	<script src="../app/js/libs/handlebars-1.0.0.js"></script>
 	<script src="../app/js/libs/ember-1.0.0-e2ea0cf.js"></script>
 	<script src="../app/js/libs/ember-data-1.0.0-b4259a5.js"></script>
-	<script src="../app/js/libs/d3.v3.js"></script>	
 	
 	<script src="../app/js/app.js"></script>
 	
@@ -499,6 +501,12 @@
 	<script src="../app/js/views/contact_edit_view.js"></script>
 	<script src="../app/js/views/groups_create_view.js"></script>
 	<script src="../app/js/views/group_edit_view.js"></script>
+	
+	<script src="../app/js/libs/d3.v3.js"></script>
+	
+	<script src="../app/js/libs/d3.v3.js"></script>
+	<script src="../app/js/libs/pieChart.js"></script>
+	<script src="../app/js/components/components.js"></script>
 	
 	<!-- FOR DEBUG PURPOSE -->
 	<script src="../app/js/libs/ember-localstorage-adapter.js"></script>

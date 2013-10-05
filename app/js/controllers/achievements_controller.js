@@ -49,5 +49,17 @@ App.AchievementsController= Ember.ArrayController.extend({
 			this.setAsAchieved(this.get('content').filterProperty('title', 'Wording counts!').get('firstObject'));
 			break;
 		}
-	}.observes('currentPath')
+	}.observes('currentPath'),
+	
+	//BEGIN: charting
+	data: function() {
+		if (this.get('model.@each.isLoaded')) {
+			var data = [
+				{category: 'unachieved', count: this.get('unachievedAchievementCount')},
+				{category: 'achieved', count: this.get('content').get('length')-this.get('unachievedAchievementCount')}
+			]
+		}
+		return data;
+	}.property('unachievedAchievementCount', 'content.length')
+	//END: charting
 })
