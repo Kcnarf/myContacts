@@ -3,11 +3,11 @@ App.ContactEditController= Ember.ObjectController.extend({
 	selectedGroups: null,
 	
 	allGroups: function () {
-		return App.Group.all();
+		return this.get('store').findAll('group');
 	}.property(),
 	
 	rollback: function() {
-		this.get('transaction').rollback();
+		this.get('model').rollback();
 	},
 	
 	update: function() {
@@ -31,6 +31,6 @@ App.ContactEditController= Ember.ObjectController.extend({
 			
 			new_contact_group_link.get('transaction').commit();
 		};
-		this.get('transaction').commit();
+		this.get('model').save();
 	}
 })

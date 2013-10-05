@@ -72,7 +72,12 @@ Ember.Test.registerHelper('toggleFavorite', function(app, contactAlias) {
 App.injectTestHelpers();
 //TEST HELPERS -end
 
-module("Integration/Contact");
+module("Integration/Contact", {
+  setup: function() {
+    Ember.run(App, App.advanceReadiness);
+		App.reset();
+  }
+});
 
 test("Special message when no Contact", function () {
 	goToContacts()
@@ -119,12 +124,12 @@ test("Creation of first Contact", function () {
 	})
 });
 
-test("Creation of a many Contacts", function () {
-	var contactAlias= "alias1";
+test("Creation of many Contacts", function () {
+	var contactAlias= "Alias1";
 	var expectedContactCount= 1;
 	createContact(contactAlias)
 	.then(function() {
-		contactAlias= "Alias";
+		contactAlias= "Alias2";
 		expectedContactCount= 2;
 		return createContact(contactAlias);
 	}).then(function() {
@@ -204,7 +209,7 @@ test("Deletion of the last Contact", function() {
 
 test("Deletion of the non-last Contact", function() {
 	var contactAlias1= "Alias1";
-	var contactAlias2= "alias2";
+	var contactAlias2= "Alias2";
 	var expectedContactCount= 1;
 	createContact(contactAlias1)
 	.then(function() {

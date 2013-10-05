@@ -8,13 +8,13 @@ App.Contact = DS.Model.extend({
 	office_phone: DS.attr('string'),
 	personal_mail: DS.attr('string'),
 	office_mail: DS.attr('string'),
-	contact_group_links: DS.hasMany('App.Contact_group_link', {
+	contact_group_links: DS.hasMany('contactGroupLink', {
     inverse: 'contact'
   }),
 	
 	groups: function(){
 		return this.get('contact_group_links').getEach('group')
-	}.property('contact_group_links.@each.relationshipLoaded'),
+	}.property('contactGroupLinks.@each.relationshipLoaded'),
 	
 	groupCount: function() {
 		return this.get('groups').get('length');
