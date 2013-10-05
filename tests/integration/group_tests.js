@@ -59,9 +59,7 @@ App.injectTestHelpers();
 module("Integration/Group", {
   setup: function() {
     Ember.run(App, App.advanceReadiness);
-  },
-  teardown: function() {
-    App.reset();
+		App.reset();
   }
 });
 
