@@ -19,7 +19,12 @@ Ember.Test.registerHelper('setAsAchieved', function(app, achievementTitle) {
 App.injectTestHelpers();
 //TEST HELPERS -end
 
-module("Integration/Achievement");
+module("Integration/Achievement", {
+  setup: function() {
+    Ember.run(App, App.advanceReadiness);
+		App.reset();
+  }
+});
 
 test("List of achievement is always displayed", function () {
 	goToAchievements()
@@ -36,8 +41,10 @@ test("Achievement 'Eager learner' is auto-detected", function () {
 });
 
 test("Achievement 'About-er' is auto-detected", function () {
-	visit('about')
+	goToAchievements()
 	.then(function() {
+		return visit('about');
+	}).then(function() {
 		return goToAchievements();
 	}).then(function() {
 		deepEqual(find("#achievementListing tbody span.muted:contains('About-er')").length, 0, "Visiting the 'About' page should auto-detect achievement 'About-er'");
@@ -45,8 +52,10 @@ test("Achievement 'About-er' is auto-detected", function () {
 });
 
 test("Achievement 'I'm not alone!' is auto-detected", function () {
-	goToCreateContact()
+	goToAchievements()
 	.then(function() {
+		return goToCreateContact();
+	}).then(function() {
 		return click("#createContact .btn:contains('Cancel')");
 	}).then(function() {
 		return goToAchievements();
@@ -57,8 +66,10 @@ test("Achievement 'I'm not alone!' is auto-detected", function () {
 
 test("Achievement 'Memoryless' is auto-detected", function () {
 	contactAlias="Alias1";
-	createContact(contactAlias)
+	goToAchievements()
 	.then(function() {
+		return createContact(contactAlias);
+	}).then(function() {
 		return goToReadContact(contactAlias);
   }).then(function() {
 		return click("#contact-read-modal .close");
@@ -71,8 +82,10 @@ test("Achievement 'Memoryless' is auto-detected", function () {
 
 test("Achievement 'Something's alive out there' is auto-detected", function () {
 	contactAlias="Alias1";
-	createContact(contactAlias)
+	goToAchievements()
 	.then(function() {
+		return createContact(contactAlias);
+	}).then(function() {
 		return goToEditContact(contactAlias);
   }).then(function() {
 		return click("#contact-edit-modal .close");
@@ -91,8 +104,10 @@ test("Achievement 'Something's alive out there' is auto-detected", function () {
 
 test("Achievement 'Classifier' is auto-detected", function () {
 	groupName="Group1";
-	goToCreateGroup()
+	goToAchievements()
 	.then(function() {
+		return goToCreateGroup();
+	}).then(function() {
 		return click("#group-create-modal .close");
 	}).then(function() {
 		return goToAchievements();
@@ -103,8 +118,10 @@ test("Achievement 'Classifier' is auto-detected", function () {
 
 test("Achievement 'Wording counts!' is auto-detected", function () {
 	groupName="Group1";
-	createGroup(groupName)
+	goToAchievements()
 	.then(function() {
+		return createGroup(groupName);
+	}).then(function() {
 		return goToEditGroup(groupName);
   }).then(function() {
 		return click("#group-edit-modal .close");

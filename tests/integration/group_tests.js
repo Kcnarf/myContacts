@@ -56,7 +56,12 @@ Ember.Test.registerHelper('deleteGroup', function(app, groupName) {
 App.injectTestHelpers();
 //TEST HELPERS -end
 
-module("Integration/Group");
+module("Integration/Group", {
+  setup: function() {
+    Ember.run(App, App.advanceReadiness);
+		App.reset();
+  }
+});
 
 test("Special message when no Group", function () {
 	goToGroups()

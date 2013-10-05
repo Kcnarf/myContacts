@@ -20,18 +20,12 @@ App.AchievementsController= Ember.ArrayController.extend({
 	setAsAchieved: function (achievement) {
 		if (!achievement.get('is_achieved')) {
 			achievement.set('is_achieved', true);
-			achievement.get('transaction').commit()
+			achievement.save()
 		}
 	},
 	
 	currentPathBinding: 'controllers.application.currentPath',
 	currentPathObserver: function() {
-		// if (this.get('currentPath') == "about") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));
-		// }
-		// else if (this.get('currentPath') == "achievements") {
-			// this.setAsAchieved(this.get('content').filterProperty('title', 'Eager learner').get('firstObject'));
-		// }
 		switch(this.get('currentPath')) {
 		 case "about":
 			this.setAsAchieved(this.get('content').filterProperty('title', 'About-er').get('firstObject'));

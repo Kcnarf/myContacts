@@ -5,21 +5,12 @@ App.LOG_TRANSITIONS= false;
 App.setupForTesting();
 App.injectTestHelpers();
 
-// Replace our REST-based store with a fixture-based store for testing, so we
-// don't need a server.  We disable simulateRemoteResponse so that objects will
-// appear to load at the end of every Ember.run block instead of waiting for a
-// timer to fire.
-App.Store = DS.Store.extend({
-	adapter: DS.FixtureAdapter.create({
-		simulateRemoteResponse: false
-	})
-});
+App.ApplicationAdapter = DS.FixtureAdapter;
 
-// Run before each test case.
 QUnit.testStart(function () {
 	App.Contact.FIXTURES = [];
 	App.Group.FIXTURES = [];
-	App.Contact_group_link.FIXTURES = [];
+	App.ContactGroupLink.FIXTURES = [];
 	App.Achievement.FIXTURES = [
 		{id:1, title:'About-er', how_to:'Visit the \'About\' page.', is_achieved:false},
 		{id:2, title:'Eager learner', how_to:'Visit the \'Achievements\' page.', is_achieved:false},
@@ -33,21 +24,5 @@ QUnit.testStart(function () {
 		{id:10, title:'Mass killer', how_to:'Delete a Group', is_achieved:false},
 		{id:11, title:'Sorter', how_to:'Assign a Contact to at least one Group', is_achieved:false},
 		{id:12, title:'Researcher ', how_to:'Use the innovative Search feature', is_achieved:false},
-	];
-	// Put the application into a known state, and destroy the defaultStore.
-	// Be careful about DS.Model instances stored in App; they'll be invalid
-	// after this.
-	// This is broken in some versions of Ember and Ember Data, see:
-	// https://github.com/emberjs/data/issues/847
-	Ember.run(function () { App.reset(); });
-	// Display an error if asynchronous operations are queued outside of
-	// Ember.run.  You need this if you want to stay sane.
-	Ember.testing = true;
-	App.reset();
-});
-
-// Run after each test case.
-QUnit.testDone(function () {
-	Ember.testing = false;
-});
-
+	]
+})
