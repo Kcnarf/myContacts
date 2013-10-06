@@ -14,8 +14,26 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 		},
 		
 		create: function (newContact){
+			var _this = this;
 			this.set('ctrlNewContact', newContact);
 			
+			newContact.save().then(
+				function () {
+					//Succesful save, thus transition to edit route
+					_this.transitionToRoute('contacts.search');
+        },
+        function (error) {    
+          if (error.status == 422) {
+            //422: validation error
+            //Put json responsetext into validationErrors obj
+            self.set('validationErrors', jQuery.parseJSON(error.responseText));
+          } else {
+            console.log("Validation error occured - " + error.responseText);
+            alert("An error occured - REST API not available - Please try again");
+          }
+        }
+      );
+			/*
 			newContact.save();
 			if (!Ember.isEmpty(this.get('selectedGroups'))) {
 				ctrl= this;
@@ -38,6 +56,7 @@ App.ContactsCreateController = Ember.ObjectController.extend({
 			else {
 				this.transitionToRoute('contacts.search');
 			}
+			*/
 		}
 	}
 });
